@@ -1,7 +1,6 @@
 package com.tms.domain;
 
 import org.springframework.stereotype.Component;
-
 import java.sql.Timestamp;
 import lombok.Data;
 
