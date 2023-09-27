@@ -12,6 +12,9 @@ create table if not exists clients
 alter table clients
     owner to postgres;
 
+create unique index if not exists clients_phone_number_uindex
+    on clients (phone_number);
+
 create table if not exists cards
 (
     id             bigserial
