@@ -33,5 +33,10 @@ public class OperationController {
             return false;
         }
         return CARD_SERVICE.updateCardBalance(cards[0]) && CARD_SERVICE.updateCardBalance(cards[1]);
+        // написать метод трансфер в репозитории в одной транзакции
+        // переписать final методы
+        // написать dto где будут номера карт и сумма 
+        // убрать импорты со * и переписать и нормально
+        // убрать пустые строки после аннотаций 
     }
 }
