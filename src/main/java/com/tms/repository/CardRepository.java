@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.ResultSet;
+import java.util.Optional;
 
 @Repository
 public class CardRepository {
@@ -29,18 +30,18 @@ public class CardRepository {
         return false;
     }
 
-    public Card getCardById(Long id){
+    public Optional<Card> getCardById(Long id){
         try {
             String sql = "SELECT * FROM cards WHERE id = ?";
             PreparedStatement statement = CONNECTION.prepareStatement(sql);
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             resultSet.next();
-            return sqlParser(resultSet);
+            return Optional.of(sqlParser(resultSet));
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return new Card();
+        return Optional.empty();
     }
 
     public Boolean updateCardBalance(Card card){

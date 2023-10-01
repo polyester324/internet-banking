@@ -2,13 +2,17 @@ package com.tms.controller;
 
 import com.tms.domain.Client;
 import com.tms.service.ClientService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/client")
@@ -19,28 +23,29 @@ public class ClientController {
         this.clientService = clientService;
     }
 
-    @GetMapping
-    public Client getClientById(@RequestParam Long id){
-        return clientService.getClientById(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<Client> getClientById(@PathVariable ("id") Long id){
+        Optional<Client> client = clientService.getClientById(id);
+        return client.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.CONFLICT));
     }
 
     @PostMapping
-    public Boolean createClient(@RequestBody Client client){
-        return clientService.createClient(client);
+    public ResponseEntity<HttpStatus> createClient(@RequestBody Client client){
+        return new ResponseEntity<>(clientService.createClient(client) ? HttpStatus.CREATED : HttpStatus.CONFLICT);
     }
 
     @PutMapping("/first-name")
-    public Boolean updateClientFirstName(@RequestBody Client client){
-        return clientService.updateClientFirstName(client);
+    public ResponseEntity<HttpStatus> updateClientFirstName(@RequestBody Client client){
+        return new ResponseEntity<>(clientService.updateClientFirstName(client) ?  HttpStatus.NO_CONTENT : HttpStatus.CONFLICT);
     }
 
     @PutMapping("/last-name")
-    public Boolean updateClientLastName(@RequestBody Client client){
-        return clientService.updateClientLastName(client);
+    public ResponseEntity<HttpStatus> updateClientLastName(@RequestBody Client client){
+        return new ResponseEntity<>(clientService.updateClientLastName(client) ?  HttpStatus.NO_CONTENT : HttpStatus.CONFLICT);
     }
 
     @PutMapping("/phone-number")
-    public Boolean updateClientPhoneNumber(@RequestBody Client client){
-        return clientService.updateClientPhoneNumber(client);
+    public ResponseEntity<HttpStatus> updateClientPhoneNumber(@RequestBody Client client){
+        return new ResponseEntity<>(clientService.updateClientPhoneNumber(client) ?  HttpStatus.NO_CONTENT : HttpStatus.CONFLICT);
     }
 }

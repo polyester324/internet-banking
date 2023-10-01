@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.ResultSet;
+import java.util.Optional;
 
 @Repository
 @Getter
@@ -40,18 +41,18 @@ public class ClientRepository {
         return false;
     }
 
-    public Client getClientById(Long id){
+    public Optional<Client> getClientById(Long id){
         try {
             String sql = "SELECT * FROM clients WHERE id = ?";
             PreparedStatement statement = CONNECTION.prepareStatement(sql);
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             resultSet.next();
-            return sqlParser(resultSet);
+            return Optional.of(sqlParser(resultSet));
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return new Client();
+        return Optional.empty();
     }
 
     public Boolean updateClientFirstName(Client client){

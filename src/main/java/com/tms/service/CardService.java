@@ -3,6 +3,7 @@ package com.tms.service;
 import com.tms.domain.Card;
 import com.tms.repository.CardRepository;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 @Service
 public class CardService {
@@ -16,7 +17,7 @@ public class CardService {
         return cardRepository.createCard(card);
     }
 
-    public Card getCardById(Long id){
+    public Optional<Card> getCardById(Long id){
         return cardRepository.getCardById(id);
     }
 

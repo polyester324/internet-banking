@@ -3,6 +3,7 @@ package com.tms.service;
 import com.tms.domain.Client;
 import com.tms.repository.ClientRepository;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 @Service
 public class ClientService {
@@ -16,7 +17,7 @@ public class ClientService {
         return clientRepository.createClient(client);
     }
 
-    public Client getClientById(Long id) {
+    public Optional<Client> getClientById(Long id) {
         return clientRepository.getClientById(id);
     }
 
