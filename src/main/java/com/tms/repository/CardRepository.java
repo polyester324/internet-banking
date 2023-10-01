@@ -2,8 +2,11 @@ package com.tms.repository;
 
 import com.tms.domain.Card;
 import org.springframework.stereotype.Repository;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.sql.ResultSet;
 
 @Repository
 public class CardRepository {
@@ -66,8 +69,6 @@ public class CardRepository {
         return false;
     }
 
-
-
     public Card sqlParser(ResultSet result) throws SQLException {
         Card card = new Card();
         card.setId(result.getLong("id"));
@@ -78,5 +79,4 @@ public class CardRepository {
         card.setCreated(result.getTimestamp("created"));
         return card;
     }
-
 }

@@ -3,8 +3,12 @@ package com.tms.repository;
 import com.tms.domain.Client;
 import lombok.Getter;
 import org.springframework.stereotype.Repository;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.sql.ResultSet;
 
 @Repository
 @Getter

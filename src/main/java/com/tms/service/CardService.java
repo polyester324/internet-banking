@@ -6,25 +6,25 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CardService {
-    private final CardRepository CARD_REPOSITORY;
+    private final CardRepository cardRepository;
 
     public CardService(CardRepository cardRepository) {
-        CARD_REPOSITORY = cardRepository;
+        this.cardRepository = cardRepository;
     }
 
     public Boolean createCard(Card card){
-        return CARD_REPOSITORY.createCard(card);
+        return cardRepository.createCard(card);
     }
 
     public Card getCardById(Long id){
-        return CARD_REPOSITORY.getCardById(id);
+        return cardRepository.getCardById(id);
     }
 
     public Boolean updateCardBalance(Card card){
-        return CARD_REPOSITORY.updateCardBalance(card);
+        return cardRepository.updateCardBalance(card);
     }
 
     public Boolean updateCardMoneyCurrency(Card card){
-        return CARD_REPOSITORY.updateCardMoneyCurrency(card);
+        return cardRepository.updateCardMoneyCurrency(card);
     }
 }

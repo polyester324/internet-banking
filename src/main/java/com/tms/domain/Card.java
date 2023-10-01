@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import lombok.Data;
 
-
 @Component
 @Data
 public class Card {

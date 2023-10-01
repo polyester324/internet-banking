@@ -6,29 +6,29 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ClientService {
-    private final ClientRepository CLIENT_REPOSITORY;
+    private final ClientRepository clientRepository;
 
     public ClientService(ClientRepository clientRepository) {
-        this.CLIENT_REPOSITORY = clientRepository;
+        this.clientRepository = clientRepository;
     }
 
     public Boolean createClient(Client client) {
-        return CLIENT_REPOSITORY.createClient(client);
+        return clientRepository.createClient(client);
     }
 
     public Client getClientById(Long id) {
-        return CLIENT_REPOSITORY.getClientById(id);
+        return clientRepository.getClientById(id);
     }
 
     public Boolean updateClientFirstName(Client client) {
-        return CLIENT_REPOSITORY.updateClientFirstName(client);
+        return clientRepository.updateClientFirstName(client);
     }
 
     public Boolean updateClientLastName(Client client) {
-        return CLIENT_REPOSITORY.updateClientLastName(client);
+        return clientRepository.updateClientLastName(client);
     }
 
     public Boolean updateClientPhoneNumber(Client client) {
-        return CLIENT_REPOSITORY.updateClientPhoneNumber(client);
+        return clientRepository.updateClientPhoneNumber(client);
     }
 }
