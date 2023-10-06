@@ -19,16 +19,8 @@ public class TransactionRepository {
         try{
             try{
                 CONNECTION.setAutoCommit(false);
-                PreparedStatement statementCurrencySender = CONNECTION.prepareStatement("SELECT money_currency FROM cards WHERE card_number = ?");
-                statementCurrencySender.setString(1, cardSender);
-                ResultSet resultSet = statementCurrencySender.executeQuery();
-                resultSet.next();
-                String moneyCurrencySender = resultSet.getString(1);
-                PreparedStatement statementCurrencyReceiver = CONNECTION.prepareStatement("SELECT money_currency FROM cards WHERE card_number = ?");
-                statementCurrencyReceiver.setString(1, cardReceiver);
-                resultSet = statementCurrencyReceiver.executeQuery();
-                resultSet.next();
-                String moneyCurrencyReceiver = resultSet.getString(1);
+                String moneyCurrencySender = findMoneyCurrencyOfTheCard(cardSender);
+                String moneyCurrencyReceiver = findMoneyCurrencyOfTheCard(cardReceiver);
                 PreparedStatement statementSender = CONNECTION.prepareStatement("UPDATE cards SET balance = balance - ? WHERE card_number = ?");
                 statementSender.setBigDecimal(1, amount);
                 statementSender.setString(2, cardSender);
@@ -48,6 +40,49 @@ public class TransactionRepository {
             System.out.println(e.getMessage());
         }
         return false;
+    }
+
+    public boolean putMoneyIntoTheAccount(String card, BigDecimal amount, String moneyCurrency){
+        try {
+            String moneyCurrencyCard = findMoneyCurrencyOfTheCard(card);
+            amount = amount.multiply(BigDecimal.valueOf(TransactionRepository.equalizationCoefficientToOneExchangeRate(moneyCurrency, moneyCurrencyCard)));
+            PreparedStatement statement = CONNECTION.prepareStatement("UPDATE cards SET balance = balance + ? WHERE card_number = ?");
+            statement.setBigDecimal(1,amount);
+            statement.setString(2,card);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+
+    public boolean withdrawMoneyFromTheAccount(String card, BigDecimal amount, String moneyCurrency){
+        try {
+            String moneyCurrencyCard = findMoneyCurrencyOfTheCard(card);
+            amount = amount.multiply(BigDecimal.valueOf(TransactionRepository.equalizationCoefficientToOneExchangeRate(moneyCurrency, moneyCurrencyCard)));
+            PreparedStatement statement = CONNECTION.prepareStatement("UPDATE cards SET balance = balance - ? WHERE card_number = ?");
+            statement.setBigDecimal(1,amount);
+            statement.setString(2,card);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+
+    public String findMoneyCurrencyOfTheCard(String card){
+        try {
+            PreparedStatement statementCurrency = CONNECTION.prepareStatement("SELECT money_currency FROM cards WHERE card_number = ?");
+            statementCurrency.setString(1,card);
+            ResultSet resultSet = statementCurrency.executeQuery();
+            resultSet.next();
+            return resultSet.getString(1);
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     public static double equalizationCoefficientToOneExchangeRate(String moneyCurrencyOne, String moneyCurrencyTwo){

@@ -6,9 +6,8 @@ import java.math.BigDecimal;
 
 @Component
 @Data
-public class CardTransactionDTO {
-    private String cardSender;
-    private String cardReceiver;
+public class CardTransactionDepositAndWithdrawDTO {
+    private String card;
     private BigDecimal amount;
     private String moneyCurrency;
 }
