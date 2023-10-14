@@ -14,10 +14,10 @@ import java.util.UUID;
 
 @Repository
 public class CheckRepository {
-    private static final Connection CONNECTION = new ClientRepository().getCONNECTION();
+    //private static final Connection CONNECTION = new ClientRepository().getCONNECTION();
 
     public static boolean makeCheckForDepositAndWithdraw(String card, BigDecimal amount, String moneyCurrency, String type){
-        try {
+        /*try {
             Integer checkNumber = new Random().nextInt(90000) + 10000;
             File file = makeUniqueFile(card, checkNumber);
             FileWriter fileWriter = new FileWriter(file);
@@ -49,12 +49,12 @@ public class CheckRepository {
             return true;
         } catch (IOException e){
             System.out.println(e.getMessage());
-        }
+        }*/
         return false;
     }
 
     public static boolean makeCheckForTransfer(String cardSender, String cardReceiver, BigDecimal amount, String moneyCurrency, String type){
-        try {
+        /*try {
             Integer checkNumber = new Random().nextInt(90000) + 10000;
             File file = makeUniqueFile(cardSender, checkNumber);
             FileWriter fileWriter = new FileWriter(file);
@@ -91,12 +91,12 @@ public class CheckRepository {
             return true;
         } catch (IOException e){
             System.out.println(e.getMessage());
-        }
+        }*/
         return false;
     }
 
     public static File makeUniqueFile(String card, Integer checkNumber){
-        try {
+        /*try {
             PreparedStatement statement = CONNECTION.prepareStatement("SELECT id, first_name, last_name FROM clients " +
                     "WHERE id = (SELECT client_id FROM cards WHERE card_number = ?)");
             statement.setString(1, card);
@@ -127,7 +127,7 @@ public class CheckRepository {
             return uniqueFile;
         } catch (SQLException e){
             System.out.println(e.getMessage());
-        }
+        }*/
         return null;
     }
 }

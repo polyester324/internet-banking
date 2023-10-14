@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/operation")
-public class OperationController {
+@RequestMapping("/transaction")
+public class TransactionController {
     public final TransactionService transactionService;
 
-    public OperationController(TransactionService transactionService) {
+    public TransactionController(TransactionService transactionService) {
         this.transactionService = transactionService;
     }
 

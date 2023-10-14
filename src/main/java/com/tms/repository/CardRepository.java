@@ -1,83 +1,57 @@
 package com.tms.repository;
 
 import com.tms.domain.Card;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.sql.ResultSet;
 import java.util.Optional;
 
+@Slf4j
+@Getter
 @Repository
 public class CardRepository {
-    private static final Connection CONNECTION = new ClientRepository().getCONNECTION();
+    public final Session session;
+
+    @Autowired
+    public CardRepository(Session session) {
+        this.session = session;
+    }
 
     public Boolean createCard(Card card){
         try {
-            String sql = "INSERT INTO cards(id, card_number, client_id, balance, money_currency, created)" +
-                    "VALUES (DEFAULT,?,?,?,?,?)";
-            PreparedStatement statement = CONNECTION.prepareStatement(sql);
-            statement.setString(1, card.getCardNumber());
-            statement.setLong(2, card.getClientId());
-            statement.setBigDecimal(3, card.getBalance());
-            statement.setString(4, card.getMoneyCurrency());
-            statement.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
-            return statement.executeUpdate() == 1;
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            session.getTransaction().begin();
+            session.persist(card);
+            session.getTransaction().commit();
+            return true;
+        } catch (Exception e){
+            session.getTransaction().rollback();
+            log.warn("We have problem with creation card " + card + ". The ex " + e);
         }
         return false;
     }
 
     public Optional<Card> getCardById(Long id){
         try {
-            String sql = "SELECT * FROM cards WHERE id = ?";
-            PreparedStatement statement = CONNECTION.prepareStatement(sql);
-            statement.setLong(1, id);
-            ResultSet resultSet = statement.executeQuery();
-            resultSet.next();
-            return Optional.of(sqlParser(resultSet));
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            return Optional.ofNullable(session.get(Card.class, id));
+        } catch (Exception e){
+            session.getTransaction().rollback();
+            log.warn("We have problem with getting card by id " + id + ". The ex " + e);
         }
         return Optional.empty();
     }
 
-    public Boolean updateCardBalance(Card card){
+    public Boolean deleteCardById(Long id){
         try {
-            String sql = "UPDATE cards SET balance=? WHERE id=?";
-            PreparedStatement statement = CONNECTION.prepareStatement(sql);
-            statement.setBigDecimal(1, card.getBalance());
-            statement.setLong(2, card.getId());
-            return statement.executeUpdate() == 1;
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            session.getTransaction().begin();
+            session.remove(getCardById(id).get());
+            session.getTransaction().commit();
+            return true;
+        } catch (Exception e){
+            session.getTransaction().rollback();
+            log.warn("We have problem with deleting card by id " + id + ". The ex " + e);
         }
         return false;
-    }
-
-    public Boolean updateCardMoneyCurrency(Card card){
-        try {
-            String sql = "UPDATE cards SET money_currency=? WHERE id=?";
-            PreparedStatement statement = CONNECTION.prepareStatement(sql);
-            statement.setString(1, card.getMoneyCurrency());
-            statement.setLong(2, card.getId());
-            return statement.executeUpdate() == 1;
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return false;
-    }
-
-    public Card sqlParser(ResultSet result) throws SQLException {
-        Card card = new Card();
-        card.setId(result.getLong("id"));
-        card.setCardNumber(result.getString("card_number"));
-        card.setClientId(result.getLong("client_id"));
-        card.setBalance(result.getBigDecimal("balance"));
-        card.setMoneyCurrency(result.getString("money_currency"));
-        card.setCreated(result.getTimestamp("created"));
-        return card;
     }
 }

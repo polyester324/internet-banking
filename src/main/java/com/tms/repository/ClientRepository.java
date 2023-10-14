@@ -2,105 +2,118 @@ package com.tms.repository;
 
 import com.tms.domain.Client;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.sql.ResultSet;
 import java.util.Optional;
 
-@Repository
+@Slf4j
 @Getter
+@Repository
 public class ClientRepository {
-    private final Connection CONNECTION;
+    public final Session session;
 
-    {
-        try {
-            Class.forName("org.postgresql.Driver");
-            CONNECTION = DriverManager.getConnection("jdbc:postgresql://localhost:5432/internet-banking", "postgres", "root");
-        } catch (ClassNotFoundException | SQLException e) {
-            throw new RuntimeException(e);
-        }
+    @Autowired
+    public ClientRepository(Session session) {
+        this.session = session;
     }
 
     public Boolean createClient(Client client){
         try {
-            String sql = "INSERT INTO clients(id,first_name,last_name,phone_number,created)" +
-                    "VALUES (DEFAULT,?,?,?,?)";
-            PreparedStatement statement = CONNECTION.prepareStatement(sql);
-            statement.setString(1, client.getFirstName());
-            statement.setString(2, client.getLastName());
-            statement.setString(3, client.getPhoneNumber());
-            statement.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
-            return statement.executeUpdate() == 1;
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            session.getTransaction().begin();
+            session.persist(client);
+            session.getTransaction().commit();
+            return true;
+        } catch (Exception e){
+            session.getTransaction().rollback();
+            log.warn("We have problem with creation client " + client + ". The ex " + e);
         }
         return false;
     }
 
     public Optional<Client> getClientById(Long id){
         try {
-            String sql = "SELECT * FROM clients WHERE id = ?";
-            PreparedStatement statement = CONNECTION.prepareStatement(sql);
-            statement.setLong(1, id);
-            ResultSet resultSet = statement.executeQuery();
-            resultSet.next();
-            return Optional.of(sqlParser(resultSet));
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            return Optional.ofNullable(session.get(Client.class, id));
+        } catch (Exception e){
+            session.getTransaction().rollback();
+            log.warn("We have problem with getting client by id " + id + ". The ex " + e);
         }
         return Optional.empty();
     }
 
+    public Boolean updateClient(Client client){
+        try {
+            session.getTransaction().begin();
+            session.merge(client);
+            session.getTransaction().commit();
+            return true;
+        } catch (Exception e){
+            session.getTransaction().rollback();
+            log.warn("We have problem with updating client " + client + ". The ex " + e);
+        }
+        return false;
+    }
+
     public Boolean updateClientFirstName(Client client){
         try {
-            String sql = "UPDATE clients SET first_name=? WHERE id=?";
-            PreparedStatement statement = CONNECTION.prepareStatement(sql);
-            statement.setString(1, client.getFirstName());
-            statement.setLong(2, client.getId());
-            return statement.executeUpdate() == 1;
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            Query<Client> query = session.createQuery("update clients set firstName=: firstName where id=: id");
+            query.setParameter("firstName", client.getFirstName());
+            query.setParameter("id", client.getId());
+            session.getTransaction().begin();
+            query.executeUpdate();
+            session.getTransaction().commit();
+            return true;
+        } catch (Exception e){
+            session.getTransaction().rollback();
+            log.warn("We have problem with updating client's first name " + client.getFirstName() + ". The ex " + e);
         }
         return false;
     }
 
     public Boolean updateClientLastName(Client client){
         try {
-            String sql = "UPDATE clients SET last_name=? WHERE id=?";
-            PreparedStatement statement = CONNECTION.prepareStatement(sql);
-            statement.setString(1, client.getLastName());
-            statement.setLong(2, client.getId());
-            return statement.executeUpdate() == 1;
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            Query<Client> query = session.createQuery("update clients set lastName=: lastName where id=: id");
+            query.setParameter("lastName", client.getLastName());
+            query.setParameter("id", client.getId());
+            session.getTransaction().begin();
+            query.executeUpdate();
+            session.getTransaction().commit();
+            return true;
+        } catch (Exception e){
+            session.getTransaction().rollback();
+            log.warn("We have problem with updating client's last name " + client.getLastName() + ". The ex " + e);
         }
         return false;
     }
 
     public Boolean updateClientPhoneNumber(Client client){
         try {
-            String sql = "UPDATE clients SET phone_number=? WHERE id=?";
-            PreparedStatement statement = CONNECTION.prepareStatement(sql);
-            statement.setString(1, client.getPhoneNumber());
-            statement.setLong(2, client.getId());
-            return statement.executeUpdate() == 1;
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            Query<Client> query = session.createQuery("update clients set phoneNumber=: phoneNumber where id=: id");
+            query.setParameter("phoneNumber", client.getPhoneNumber());
+            query.setParameter("id", client.getId());
+            session.getTransaction().begin();
+            query.executeUpdate();
+            session.getTransaction().commit();
+            return true;
+        } catch (Exception e){
+            session.getTransaction().rollback();
+            log.warn("We have problem with updating client's phone number " + client.getPhoneNumber() + ". The ex " + e);
         }
         return false;
     }
 
-    public Client sqlParser(ResultSet result) throws SQLException {
-        Client client = new Client();
-        client.setId(result.getLong("id"));
-        client.setFirstName(result.getString("first_name"));
-        client.setLastName(result.getString("last_name"));
-        client.setPhoneNumber(result.getString("phone_number"));
-        client.setCreated(result.getTimestamp("created"));
-        return client;
+    public Boolean deleteClientById(Long id){
+        try {
+            session.getTransaction().begin();
+            session.remove(getClientById(id).get());
+            session.getTransaction().commit();
+            return true;
+        } catch (Exception e){
+            session.getTransaction().rollback();
+            log.warn("We have problem with getting client by id " + id + ". The ex " + e);
+        }
+        return false;
     }
 }
