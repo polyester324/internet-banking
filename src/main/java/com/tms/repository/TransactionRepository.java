@@ -1,5 +1,6 @@
 package com.tms.repository;
 
+import com.tms.domain.Client;
 import com.tms.domain.MoneyCurrency;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -24,18 +25,18 @@ public class TransactionRepository {
     public boolean transferMoneyBetweenTwoClients(String cardSender, String cardReceiver, BigDecimal amount){
         try {
             session.getTransaction().begin();
-            Query queryFirst = session.createNativeQuery("UPDATE cards SET balance = balance - ? WHERE card_number = ?");
+            Query<Client> queryFirst = session.createNativeQuery("UPDATE cards SET balance = balance - ? WHERE card_number = ?");
+            String moneyCurrency = findMoneyCurrencyOfTheCard(cardSender);
             queryFirst.setParameter(1, amount);
             queryFirst.setParameter(2, cardSender);
             queryFirst.executeUpdate();
-            String moneyCurrencySender = findMoneyCurrencyOfTheCard(cardSender);
-            String moneyCurrencyReceiver = findMoneyCurrencyOfTheCard(cardReceiver);
-            BigDecimal newAmount = amount.multiply(BigDecimal.valueOf(equalizationCoefficientToOneExchangeRate(moneyCurrencySender, moneyCurrencyReceiver)));
-            Query querySecond = session.createNativeQuery("UPDATE cards SET balance = balance + ? WHERE card_number = ?");
+            BigDecimal newAmount = amount.multiply(BigDecimal.valueOf(equalizationCoefficientToOneExchangeRate(moneyCurrency, findMoneyCurrencyOfTheCard(cardReceiver))));
+            Query<Client> querySecond = session.createNativeQuery("UPDATE cards SET balance = balance + ? WHERE card_number = ?");
             querySecond.setParameter(1, newAmount);
             querySecond.setParameter(2, cardReceiver);
             querySecond.executeUpdate();
             session.getTransaction().commit();
+            new CheckRepository(session).makeCheckForTransfer(cardSender, cardReceiver, amount, moneyCurrency, "transfer");
             return true;
         } catch (Exception e){
             session.getTransaction().rollback();
@@ -47,14 +48,13 @@ public class TransactionRepository {
     public boolean putMoneyIntoTheAccount(String card, BigDecimal amount, String moneyCurrency){
         try {
             session.getTransaction().begin();
-            String moneyCurrencyOfTheCard = findMoneyCurrencyOfTheCard(card);
-            BigDecimal newAmount = amount.multiply(BigDecimal.valueOf(equalizationCoefficientToOneExchangeRate(moneyCurrency, moneyCurrencyOfTheCard)));
-            Query query = session.createNativeQuery("UPDATE cards SET balance = balance + ? WHERE card_number = ?");
+            BigDecimal newAmount = amount.multiply(BigDecimal.valueOf(equalizationCoefficientToOneExchangeRate(moneyCurrency, findMoneyCurrencyOfTheCard(card))));
+            Query<Client> query = session.createNativeQuery("UPDATE cards SET balance = balance + ? WHERE card_number = ?");
             query.setParameter(1, newAmount);
             query.setParameter(2, card);
             query.executeUpdate();
             session.getTransaction().commit();
-            //CheckRepository.makeCheckForDepositAndWithdraw(card, amount, moneyCurrency, "deposit");
+            new CheckRepository(session).makeCheckForDepositAndWithdraw(card, amount, moneyCurrency, "deposit");
             return true;
         } catch (Exception e){
             session.getTransaction().rollback();
@@ -67,12 +67,12 @@ public class TransactionRepository {
         try {
             session.getTransaction().begin();
             BigDecimal newAmount = amount.multiply(BigDecimal.valueOf(equalizationCoefficientToOneExchangeRate(moneyCurrency, findMoneyCurrencyOfTheCard(card))));
-            Query query = session.createNativeQuery("UPDATE cards SET balance = balance - ? WHERE card_number = ?");
+            Query<Client> query = session.createNativeQuery("UPDATE cards SET balance = balance - ? WHERE card_number = ?");
             query.setParameter(1, newAmount);
             query.setParameter(2, card);
             query.executeUpdate();
             session.getTransaction().commit();
-            //CheckRepository.makeCheckForDepositAndWithdraw(card, amount, moneyCurrency, "deposit");
+            new CheckRepository(session).makeCheckForDepositAndWithdraw(card, amount, moneyCurrency, "withdraw");
             return true;
         } catch (Exception e){
             session.getTransaction().rollback();
