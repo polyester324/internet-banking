@@ -1,6 +1,11 @@
 package com.tms.domain;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Column;
 import org.springframework.stereotype.Component;
 import java.sql.Timestamp;
 import lombok.Data;
