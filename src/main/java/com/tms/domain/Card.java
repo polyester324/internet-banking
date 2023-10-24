@@ -11,6 +11,10 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import lombok.Data;
 
+/**
+ * Card is a class, that contains every column of <i>cards</> table
+ */
+
 @Component
 @Data
 @Entity(name = "cards")

@@ -11,23 +11,41 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * ClientService is a class, that has a connection to <i>ClientRepository</>
+ * performs crud operations associated with the table <i>clients</>
+ */
+
 @Slf4j
 @Service
 public class ClientService {
+
     private final ClientRepository clientRepository;
 
     public ClientService(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 
+    /**
+     * Method getAll shows json data of all clients in the db
+     * @return List<Client>
+     */
     public List<Client> getAll() {
         return clientRepository.findAll();
     }
 
+    /**
+     * Method getClientById shows json data of client with requested id
+     * @return Optional<Client>
+     */
     public Optional<Client> getClientById(Long id){
         return clientRepository.findById(id);
     }
 
+    /**
+     * Method createClient adds client from json data to db
+     * @return true if clients was created and false otherwise
+     */
     public Boolean createClient(Client client) {
         try {
             client.setCreated(Timestamp.valueOf(LocalDateTime.now()));
@@ -40,9 +58,10 @@ public class ClientService {
         return true;
     }
 
-
-
-
+    /**
+     * Method updateClient updates client from json data to db
+     * @return true if client was updated and false otherwise
+     */
     public Boolean updateClient(Client client) {
         try {
             clientRepository.saveAndFlush(client);
@@ -54,6 +73,10 @@ public class ClientService {
         return true;
     }
 
+    /**
+     * Method updateFirstName updates client's first name from url path to db
+     * @return true if client's first name was updated and false otherwise
+     */
     @Transactional(rollbackFor = Exception.class)
     public Boolean updateFirstName(String name, long id){
         try {
@@ -66,6 +89,10 @@ public class ClientService {
         return true;
     }
 
+    /**
+     * Method updateLastName updates client's last name from url path to db
+     * @return true if client's last name was updated and false otherwise
+     */
     @Transactional(rollbackFor = Exception.class)
     public Boolean updateLastName(String name, long id){
         try {
@@ -78,6 +105,10 @@ public class ClientService {
         return true;
     }
 
+    /**
+     * Method updatePhoneNumber updates client's phone number from url path to db
+     * @return true if client's phone number was updated and false otherwise
+     */
     @Transactional(rollbackFor = Exception.class)
     public Boolean updatePhoneNumber(String phoneNumber, long id){
         try {
@@ -89,6 +120,10 @@ public class ClientService {
         }
         return true;    }
 
+    /**
+     * Method deleteClientById deletes client from db by id
+     * @return true if client was deleted and false otherwise
+     */
     public Boolean deleteClientById(Long id) {
         try {
             clientRepository.deleteById(id);

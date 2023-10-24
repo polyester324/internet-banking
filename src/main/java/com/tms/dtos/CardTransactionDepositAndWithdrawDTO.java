@@ -4,6 +4,9 @@ import lombok.Data;
 import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 
+/**
+ * CardTransactionDepositAndWithdrawDTO is a DTO class for deposit and withdraw operations
+ */
 @Component
 @Data
 public class CardTransactionDepositAndWithdrawDTO {

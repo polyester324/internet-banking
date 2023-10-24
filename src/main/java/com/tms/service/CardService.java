@@ -36,6 +36,10 @@ public class CardService {
         this.clientService = clientService;
     }
 
+    /**
+     * Method createCard adds client from json data to db
+     * @return true if card was created and false otherwise
+     */
     public Boolean createCard(Card card){
         card.setCreated(Timestamp.valueOf(LocalDateTime.now()));
         try {
@@ -49,15 +53,26 @@ public class CardService {
         return true;
     }
 
+    /**
+     * Method getCardById shows json data of card with requested id
+     * @return Optional<Card>
+     */
     public Optional<Card> getCardById(Long id){
         return cardRepository.findById(id);
     }
 
+    /**
+     * Method getCardByNumber shows json data of card with requested card number
+     * @return Optional<Card>
+     */
     public Optional<Card> getCardByNumber(String cardNumber){
         return cardRepository.findCardByCardNumber(cardNumber);
     }
 
-
+    /**
+     * Method deleteCardById deletes card from db by id
+     * @return true if card was deleted and false otherwise
+     */
     public boolean deleteCardById(Long id){
         try {
             cardRepository.deleteById(id);
@@ -69,6 +84,10 @@ public class CardService {
         return true;
     }
 
+    /**
+     * Method deposit replenishes the balance using the card number, specified amount and money currency
+     * @return true if operation was successful and false otherwise
+     */
     @Transactional(rollbackFor = Exception.class)
     public Boolean deposit(String cardNumber, BigDecimal amount, String moneyCurrency){
         try {
@@ -85,6 +104,10 @@ public class CardService {
         return true;
     }
 
+    /**
+     * Method withdraw withdraws the specified amount from the balance by card number and currency
+     * @return true if operation was successful and false otherwise
+     */
     @Transactional(rollbackFor = Exception.class)
     public Boolean withdraw(String cardNumber, BigDecimal amount, String moneyCurrency){
         try {
@@ -101,6 +124,10 @@ public class CardService {
         return true;
     }
 
+    /**
+     * Method transfer transfers money from one account to another using card numbers
+     * @return true if operation was successful and false otherwise
+     */
     @Transactional(rollbackFor = Exception.class)
     public Boolean transfer(String cardSenderNumber, String cardReceiverNumber, BigDecimal amount){
         try {
@@ -122,18 +149,26 @@ public class CardService {
         return true;
     }
 
+    /**
+     * Method makeCheckForDepositAndWithdraw prints check for deposit and withdraw
+     * throws CheckException if check was not printed
+     */
     public void makeCheckForDepositAndWithdraw(String card, BigDecimal amount, String moneyCurrency, String type) throws CheckException {
         try {
             Integer checkNumber = new Random().nextInt(90000) + 10000;
             File file = makeUniqueFile(card, checkNumber);
             FileWriter fileWriter = new FileWriter(file);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            writeCommonFields(bufferedWriter, checkNumber, type, "ProjectBank", "ProjectBank", card, card, amount, moneyCurrency);
+            writeCheck(bufferedWriter, checkNumber, type, "ProjectBank", "ProjectBank", card, card, amount, moneyCurrency);
         } catch (IOException | FileCreationException e){
             throw new CheckException();
         }
     }
 
+    /**
+     * Method makeCheckForTransfer prints check for transfer
+     * throws CheckException if check was not printed
+     */
     public void makeCheckForTransfer(String cardSender, String cardReceiver, BigDecimal amount, String moneyCurrency, String type) throws CheckException {
         try {
             String bankNameSender = "ProjectBank";
@@ -142,13 +177,17 @@ public class CardService {
             File file = makeUniqueFile(cardSender, checkNumber);
             FileWriter fileWriter = new FileWriter(file);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            writeCommonFields(bufferedWriter, checkNumber, type, bankNameSender, bankNameReceiver,  cardSender, cardReceiver, amount, moneyCurrency);
+            writeCheck(bufferedWriter, checkNumber, type, bankNameSender, bankNameReceiver,  cardSender, cardReceiver, amount, moneyCurrency);
             fileWriter.close();
         } catch (IOException | FileCreationException e) {
             throw new CheckException();
         }
     }
 
+    /**
+     * Method makeUniqueFile creates directory for every client in the db as they make any operation
+     * throws FileCreationException if directory was not created
+     */
     public File makeUniqueFile(String cardNumber, Integer checkNumber) throws FileCreationException {
         try {
             Client client = clientService.getClientById(getCardByNumber(cardNumber).get().getClientId()).get();
@@ -185,7 +224,10 @@ public class CardService {
         throw new FileCreationException();
     }
 
-    private void writeCommonFields(BufferedWriter bufferedWriter, Integer checkNumber, String type, String bankNameSender, String bankNameReceiver, String cardSender, String cardReceiver, BigDecimal amount, String moneyCurrency) throws IOException {
+    /**
+     * Method writeCheck is for check sample
+     */
+    private void writeCheck(BufferedWriter bufferedWriter, Integer checkNumber, String type, String bankNameSender, String bankNameReceiver, String cardSender, String cardReceiver, BigDecimal amount, String moneyCurrency) throws IOException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
         java.util.Date currentDate = new java.util.Date();
@@ -221,6 +263,11 @@ public class CardService {
         bufferedWriter.close();
     }
 
+    /**
+     * Method equalizationCoefficientToOneExchangeRate allows to find the coefficient
+     * by which you need to multiply the amount of money to withdraw, deposit or transfer from one currency to another
+     * @return double
+     */
     double equalizationCoefficientToOneExchangeRate(String moneyCurrencyOne, String moneyCurrencyTwo){
         if (!Objects.equals(moneyCurrencyOne, moneyCurrencyTwo)) {
             if (Objects.equals(moneyCurrencyOne, "BYN")) {

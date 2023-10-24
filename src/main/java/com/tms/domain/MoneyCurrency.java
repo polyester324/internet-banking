@@ -2,6 +2,10 @@ package com.tms.domain;
 
 import lombok.Getter;
 
+/**
+ * MoneyCurrency is a enum class, that contains the values of the ratio of currencies to the Belarusian ruble
+ */
+
 @Getter
 public enum MoneyCurrency {
     USD(0.3042),
