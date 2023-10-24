@@ -1,11 +1,11 @@
 |----------------------------------------------------------------|
 |                           Bank check                           |
-| Check:                                                   31405 |
-| 07-10-2023                                            00:14:56 |
+| Check:                                                   94428 |
+| 25-10-2023                                            01:07:46 |
 | Transaction type:                                     transfer |
 | Bank sender:                                       ProjectBank |
 | Bank receiver:                                     AnotherBank |
-| Account sender:                                      1111-1111 |
-| Account receiver:                                    4444-4444 |
-| Amount:                                              100.0 USD |
+| Account sender:                                      0000-0000 |
+| Account receiver:                                    1111-1111 |
+| Amount:                                               2.00 USD |
 |----------------------------------------------------------------|

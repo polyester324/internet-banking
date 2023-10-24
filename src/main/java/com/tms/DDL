@@ -1,4 +1,4 @@
-create table if not exists clients
+create table public.clients
 (
     id           bigserial
         constraint clients_pk
@@ -9,13 +9,13 @@ create table if not exists clients
     created      timestamp not null
 );
 
-alter table clients
+alter table public.clients
     owner to postgres;
 
-create unique index if not exists clients_phone_number_uindex
-    on clients (phone_number);
+create unique index clients_phone_number_uindex
+    on public.clients (phone_number);
 
-create table if not exists cards
+create table public.cards
 (
     id             bigserial
         constraint cards_pk
@@ -23,36 +23,22 @@ create table if not exists cards
     card_number    varchar           not null,
     client_id      bigint            not null
         constraint cards_clients_id_fk
-            references clients
+            references public.clients
             on update cascade on delete cascade,
     balance        numeric default 0 not null,
     money_currency varchar           not null,
     created        timestamp         not null
 );
 
-alter table cards
+alter table public.cards
     owner to postgres;
 
-create unique index if not exists cards_card_number_uindex
-    on cards (card_number);
-
-create or replace function check_balance() returns trigger
-    language plpgsql
-as
-$$
-BEGIN
-    IF NEW.balance < 0 THEN
-        RAISE EXCEPTION 'Insufficient funds in the account';
-    END IF;
-    RETURN NEW;
-END;
-$$;
-
-alter function check_balance() owner to postgres;
+create unique index cards_card_number_uindex
+    on public.cards (card_number);
 
 create trigger t_balance_check
     before insert or update
-    on cards
+    on public.cards
     for each row
-execute procedure check_balance();
+execute procedure public.check_balance();
 

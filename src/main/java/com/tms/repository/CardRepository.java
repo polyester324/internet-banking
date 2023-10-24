@@ -1,57 +1,27 @@
 package com.tms.repository;
 
 import com.tms.domain.Card;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
-import org.hibernate.Session;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.tms.domain.Client;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.math.BigDecimal;
 import java.util.Optional;
 
-@Slf4j
-@Getter
 @Repository
-public class CardRepository {
-    public final Session session;
+public interface CardRepository extends JpaRepository<Card, Long> {
+    @Modifying
+    @Query("update cards c set c.balance = c.balance + :amount where c.cardNumber = :cardNumber")
+    void deposit(String cardNumber, BigDecimal amount);
 
-    @Autowired
-    public CardRepository(Session session) {
-        this.session = session;
-    }
+    @Modifying
+    @Query("update cards c set c.balance = c.balance - :amount where c.cardNumber = :cardNumber")
+    void withdraw(String cardNumber, BigDecimal amount);
 
-    public Boolean createCard(Card card){
-        try {
-            session.getTransaction().begin();
-            session.persist(card);
-            session.getTransaction().commit();
-            return true;
-        } catch (Exception e){
-            session.getTransaction().rollback();
-            log.warn("We have problem with creation card " + card + ". The ex " + e);
-        }
-        return false;
-    }
+    @Query("select moneyCurrency from cards where cardNumber = :cardNumber")
+    String findCardMoneyCurrencyByCardNumber(String cardNumber);
 
-    public Optional<Card> getCardById(Long id){
-        try {
-            return Optional.ofNullable(session.get(Card.class, id));
-        } catch (Exception e){
-            session.getTransaction().rollback();
-            log.warn("We have problem with getting card by id " + id + ". The ex " + e);
-        }
-        return Optional.empty();
-    }
-
-    public Boolean deleteCardById(Long id){
-        try {
-            session.getTransaction().begin();
-            session.remove(getCardById(id).get());
-            session.getTransaction().commit();
-            return true;
-        } catch (Exception e){
-            session.getTransaction().rollback();
-            log.warn("We have problem with deleting card by id " + id + ". The ex " + e);
-        }
-        return false;
-    }
+    Optional<Card> findCardByCardNumber(String cardNumber);
 }

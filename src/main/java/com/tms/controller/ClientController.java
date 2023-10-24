@@ -2,19 +2,15 @@ package com.tms.controller;
 
 import com.tms.domain.Client;
 import com.tms.service.ClientService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @RestController
 @RequestMapping("/client")
 public class ClientController {
@@ -22,6 +18,13 @@ public class ClientController {
 
     public ClientController(ClientService clientService) {
         this.clientService = clientService;
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<Client>> getAll(){
+        log.info("getAll method working!");
+        List<Client> resultList = clientService.getAll();
+        return new ResponseEntity<>(resultList, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -40,19 +43,19 @@ public class ClientController {
         return new ResponseEntity<>(clientService.updateClient(client) ?  HttpStatus.NO_CONTENT : HttpStatus.CONFLICT);
     }
 
-    @PutMapping("/first-name")
-    public ResponseEntity<HttpStatus> updateClientFirstName(@RequestBody Client client){
-        return new ResponseEntity<>(clientService.updateClientFirstName(client) ?  HttpStatus.NO_CONTENT : HttpStatus.CONFLICT);
+    @PutMapping("/{id}/{first-name}")
+    public ResponseEntity<HttpStatus> updateClientFirstName(@PathVariable("id") Long id, String name){
+        return new ResponseEntity<>(clientService.updateFirstName(name, id) ?  HttpStatus.NO_CONTENT : HttpStatus.CONFLICT);
     }
 
-    @PutMapping("/last-name")
-    public ResponseEntity<HttpStatus> updateClientLastName(@RequestBody Client client){
-        return new ResponseEntity<>(clientService.updateClientLastName(client) ?  HttpStatus.NO_CONTENT : HttpStatus.CONFLICT);
+    @PutMapping("/{id}/{last-name}")
+    public ResponseEntity<HttpStatus> updateClientLastName(@PathVariable("id") Long id, String name){
+        return new ResponseEntity<>(clientService.updateLastName(name, id) ?  HttpStatus.NO_CONTENT : HttpStatus.CONFLICT);
     }
 
-    @PutMapping("/phone-number")
-    public ResponseEntity<HttpStatus> updateClientPhoneNumber(@RequestBody Client client){
-        return new ResponseEntity<>(clientService.updateClientPhoneNumber(client) ?  HttpStatus.NO_CONTENT : HttpStatus.CONFLICT);
+    @PutMapping("/{id}/{phone-number}")
+    public ResponseEntity<HttpStatus> updateClientPhoneNumber(@PathVariable("id") Long id, String phoneNumber){
+        return new ResponseEntity<>(clientService.updatePhoneNumber(phoneNumber, id) ?  HttpStatus.NO_CONTENT : HttpStatus.CONFLICT);
     }
 
     @DeleteMapping("/{id}")

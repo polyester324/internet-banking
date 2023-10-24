@@ -1,7 +1,10 @@
 package com.tms.exceptions;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class CheckException extends Exception{
     public CheckException() {
-        System.out.println("Check creation has failed");
+        log.warn("Check creation has failed");
     }
 }

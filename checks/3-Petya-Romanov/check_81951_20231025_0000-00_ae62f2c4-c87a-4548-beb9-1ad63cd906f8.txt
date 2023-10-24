@@ -1,11 +1,11 @@
 |----------------------------------------------------------------|
 |                           Bank check                           |
-| Check:                                                   79398 |
-| 17-10-2023                                            13:30:59 |
+| Check:                                                   81951 |
+| 25-10-2023                                            01:15:49 |
 | Transaction type:                                     transfer |
 | Bank sender:                                       ProjectBank |
 | Bank receiver:                                     AnotherBank |
-| Account sender:                                      0000-0000 |
-| Account receiver:                                    1111-1111 |
-| Amount:                                                2.0 USD |
+| Account sender:                                      2222-2222 |
+| Account receiver:                                    5555-5555 |
+| Amount:                                              50.00 BYN |
 |----------------------------------------------------------------|
