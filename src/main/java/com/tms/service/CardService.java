@@ -25,6 +25,10 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
 
+/**
+ * CardService is a class, that has a connection to <i>CardRepository
+ * performs crud operations associated with the table <i>cards
+ */
 @Slf4j
 @Service
 public class CardService {

@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 import lombok.Data;
 
 /**
- * Client is a class, that contains every column of <i>clients</> table
+ * Client is a class, that contains every column of <i>clients table
  */
 
 @Component

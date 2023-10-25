@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 import lombok.Data;
 
 /**
- * Card is a class, that contains every column of <i>cards</> table
+ * Card is a class, that contains every column of <i>cards table
  */
 
 @Component

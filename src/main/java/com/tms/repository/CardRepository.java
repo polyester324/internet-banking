@@ -10,8 +10,8 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 /**
- * CardRepository is an interface, that has a connection to <i>cards</> table
- * performs additional operations associated with the table <i>cards</>
+ * CardRepository is an interface, that has a connection to <i>cards table
+ * performs additional operations associated with the table <i>cards
  */
 
 @Repository

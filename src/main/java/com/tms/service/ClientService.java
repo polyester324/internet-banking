@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * ClientService is a class, that has a connection to <i>ClientRepository</>
- * performs crud operations associated with the table <i>clients</>
+ * ClientService is a class, that has a connection to <i>ClientRepository
+ * performs crud operations associated with the table <i>clients
  */
 
 @Slf4j
