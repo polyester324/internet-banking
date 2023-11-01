@@ -2,6 +2,7 @@ package com.tms.controller;
 
 import com.tms.domain.Client;
 import com.tms.service.ClientService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,14 +14,11 @@ import java.util.Optional;
  * ClientController is a class controller that responds to incoming requests from the path("/client")
  */
 @Slf4j
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/client")
 public class ClientController {
     public final ClientService clientService;
-
-    public ClientController(ClientService clientService) {
-        this.clientService = clientService;
-    }
 
     /**
      * getAll is a GET method that shows all clients from db

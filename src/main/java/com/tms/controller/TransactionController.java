@@ -3,6 +3,7 @@ package com.tms.controller;
 import com.tms.dtos.CardTransactionDepositAndWithdrawDTO;
 import com.tms.dtos.CardTransactionTransferDTO;
 import com.tms.service.CardService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -14,13 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
  * TransactionController is a class controller that responds to incoming requests from the path("/transaction")
  */
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/transaction")
 public class TransactionController {
     public final CardService cardService;
-
-    public TransactionController(CardService cardService) {
-        this.cardService = cardService;
-    }
 
     /**
      * transferMoneyBetweenTwoClients is a PUT method that transfer money from one card to another from json data

@@ -2,6 +2,7 @@ package com.tms.controller;
 
 import com.tms.domain.Card;
 import com.tms.service.CardService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,14 +17,11 @@ import java.util.Optional;
 /**
  * CardController is a class controller that responds to incoming requests from the path("/card")
  */
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/card")
 public class CardController {
     public final CardService cardService;
-
-    public CardController(CardService cardService) {
-        this.cardService = cardService;
-    }
 
     /**
      * getClientById is a GET method that shows the card by requested id in url path

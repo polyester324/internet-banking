@@ -6,6 +6,7 @@ import com.tms.domain.MoneyCurrency;
 import com.tms.exceptions.CheckException;
 import com.tms.exceptions.FileCreationException;
 import com.tms.repository.CardRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,15 +31,11 @@ import java.util.UUID;
  * performs crud operations associated with the table <i>cards
  */
 @Slf4j
+@RequiredArgsConstructor
 @Service
 public class CardService {
     private final CardRepository cardRepository;
     private final ClientService clientService;
-
-    public CardService(CardRepository cardRepository, ClientService clientService) {
-        this.cardRepository = cardRepository;
-        this.clientService = clientService;
-    }
 
     /**
      * Method createCard adds client from json data to db

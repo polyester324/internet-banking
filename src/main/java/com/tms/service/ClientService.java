@@ -2,6 +2,7 @@ package com.tms.service;
 
 import com.tms.domain.Client;
 import com.tms.repository.ClientRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,14 +18,11 @@ import java.util.Optional;
  */
 
 @Slf4j
+@RequiredArgsConstructor
 @Service
 public class ClientService {
 
     private final ClientRepository clientRepository;
-
-    public ClientService(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
-    }
 
     /**
      * Method getAll shows json data of all clients in the db
