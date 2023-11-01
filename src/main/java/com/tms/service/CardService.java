@@ -191,7 +191,13 @@ public class CardService {
      */
     public File makeUniqueFile(String cardNumber, Integer checkNumber) throws FileCreationException {
         try {
-            Client client = clientService.getClientById(getCardByNumber(cardNumber).get().getClientId()).get();
+            Client client = new Client();
+            if (getCardByNumber(cardNumber).isPresent()){
+                Card card = getCardByNumber(cardNumber).get();
+                if (clientService.getClientById(card.getClientId()).isPresent()){
+                    client = clientService.getClientById(card.getClientId()).get();
+                }
+            }
             Long id = client.getId();
             String firstName = client.getFirstName();
             String lastName = client.getLastName();
