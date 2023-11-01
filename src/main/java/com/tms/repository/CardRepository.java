@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * CardRepository is an interface, that has a connection to <i>cards table
@@ -40,9 +39,12 @@ public interface CardRepository extends JpaRepository<Card, Long> {
     @Query("select moneyCurrency from cards where cardNumber = :cardNumber")
     String findCardMoneyCurrencyByCardNumber(String cardNumber);
 
+    @Query("select cardType from cards where cardNumber = :cardNumber")
+    String findCardTypeByCardNumber(String cardNumber);
+
     /**
      * findCardByCardNumber is a method, that finds card by card number
      * @return Optional<Card>
      */
-    Optional<Card> findCardByCardNumber(String cardNumber);
+    Card findCardByCardNumber(String cardNumber);
 }

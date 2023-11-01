@@ -30,4 +30,6 @@ public abstract class Card {
     private BigDecimal balance;
     @Column(name = "money_currency")
     private String moneyCurrency;
+    @Column(name = "card_type", insertable=false, updatable=false)
+    private String cardType;
 }

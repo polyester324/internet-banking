@@ -5,7 +5,7 @@ import jakarta.persistence.Entity;
 import org.springframework.stereotype.Component;
 
 @Component
-@DiscriminatorValue("Prior Card")
+@DiscriminatorValue("Prior bank")
 @Entity
 public class PriorCard extends Card {
     public PriorCard() {
