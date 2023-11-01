@@ -1,12 +1,9 @@
 package com.tms.service;
 
-import com.tms.domain.bank.AlphaBank;
-import com.tms.domain.bank.BelarusBank;
-import com.tms.domain.bank.PriorBank;
-import com.tms.domain.bank.ProjectBank;
 import com.tms.domain.card.*;
 import com.tms.domain.Client;
 import com.tms.domain.MoneyCurrency;
+import com.tms.exceptions.CardNotFoundException;
 import com.tms.exceptions.CheckException;
 import com.tms.exceptions.FileCreationException;
 import com.tms.repository.CardRepository;
@@ -62,8 +59,11 @@ public class CardService {
      * Method getCardById shows json data of card with requested id
      * @return Optional<Card>
      */
-    public Optional<Card> getCardById(Long id){
-        return cardRepository.findById(id);
+    public Card getCardById(Long id) throws CardNotFoundException{
+        if (cardRepository.findById(id).isPresent()) {
+            return cardRepository.findById(id).get();
+        }
+        throw new CardNotFoundException();
     }
 
     /**
@@ -72,31 +72,8 @@ public class CardService {
      */
 
 
-    public Card getCardByCardNumber(String cardNumber) throws Exception {
-        String bankName = cardRepository.findCardTypeByCardNumber(cardNumber);
-        switch (bankName) {
-            case "Alpha bank" -> {
-                AlphaCard card;
-                card = (AlphaCard) cardRepository.findCardByCardNumber(cardNumber);
-                return card;
-            }
-            case "Belarus bank" -> {
-                BelarusCard card;
-                card = (BelarusCard) cardRepository.findCardByCardNumber(cardNumber);
-                return card;
-            }
-            case "Prior bank" -> {
-                PriorCard card;
-                card = (PriorCard) cardRepository.findCardByCardNumber(cardNumber);
-                return card;
-            }
-            case "Project bank" -> {
-                ProjectCard card;
-                card = (ProjectCard) cardRepository.findCardByCardNumber(cardNumber);
-                return card;
-            }
-        }
-        throw  new Exception();
+    public Card getCardByCardNumber(String cardNumber) {
+        return cardRepository.findCardByCardNumber(cardNumber);
     }
 
     /**

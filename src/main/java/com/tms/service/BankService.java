@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class BankService {
-    private final BankRepository bankRepository;
-
     public Bank getBankByName(String bankName) throws NoSuchBankException {
         switch (bankName) {
             case "Alpha bank" -> {

@@ -1,9 +1,7 @@
 package com.tms.controller;
 
-import com.tms.domain.card.Card;
 import com.tms.dtos.CardCreationDTO;
 import com.tms.service.BankFactoryService;
-import com.tms.service.CardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

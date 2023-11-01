@@ -2,11 +2,9 @@ package com.tms.service;
 
 import com.tms.domain.bank.BankFactory;
 import com.tms.domain.card.Card;
-import com.tms.repository.BankFactoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -17,7 +15,6 @@ import java.util.Random;
 @Slf4j
 @Service
 public class BankFactoryService {
-    private final BankFactoryRepository bankFactoryRepository;
     private final BankService bankService;
     private final CardService cardService;
 
