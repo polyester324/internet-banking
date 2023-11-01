@@ -1,6 +1,6 @@
 package com.tms.service;
 
-import com.tms.domain.Card;
+import com.tms.domain.card.Card;
 import com.tms.domain.Client;
 import com.tms.domain.MoneyCurrency;
 import com.tms.exceptions.CheckException;
@@ -20,10 +20,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * CardService is a class, that has a connection to <i>CardRepository
@@ -45,9 +42,7 @@ public class CardService {
      * @return true if card was created and false otherwise
      */
     public Boolean createCard(Card card){
-        card.setCreated(Timestamp.valueOf(LocalDateTime.now()));
         try {
-            card.setCreated(Timestamp.valueOf(LocalDateTime.now()));
             cardRepository.save(card);
             log.info(String.format("card with card number %s was created", card.getCardNumber()));
         } catch (Exception e){
@@ -55,6 +50,10 @@ public class CardService {
             return false;
         }
         return true;
+    }
+
+    public List<String> getAllCardNumbers() {
+        return cardRepository.findAllCardNumbers();
     }
 
     /**

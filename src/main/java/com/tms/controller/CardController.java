@@ -1,6 +1,6 @@
 package com.tms.controller;
 
-import com.tms.domain.Card;
+import com.tms.domain.card.Card;
 import com.tms.service.CardService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
