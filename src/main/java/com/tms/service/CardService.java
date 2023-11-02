@@ -1,12 +1,12 @@
 package com.tms.service;
 
-import com.tms.domain.Card;
+import com.tms.domain.card.*;
 import com.tms.domain.Client;
 import com.tms.domain.MoneyCurrency;
+import com.tms.exceptions.CardNotFoundException;
 import com.tms.exceptions.CheckException;
 import com.tms.exceptions.FileCreationException;
 import com.tms.repository.CardRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,34 +17,31 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * CardService is a class, that has a connection to <i>CardRepository
  * performs crud operations associated with the table <i>cards
  */
 @Slf4j
-@RequiredArgsConstructor
 @Service
 public class CardService {
     private final CardRepository cardRepository;
     private final ClientService clientService;
+
+    public CardService(CardRepository cardRepository, ClientService clientService) {
+        this.cardRepository = cardRepository;
+        this.clientService = clientService;
+    }
 
     /**
      * Method createCard adds client from json data to db
      * @return true if card was created and false otherwise
      */
     public Boolean createCard(Card card){
-        card.setCreated(Timestamp.valueOf(LocalDateTime.now()));
         try {
-            card.setCreated(Timestamp.valueOf(LocalDateTime.now()));
             cardRepository.save(card);
             log.info(String.format("card with card number %s was created", card.getCardNumber()));
         } catch (Exception e){
@@ -54,19 +51,28 @@ public class CardService {
         return true;
     }
 
+    public List<String> getAllCardNumbers() {
+        return cardRepository.findAllCardNumbers();
+    }
+
     /**
      * Method getCardById shows json data of card with requested id
      * @return Optional<Card>
      */
-    public Optional<Card> getCardById(Long id){
-        return cardRepository.findById(id);
+    public Card getCardById(Long id) throws CardNotFoundException{
+        if (cardRepository.findById(id).isPresent()) {
+            return cardRepository.findById(id).get();
+        }
+        throw new CardNotFoundException();
     }
 
     /**
      * Method getCardByNumber shows json data of card with requested card number
      * @return Optional<Card>
      */
-    public Optional<Card> getCardByNumber(String cardNumber){
+
+
+    public Card getCardByCardNumber(String cardNumber) {
         return cardRepository.findCardByCardNumber(cardNumber);
     }
 
@@ -93,10 +99,11 @@ public class CardService {
     public Boolean deposit(String cardNumber, BigDecimal amount, String moneyCurrency){
         try {
             String cardReceiverMoneyCurrency = cardRepository.findCardMoneyCurrencyByCardNumber(cardNumber);
+            String bank = cardRepository.findCardTypeByCardNumber(cardNumber);
             BigDecimal newAmount = amount.multiply(BigDecimal.valueOf(equalizationCoefficientToOneExchangeRate(moneyCurrency,
                     cardReceiverMoneyCurrency))).setScale(2, RoundingMode.HALF_UP);
             cardRepository.deposit(cardNumber, newAmount);
-            makeCheckForDepositAndWithdraw(cardNumber, amount.setScale(2, RoundingMode.HALF_UP), moneyCurrency, "deposit");
+            makeCheckForDepositAndWithdraw(cardNumber, amount.setScale(2, RoundingMode.HALF_UP), moneyCurrency, bank, "deposit");
             log.info(String.format("Money was deposited to %s", cardNumber));
         } catch (Exception e){
             log.info(String.format("Money was not deposited to %s. Error: %s", cardNumber, e));
@@ -113,10 +120,11 @@ public class CardService {
     public Boolean withdraw(String cardNumber, BigDecimal amount, String moneyCurrency){
         try {
             String cardReceiverMoneyCurrency = cardRepository.findCardMoneyCurrencyByCardNumber(cardNumber);
+            String bank = cardRepository.findCardTypeByCardNumber(cardNumber);
             BigDecimal newAmount = amount.multiply(BigDecimal.valueOf(equalizationCoefficientToOneExchangeRate(moneyCurrency,
                     cardReceiverMoneyCurrency))).setScale(2, RoundingMode.HALF_UP);
             cardRepository.withdraw(cardNumber, newAmount);
-            makeCheckForDepositAndWithdraw(cardNumber, amount.setScale(2, RoundingMode.HALF_UP), moneyCurrency, "withdraw");
+            makeCheckForDepositAndWithdraw(cardNumber, amount.setScale(2, RoundingMode.HALF_UP), moneyCurrency, bank, "withdraw");
             log.info(String.format("Money was withdraw from %s", cardNumber));
         } catch (Exception e){
             log.info(String.format("Money was not withdraw from %s. Error: %s", cardNumber, e));
@@ -134,6 +142,8 @@ public class CardService {
         try {
             String cardSenderMoneyCurrency = cardRepository.findCardMoneyCurrencyByCardNumber(cardSenderNumber);
             String cardReceiverMoneyCurrency = cardRepository.findCardMoneyCurrencyByCardNumber(cardReceiverNumber);
+            String bankSender = cardRepository.findCardTypeByCardNumber(cardSenderNumber);
+            String bankReceiver = cardRepository.findCardTypeByCardNumber(cardReceiverNumber);
 
             cardRepository.withdraw(cardSenderNumber, amount);
 
@@ -141,7 +151,7 @@ public class CardService {
                     cardReceiverMoneyCurrency))).setScale(2, RoundingMode.HALF_UP);
 
             cardRepository.deposit(cardReceiverNumber, newAmount);
-            makeCheckForTransfer(cardSenderNumber, cardReceiverNumber, amount.setScale(2, RoundingMode.HALF_UP), cardSenderMoneyCurrency, "transfer");
+            makeCheckForTransfer(cardSenderNumber, cardReceiverNumber, amount.setScale(2, RoundingMode.HALF_UP), cardSenderMoneyCurrency, bankSender, bankReceiver, "transfer");
             log.info(String.format("Money was transferred from %s to %s", cardSenderNumber, cardReceiverNumber));
         } catch (Exception e){
             log.info(String.format("Money was not transferred from %s to %s. Error: %s", cardSenderNumber, cardReceiverNumber, e));
@@ -154,13 +164,13 @@ public class CardService {
      * Method makeCheckForDepositAndWithdraw prints check for deposit and withdraw
      * throws CheckException if check was not printed
      */
-    public void makeCheckForDepositAndWithdraw(String card, BigDecimal amount, String moneyCurrency, String type) throws CheckException {
+    public void makeCheckForDepositAndWithdraw(String card, BigDecimal amount, String moneyCurrency, String bank, String type) throws CheckException {
         try {
             Integer checkNumber = new Random().nextInt(90000) + 10000;
             File file = makeUniqueFile(card, checkNumber);
             FileWriter fileWriter = new FileWriter(file);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            writeCheck(bufferedWriter, checkNumber, type, "ProjectBank", "ProjectBank", card, card, amount, moneyCurrency);
+            writeCheck(bufferedWriter, checkNumber, type, bank, bank, card, card, amount, moneyCurrency);
         } catch (IOException | FileCreationException e){
             throw new CheckException();
         }
@@ -170,15 +180,13 @@ public class CardService {
      * Method makeCheckForTransfer prints check for transfer
      * throws CheckException if check was not printed
      */
-    public void makeCheckForTransfer(String cardSender, String cardReceiver, BigDecimal amount, String moneyCurrency, String type) throws CheckException {
+    public void makeCheckForTransfer(String cardSender, String cardReceiver, BigDecimal amount, String moneyCurrency, String bankSender, String bankReceiver, String type) throws CheckException {
         try {
-            String bankNameSender = "ProjectBank";
-            String bankNameReceiver = "AnotherBank";
             Integer checkNumber = new Random().nextInt(90000) + 10000;
             File file = makeUniqueFile(cardSender, checkNumber);
             FileWriter fileWriter = new FileWriter(file);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            writeCheck(bufferedWriter, checkNumber, type, bankNameSender, bankNameReceiver,  cardSender, cardReceiver, amount, moneyCurrency);
+            writeCheck(bufferedWriter, checkNumber, type, bankSender, bankReceiver,  cardSender, cardReceiver, amount, moneyCurrency);
             fileWriter.close();
         } catch (IOException | FileCreationException e) {
             throw new CheckException();
@@ -191,13 +199,7 @@ public class CardService {
      */
     public File makeUniqueFile(String cardNumber, Integer checkNumber) throws FileCreationException {
         try {
-            Client client = new Client();
-            if (getCardByNumber(cardNumber).isPresent()){
-                Card card = getCardByNumber(cardNumber).get();
-                if (clientService.getClientById(card.getClientId()).isPresent()){
-                    client = clientService.getClientById(card.getClientId()).get();
-                }
-            }
+            Client client = clientService.getClientById(getCardByCardNumber(cardNumber).getClientId()).get();
             Long id = client.getId();
             String firstName = client.getFirstName();
             String lastName = client.getLastName();

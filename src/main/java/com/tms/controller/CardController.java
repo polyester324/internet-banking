@@ -1,6 +1,6 @@
 package com.tms.controller;
 
-import com.tms.domain.Card;
+import com.tms.domain.card.Card;
 import com.tms.service.CardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -9,10 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import java.util.Optional;
 
 /**
  * CardController is a class controller that responds to incoming requests from the path("/card")
@@ -29,17 +26,12 @@ public class CardController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<Card> getCardById(@PathVariable ("id") Long id){
-        Optional<Card> card = cardService.getCardById(id);
-        return card.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.CONFLICT));
-    }
-
-    /**
-     * createCard is a POST method that creates the card by given json data
-     * @return 201 created if card was created and 409 conflict otherwise
-     */
-    @PostMapping
-    public ResponseEntity<HttpStatus> createCard(@RequestBody Card card){
-        return new ResponseEntity<>(cardService.createCard(card) ? HttpStatus.CREATED : HttpStatus.CONFLICT);
+        try {
+            Card card = cardService.getCardById(id);
+            return new ResponseEntity<>(card, HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
     }
 
     /**
