@@ -91,52 +91,50 @@ public class CardService {
 
     /**
      * Method deposit replenishes the balance using the card number, specified amount and money currency
-     * @return true if operation was successful and false otherwise
+     * @return String if operation was successful and throws Exception otherwise
      */
     @Transactional(rollbackFor = Exception.class)
-    public Boolean deposit(String cardNumber, BigDecimal amount, String moneyCurrency){
+    public String deposit(String cardNumber, BigDecimal amount, String moneyCurrency) throws CheckException {
         try {
             String cardReceiverMoneyCurrency = cardRepository.findCardMoneyCurrencyByCardNumber(cardNumber);
             String bank = cardRepository.findCardTypeByCardNumber(cardNumber);
             BigDecimal newAmount = amount.multiply(BigDecimal.valueOf(equalizationCoefficientToOneExchangeRate(moneyCurrency,
                     cardReceiverMoneyCurrency))).setScale(2, RoundingMode.HALF_UP);
             cardRepository.deposit(cardNumber, newAmount);
-            makeCheckForDepositAndWithdraw(cardNumber, amount.setScale(2, RoundingMode.HALF_UP), moneyCurrency, bank, "deposit");
             log.info(String.format("Money was deposited to %s", cardNumber));
+            return makeCheckForDepositAndWithdraw(cardNumber, amount.setScale(2, RoundingMode.HALF_UP), moneyCurrency, bank, "deposit");
         } catch (Exception e){
             log.info(String.format("Money was not deposited to %s. Error: %s", cardNumber, e));
-            return false;
         }
-        return true;
+        throw new CheckException();
     }
 
     /**
      * Method withdraw withdraws the specified amount from the balance by card number and currency
-     * @return true if operation was successful and false otherwise
+     * @return String if operation was successful and throws Exception otherwise
      */
     @Transactional(rollbackFor = Exception.class)
-    public Boolean withdraw(String cardNumber, BigDecimal amount, String moneyCurrency){
+    public String withdraw(String cardNumber, BigDecimal amount, String moneyCurrency) throws CheckException {
         try {
             String cardReceiverMoneyCurrency = cardRepository.findCardMoneyCurrencyByCardNumber(cardNumber);
             String bank = cardRepository.findCardTypeByCardNumber(cardNumber);
             BigDecimal newAmount = amount.multiply(BigDecimal.valueOf(equalizationCoefficientToOneExchangeRate(moneyCurrency,
                     cardReceiverMoneyCurrency))).setScale(2, RoundingMode.HALF_UP);
             cardRepository.withdraw(cardNumber, newAmount);
-            makeCheckForDepositAndWithdraw(cardNumber, amount.setScale(2, RoundingMode.HALF_UP), moneyCurrency, bank, "withdraw");
             log.info(String.format("Money was withdraw from %s", cardNumber));
+            return makeCheckForDepositAndWithdraw(cardNumber, amount.setScale(2, RoundingMode.HALF_UP), moneyCurrency, bank, "withdraw");
         } catch (Exception e){
             log.info(String.format("Money was not withdraw from %s. Error: %s", cardNumber, e));
-            return false;
         }
-        return true;
+        throw new CheckException();
     }
 
     /**
      * Method transfer transfers money from one account to another using card numbers
-     * @return true if operation was successful and false otherwise
+     * @return String if operation was successful and throws Exception otherwise
      */
     @Transactional(rollbackFor = Exception.class)
-    public Boolean transfer(String cardSenderNumber, String cardReceiverNumber, BigDecimal amount){
+    public String transfer(String cardSenderNumber, String cardReceiverNumber, BigDecimal amount) throws CheckException {
         try {
             String cardSenderMoneyCurrency = cardRepository.findCardMoneyCurrencyByCardNumber(cardSenderNumber);
             String cardReceiverMoneyCurrency = cardRepository.findCardMoneyCurrencyByCardNumber(cardReceiverNumber);
@@ -149,36 +147,37 @@ public class CardService {
                     cardReceiverMoneyCurrency))).setScale(2, RoundingMode.HALF_UP);
 
             cardRepository.deposit(cardReceiverNumber, newAmount);
-            makeCheckForTransfer(cardSenderNumber, cardReceiverNumber, amount.setScale(2, RoundingMode.HALF_UP), cardSenderMoneyCurrency, bankSender, bankReceiver, "transfer");
             log.info(String.format("Money was transferred from %s to %s", cardSenderNumber, cardReceiverNumber));
+            return makeCheckForTransfer(cardSenderNumber, cardReceiverNumber, amount.setScale(2, RoundingMode.HALF_UP), cardSenderMoneyCurrency, bankSender, bankReceiver, "transfer");
         } catch (Exception e){
             log.info(String.format("Money was not transferred from %s to %s. Error: %s", cardSenderNumber, cardReceiverNumber, e));
-            return false;
         }
-        return true;
+        throw new CheckException();
     }
 
     /**
      * Method makeCheckForDepositAndWithdraw prints check for deposit and withdraw
      * throws CheckException if check was not printed
      */
-    public void makeCheckForDepositAndWithdraw(String card, BigDecimal amount, String moneyCurrency, String bank, String type) throws CheckException {
+    public String makeCheckForDepositAndWithdraw(String card, BigDecimal amount, String moneyCurrency, String bank, String type) throws CheckException {
         try {
             Integer checkNumber = new Random().nextInt(90000) + 10000;
             File file = makeUniqueFile(card, checkNumber);
             FileWriter fileWriter = new FileWriter(file);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             writeCheck(bufferedWriter, checkNumber, type, bank, bank, card, card, amount, moneyCurrency);
+            return "checks" + "\\" + file.getParentFile().getName() + "\\" + file.getName();
         } catch (IOException | FileCreationException e){
-            throw new CheckException();
+            log.info("Check creation failed");
         }
+        throw new CheckException();
     }
 
     /**
      * Method makeCheckForTransfer prints check for transfer
      * throws CheckException if check was not printed
      */
-    public void makeCheckForTransfer(String cardSender, String cardReceiver, BigDecimal amount, String moneyCurrency, String bankSender, String bankReceiver, String type) throws CheckException {
+    public String makeCheckForTransfer(String cardSender, String cardReceiver, BigDecimal amount, String moneyCurrency, String bankSender, String bankReceiver, String type) throws CheckException {
         try {
             Integer checkNumber = new Random().nextInt(90000) + 10000;
             File file = makeUniqueFile(cardSender, checkNumber);
@@ -186,9 +185,11 @@ public class CardService {
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             writeCheck(bufferedWriter, checkNumber, type, bankSender, bankReceiver,  cardSender, cardReceiver, amount, moneyCurrency);
             fileWriter.close();
+            return "checks" + "\\" + file.getParentFile().getName() + "\\" + file.getName();
         } catch (IOException | FileCreationException e) {
-            throw new CheckException();
+            log.info("Check creation failed");
         }
+        throw new CheckException();
     }
 
     /**
@@ -197,7 +198,10 @@ public class CardService {
      */
     public File makeUniqueFile(String cardNumber, Integer checkNumber) throws FileCreationException {
         try {
-            Client client = clientService.getClientById(getCardByCardNumber(cardNumber).getClientId()).get();
+            Client client = new Client();
+            if (clientService.getClientById(getCardByCardNumber(cardNumber).getClientId()).isPresent()){
+                client = clientService.getClientById(getCardByCardNumber(cardNumber).getClientId()).get();
+            }
             Long id = client.getId();
             String firstName = client.getFirstName();
             String lastName = client.getLastName();
