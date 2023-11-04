@@ -1,6 +1,9 @@
 package com.tms.domain.bank;
 
-
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.DiscriminatorType;
+import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
@@ -14,13 +17,15 @@ import java.sql.Timestamp;
 
 @Component
 @Data
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "bank_name", discriminatorType = DiscriminatorType.STRING)
 @Entity(name = "banks")
 public abstract class Bank {
     @Id
     @SequenceGenerator(name = "seq_banks", sequenceName = "banks_id_seq", allocationSize = 1)
     @GeneratedValue(generator = "seq_banks", strategy = GenerationType.SEQUENCE)
     private Long id;
-    @Column(name = "bank_name")
+    @Column(name = "bank_name", insertable=false, updatable=false)
     private String bankName;
     @Column(name = "commission")
     private BigDecimal commission;

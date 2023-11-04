@@ -13,7 +13,6 @@ import lombok.Data;
 /**
  * Client is a class, that contains every column of <i>clients table
  */
-
 @Component
 @Data
 @Entity(name = "clients")

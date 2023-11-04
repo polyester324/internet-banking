@@ -2,16 +2,21 @@ package com.tms.domain.bank;
 
 import com.tms.domain.card.AlphaCard;
 import com.tms.domain.card.Card;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
-
+@Component
 @EqualsAndHashCode(callSuper = true)
+@DiscriminatorValue("Alpha bank")
 @Data
+@Entity
 public class AlphaBank extends Bank implements BankFactory{
-    private final String BANK_NAME = "Alpha bank";
-    private final BigDecimal COMMISSION = BigDecimal.valueOf(0.2);
+    public AlphaBank() {
+        super();
+    }
 
     @Override
     public Card createCard() {

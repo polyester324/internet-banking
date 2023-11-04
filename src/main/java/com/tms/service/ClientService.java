@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,7 +15,6 @@ import java.util.Optional;
  * ClientService is a class, that has a connection to <i>ClientRepository
  * performs crud operations associated with the table <i>clients
  */
-
 @Slf4j
 @RequiredArgsConstructor
 @Service

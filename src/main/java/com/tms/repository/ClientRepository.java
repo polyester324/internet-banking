@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
  * ClientRepository is an interface, that has a connection to <i>clients table
  * performs additional operations associated with the table <i>clients
  */
-
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Long> {
 

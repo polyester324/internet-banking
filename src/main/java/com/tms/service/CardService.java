@@ -70,8 +70,6 @@ public class CardService {
      * Method getCardByNumber shows json data of card with requested card number
      * @return Optional<Card>
      */
-
-
     public Card getCardByCardNumber(String cardNumber) {
         return cardRepository.findCardByCardNumber(cardNumber);
     }
