@@ -7,6 +7,7 @@ import com.tms.exceptions.CardNotFoundException;
 import com.tms.exceptions.CheckException;
 import com.tms.exceptions.FileCreationException;
 import com.tms.repository.CardRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,21 +24,17 @@ import java.util.*;
 
 /**
  * CardService is a class, that has a connection to <i>CardRepository
- * performs crud operations associated with the table <i>cards
+ * performs crud and other operations associated with the table <i>cards
  */
 @Slf4j
+@RequiredArgsConstructor
 @Service
 public class CardService {
     private final CardRepository cardRepository;
     private final ClientService clientService;
 
-    public CardService(CardRepository cardRepository, ClientService clientService) {
-        this.cardRepository = cardRepository;
-        this.clientService = clientService;
-    }
-
     /**
-     * Method createCard adds client from json data to db
+     * Method createCard adds card data to db
      * @return true if card was created and false otherwise
      */
     public Boolean createCard(Card card){
@@ -51,12 +48,16 @@ public class CardService {
         return true;
     }
 
+    /**
+     * Method getAllCardNumbers gets all card's numbers
+     * @return List<String>
+     */
     public List<String> getAllCardNumbers() {
         return cardRepository.findAllCardNumbers();
     }
 
     /**
-     * Method getCardById shows json data of card with requested id
+     * Method getCardById gets Card by requested id
      * @return Optional<Card>
      */
     public Card getCardById(Long id) throws CardNotFoundException{
@@ -67,7 +68,7 @@ public class CardService {
     }
 
     /**
-     * Method getCardByNumber shows json data of card with requested card number
+     * Method getCardByNumber gets Card by requested card number
      * @return Optional<Card>
      */
     public Card getCardByCardNumber(String cardNumber) {

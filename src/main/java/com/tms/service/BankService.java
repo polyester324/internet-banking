@@ -35,6 +35,10 @@ public class BankService {
         return bankRepository.findAll();
     }
 
+    /**
+     * Method createBank adds bank data to db
+     * @return true bank card was created and false otherwise
+     */
     public Boolean createBank(Bank bank) {
         try {
             bank.setCreated(Timestamp.valueOf(LocalDateTime.now()));

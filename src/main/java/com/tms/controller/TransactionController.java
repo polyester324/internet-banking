@@ -68,6 +68,10 @@ public class TransactionController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * printCheck is a method that prints check for every transaction operation
+     * @return resource, headers, HttpStatus.NO_CONTENT if operation was successful and 409 conflict otherwise
+     */
     public ResponseEntity<Resource> printCheck(String filename) {
         Path path = ROOT_FILE_PATH.resolve(filename);
         try {
@@ -75,11 +79,11 @@ public class TransactionController {
             if (resource.exists() || resource.isReadable()) {
                 HttpHeaders headers = new HttpHeaders();
                 headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
-                return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+                return new ResponseEntity<>(resource, headers, HttpStatus.NO_CONTENT);
             }
         } catch (MalformedURLException e) {
             log.info(String.format("failed to return check, exception: %s", e));
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 }

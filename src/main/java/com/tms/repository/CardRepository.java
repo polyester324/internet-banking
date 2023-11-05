@@ -12,12 +12,16 @@ import java.util.List;
  * CardRepository is an interface, that has a connection to <i>cards table
  * performs additional operations associated with the table <i>cards
  */
-
 @Repository
 public interface CardRepository extends JpaRepository<Card, Long> {
 
+    /**
+     * findAllCardNumbers is a method, that finds all card's numbers
+     * @return List<String>
+     */
     @Query("SELECT c.cardNumber FROM cards c")
     List<String> findAllCardNumbers();
+
     /**
      * deposit is a method, that replenishes the current balance with a specified amount
      */
@@ -39,6 +43,10 @@ public interface CardRepository extends JpaRepository<Card, Long> {
     @Query("select moneyCurrency from cards where cardNumber = :cardNumber")
     String findCardMoneyCurrencyByCardNumber(String cardNumber);
 
+    /**
+     * findCardTypeByCardNumber is a method, that finds card type by card number
+     * @return String
+     */
     @Query("select cardType from cards where cardNumber = :cardNumber")
     String findCardTypeByCardNumber(String cardNumber);
 

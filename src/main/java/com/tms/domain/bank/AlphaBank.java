@@ -22,4 +22,5 @@ public class AlphaBank extends Bank implements BankFactory{
     public Card createCard() {
         return new AlphaCard();
     }
+
 }
