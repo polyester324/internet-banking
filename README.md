@@ -6,6 +6,7 @@ internet-banking is an application with REST API architecture, which monitors al
 * withdrawal of money from the client's account;
 * transfer money from one account to another;
 * printing check after every money operation
+* makink investments.
 
 ## Technologies
 
