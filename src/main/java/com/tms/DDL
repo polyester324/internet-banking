@@ -1,4 +1,4 @@
-create table public.clients
+create table clients
 (
     id           bigserial
         constraint clients_pk
@@ -9,36 +9,95 @@ create table public.clients
     created      timestamp not null
 );
 
-alter table public.clients
+alter table clients
     owner to postgres;
 
 create unique index clients_phone_number_uindex
-    on public.clients (phone_number);
+    on clients (phone_number);
 
-create table public.cards
+create table cards
 (
     id             bigserial
         constraint cards_pk
             primary key,
-    card_number    varchar           not null,
-    client_id      bigint            not null
+    card_number    varchar                  not null,
+    client_id      bigint                   not null
         constraint cards_clients_id_fk
-            references public.clients
+            references clients
             on update cascade on delete cascade,
-    balance        numeric default 0 not null,
-    money_currency varchar           not null,
-    created        timestamp         not null
+    balance        numeric(15, 2) default 0 not null,
+    money_currency varchar                  not null,
+    created        timestamp                not null,
+    card_type      varchar
 );
 
-alter table public.cards
+alter table cards
     owner to postgres;
 
 create unique index cards_card_number_uindex
-    on public.cards (card_number);
+    on cards (card_number);
+
+create table banks
+(
+    id         bigserial
+        constraint banks_pk
+            primary key,
+    bank_name  varchar   not null,
+    commission numeric   not null,
+    created    timestamp not null
+);
+
+alter table banks
+    owner to postgres;
+
+create unique index banks_bank_name_uindex
+    on banks (bank_name);
+
+create table investments
+(
+    id                bigserial
+        constraint investments_pk
+            primary key,
+    investment_number varchar          not null,
+    card_id           bigint           not null
+        constraint investments_cards_id_fk
+            references cards
+            on update cascade on delete cascade,
+    bank_id           bigint           not null
+        constraint investments_banks_id_fk
+            references banks
+            on update cascade on delete cascade,
+    money_currency    varchar          not null,
+    created           timestamp        not null,
+    expired           timestamp        not null,
+    invested_amount   numeric(15, 2)   not null,
+    expected_amount   numeric(15, 2)   not null,
+    time              double precision not null
+);
+
+alter table investments
+    owner to postgres;
+
+create unique index investments_investment_number_uindex
+    on investments (investment_number);
+
+create function check_balance() returns trigger
+    language plpgsql
+as
+$$
+BEGIN
+    IF NEW.balance < 0 THEN
+        RAISE EXCEPTION 'Insufficient funds in the account';
+    END IF;
+    RETURN NEW;
+END;
+$$;
+
+alter function check_balance() owner to postgres;
 
 create trigger t_balance_check
     before insert or update
-    on public.cards
+    on cards
     for each row
-execute procedure public.check_balance();
+execute procedure check_balance();
 
