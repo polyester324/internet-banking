@@ -1,11 +1,13 @@
 package com.tms.service;
 
+import com.tms.domain.bank.BankFactory;
 import com.tms.domain.card.*;
 import com.tms.domain.Client;
 import com.tms.domain.MoneyCurrency;
 import com.tms.exceptions.CardNotFoundException;
 import com.tms.exceptions.CheckException;
 import com.tms.exceptions.FileCreationException;
+import com.tms.repository.BankRepository;
 import com.tms.repository.CardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,8 +20,10 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -31,6 +35,7 @@ import java.util.*;
 @Service
 public class CardService {
     private final CardRepository cardRepository;
+    private final BankRepository bankRepository;
     private final ClientService clientService;
 
     /**
@@ -43,6 +48,29 @@ public class CardService {
             log.info(String.format("card with card number %s was created", card.getCardNumber()));
         } catch (Exception e){
             log.warn(String.format("have problem creating card with card number %s have error %s", card.getCardNumber(), e));
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Method registerCard adds already existing card data to db
+     * @return true if card was registered and false otherwise
+     */
+    public Boolean registerCard(String cardNumber, Long ClientId, BigDecimal balance, String bankName, String moneyCurrency){
+        BankFactory bank = (BankFactory) bankRepository.findBankByBankName(bankName);
+        Card card = bank.createCard();
+        try {
+            card.setCardNumber(cardNumber);
+            card.setClientId(ClientId);
+            card.setBalance(balance);
+            card.setMoneyCurrency(moneyCurrency);
+            card.setCardType(bankName);
+            card.setCreated(Timestamp.valueOf(LocalDateTime.now()));
+            createCard(card);
+            log.info(String.format("card with card number %s was registered", card.getCardNumber()));
+        } catch (Exception e){
+            log.warn(String.format("have problem registering card with card number %s have error %s", card.getCardNumber(), e));
             return false;
         }
         return true;
