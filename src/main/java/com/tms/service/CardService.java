@@ -86,9 +86,10 @@ public class CardService {
 
     /**
      * Method getCardById gets Card by requested id
+     *
      * @return Optional<Card>
      */
-    public Card getCardById(Long id) throws CardNotFoundException{
+    public Card getCardById(Long id) {
         if (cardRepository.findById(id).isPresent()) {
             return cardRepository.findById(id).get();
         }
@@ -123,19 +124,14 @@ public class CardService {
      * @return String if operation was successful and throws Exception otherwise
      */
     @Transactional(rollbackFor = Exception.class)
-    public String deposit(String cardNumber, BigDecimal amount, String moneyCurrency) throws CheckException {
-        try {
-            String cardReceiverMoneyCurrency = cardRepository.findCardMoneyCurrencyByCardNumber(cardNumber);
-            String bank = cardRepository.findCardTypeByCardNumber(cardNumber);
-            BigDecimal newAmount = amount.multiply(BigDecimal.valueOf(equalizationCoefficientToOneExchangeRate(moneyCurrency,
-                    cardReceiverMoneyCurrency))).setScale(2, RoundingMode.HALF_UP);
-            cardRepository.deposit(cardNumber, newAmount);
-            log.info(String.format("Money was deposited to %s", cardNumber));
-            return makeCheckForDepositAndWithdraw(cardNumber, amount.setScale(2, RoundingMode.HALF_UP), moneyCurrency, bank, "deposit");
-        } catch (Exception e){
-            log.info(String.format("Money was not deposited to %s. Error: %s", cardNumber, e));
-        }
-        throw new CheckException();
+    public String deposit(String cardNumber, BigDecimal amount, String moneyCurrency) {
+        String cardReceiverMoneyCurrency = cardRepository.findCardMoneyCurrencyByCardNumber(cardNumber);
+        String bank = cardRepository.findCardTypeByCardNumber(cardNumber);
+        BigDecimal newAmount = amount.multiply(BigDecimal.valueOf(equalizationCoefficientToOneExchangeRate(moneyCurrency,
+                cardReceiverMoneyCurrency))).setScale(2, RoundingMode.HALF_UP);
+        cardRepository.deposit(cardNumber, newAmount);
+        log.info(String.format("Money was deposited to %s", cardNumber));
+        return makeCheckForDepositAndWithdraw(cardNumber, amount.setScale(2, RoundingMode.HALF_UP), moneyCurrency, bank, "deposit");
     }
 
     /**
@@ -143,19 +139,14 @@ public class CardService {
      * @return String if operation was successful and throws Exception otherwise
      */
     @Transactional(rollbackFor = Exception.class)
-    public String withdraw(String cardNumber, BigDecimal amount, String moneyCurrency) throws CheckException {
-        try {
-            String cardReceiverMoneyCurrency = cardRepository.findCardMoneyCurrencyByCardNumber(cardNumber);
-            String bank = cardRepository.findCardTypeByCardNumber(cardNumber);
-            BigDecimal newAmount = amount.multiply(BigDecimal.valueOf(equalizationCoefficientToOneExchangeRate(moneyCurrency,
-                    cardReceiverMoneyCurrency))).setScale(2, RoundingMode.HALF_UP);
-            cardRepository.withdraw(cardNumber, newAmount);
-            log.info(String.format("Money was withdraw from %s", cardNumber));
-            return makeCheckForDepositAndWithdraw(cardNumber, amount.setScale(2, RoundingMode.HALF_UP), moneyCurrency, bank, "withdraw");
-        } catch (Exception e){
-            log.info(String.format("Money was not withdraw from %s. Error: %s", cardNumber, e));
-        }
-        throw new CheckException();
+    public String withdraw(String cardNumber, BigDecimal amount, String moneyCurrency) {
+        String cardReceiverMoneyCurrency = cardRepository.findCardMoneyCurrencyByCardNumber(cardNumber);
+        String bank = cardRepository.findCardTypeByCardNumber(cardNumber);
+        BigDecimal newAmount = amount.multiply(BigDecimal.valueOf(equalizationCoefficientToOneExchangeRate(moneyCurrency,
+                cardReceiverMoneyCurrency))).setScale(2, RoundingMode.HALF_UP);
+        cardRepository.withdraw(cardNumber, newAmount);
+        log.info(String.format("Money was withdraw from %s", cardNumber));
+        return makeCheckForDepositAndWithdraw(cardNumber, amount.setScale(2, RoundingMode.HALF_UP), moneyCurrency, bank, "withdraw");
     }
 
     /**
@@ -163,32 +154,24 @@ public class CardService {
      * @return String if operation was successful and throws Exception otherwise
      */
     @Transactional(rollbackFor = Exception.class)
-    public String transfer(String cardSenderNumber, String cardReceiverNumber, BigDecimal amount) throws CheckException {
-        try {
-            String cardSenderMoneyCurrency = cardRepository.findCardMoneyCurrencyByCardNumber(cardSenderNumber);
-            String cardReceiverMoneyCurrency = cardRepository.findCardMoneyCurrencyByCardNumber(cardReceiverNumber);
-            String bankSender = cardRepository.findCardTypeByCardNumber(cardSenderNumber);
-            String bankReceiver = cardRepository.findCardTypeByCardNumber(cardReceiverNumber);
-
-            cardRepository.withdraw(cardSenderNumber, amount);
-
-            BigDecimal newAmount = amount.multiply(BigDecimal.valueOf(equalizationCoefficientToOneExchangeRate(cardSenderMoneyCurrency,
-                    cardReceiverMoneyCurrency))).setScale(2, RoundingMode.HALF_UP);
-
-            cardRepository.deposit(cardReceiverNumber, newAmount);
-            log.info(String.format("Money was transferred from %s to %s", cardSenderNumber, cardReceiverNumber));
-            return makeCheckForTransfer(cardSenderNumber, cardReceiverNumber, amount.setScale(2, RoundingMode.HALF_UP), cardSenderMoneyCurrency, bankSender, bankReceiver, "transfer");
-        } catch (Exception e){
-            log.info(String.format("Money was not transferred from %s to %s. Error: %s", cardSenderNumber, cardReceiverNumber, e));
-        }
-        throw new CheckException();
+    public String transfer(String cardSenderNumber, String cardReceiverNumber, BigDecimal amount) {
+        String cardSenderMoneyCurrency = cardRepository.findCardMoneyCurrencyByCardNumber(cardSenderNumber);
+        String cardReceiverMoneyCurrency = cardRepository.findCardMoneyCurrencyByCardNumber(cardReceiverNumber);
+        String bankSender = cardRepository.findCardTypeByCardNumber(cardSenderNumber);
+        String bankReceiver = cardRepository.findCardTypeByCardNumber(cardReceiverNumber);
+        cardRepository.withdraw(cardSenderNumber, amount);
+        BigDecimal newAmount = amount.multiply(BigDecimal.valueOf(equalizationCoefficientToOneExchangeRate(cardSenderMoneyCurrency,
+                cardReceiverMoneyCurrency))).setScale(2, RoundingMode.HALF_UP);
+        cardRepository.deposit(cardReceiverNumber, newAmount);
+        log.info(String.format("Money was transferred from %s to %s", cardSenderNumber, cardReceiverNumber));
+        return makeCheckForTransfer(cardSenderNumber, cardReceiverNumber, amount.setScale(2, RoundingMode.HALF_UP), cardSenderMoneyCurrency, bankSender, bankReceiver, "transfer");
     }
 
     /**
      * Method makeCheckForDepositAndWithdraw prints check for deposit and withdraw
      * throws CheckException if check was not printed
      */
-    public String makeCheckForDepositAndWithdraw(String card, BigDecimal amount, String moneyCurrency, String bank, String type) throws CheckException {
+    public String makeCheckForDepositAndWithdraw(String card, BigDecimal amount, String moneyCurrency, String bank, String type) {
         try {
             Integer checkNumber = new Random().nextInt(90000) + 10000;
             File file = makeUniqueFile(card, checkNumber);
@@ -206,7 +189,7 @@ public class CardService {
      * Method makeCheckForTransfer prints check for transfer
      * throws CheckException if check was not printed
      */
-    public String makeCheckForTransfer(String cardSender, String cardReceiver, BigDecimal amount, String moneyCurrency, String bankSender, String bankReceiver, String type) throws CheckException {
+    public String makeCheckForTransfer(String cardSender, String cardReceiver, BigDecimal amount, String moneyCurrency, String bankSender, String bankReceiver, String type) {
         try {
             Integer checkNumber = new Random().nextInt(90000) + 10000;
             File file = makeUniqueFile(cardSender, checkNumber);
@@ -225,7 +208,7 @@ public class CardService {
      * Method makeUniqueFile creates directory for every client in the db as they make any operation
      * throws FileCreationException if directory was not created
      */
-    public File makeUniqueFile(String cardNumber, Integer checkNumber) throws FileCreationException {
+    public File makeUniqueFile(String cardNumber, Integer checkNumber) {
         try {
             Client client = new Client();
             if (clientService.getClientById(getCardByCardNumber(cardNumber).getClientId()).isPresent()){

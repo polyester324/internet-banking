@@ -24,12 +24,7 @@ public class BankController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<Bank> getBankById(@PathVariable ("id") Long id){
-        try {
-            Bank bank = bankService.getBankById(id);
-            return new ResponseEntity<>(bank, HttpStatus.OK);
-        } catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
+        return new ResponseEntity<>(bankService.getBankById(id), HttpStatus.OK);
     }
 
     /**
