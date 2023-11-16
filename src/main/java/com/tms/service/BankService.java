@@ -24,7 +24,7 @@ public class BankService {
         return bankRepository.findBankByBankName(bankName);
     }
 
-    public Bank getBankById(Long id) throws BankNotFound {
+    public Bank getBankById(Long id){
         if (bankRepository.findById(id).isPresent()) {
             return bankRepository.findById(id).get();
         }

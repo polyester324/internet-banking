@@ -99,17 +99,13 @@ public class InvestmentService {
     }
 
     public void accrueInvestments(Long investmentId) {
-        try {
-            Investment investment = new Investment();
-            if (getInvestmentById(investmentId).isPresent()){
-                investment = getInvestmentById(investmentId).get();
-            }
-            Card card = cardService.getCardById(investment.getCardId());
-            log.info(String.format("investment accrual with id: %s was successful", investmentId));
-            log.info(cardService.deposit(card.getCardNumber(), investment.getExpectedAmount(), investment.getMoneyCurrency()));
-        } catch (Exception e){
-            log.warn(String.format("investment accrual with id: %s was not successful. Exception: %s", investmentId, e));
+        Investment investment = new Investment();
+        if (getInvestmentById(investmentId).isPresent()){
+            investment = getInvestmentById(investmentId).get();
         }
+        Card card = cardService.getCardById(investment.getCardId());
+        log.info(String.format("investment accrual with id: %s was successful", investmentId));
+        log.info(cardService.deposit(card.getCardNumber(), investment.getExpectedAmount(), investment.getMoneyCurrency()));
     }
 
     @PostConstruct

@@ -26,12 +26,7 @@ public class CardController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<Card> getCardById(@PathVariable ("id") Long id){
-        try {
-            Card card = cardService.getCardById(id);
-            return new ResponseEntity<>(card, HttpStatus.OK);
-        } catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
+        return new ResponseEntity<>(cardService.getCardById(id), HttpStatus.OK);
     }
 
     /**
