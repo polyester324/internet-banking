@@ -13,6 +13,6 @@ public class InvestmentCreationDTO {
     private String cardNumber;
     private String bankName;
     private String moneyCurrency;
-    private Double time;
+    private String time;
     private BigDecimal amount;
 }

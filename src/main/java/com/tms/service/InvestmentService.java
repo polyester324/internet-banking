@@ -1,6 +1,7 @@
 package com.tms.service;
 
 import com.tms.domain.Investment;
+import com.tms.domain.InvestmentTime;
 import com.tms.domain.bank.Bank;
 import com.tms.domain.card.Card;
 import com.tms.repository.InvestmentRepository;
@@ -27,6 +28,7 @@ import java.util.concurrent.TimeUnit;
 public class InvestmentService {
     private final BankService bankService;
     private final CardService cardService;
+    private final TransactionService transactionService;
     private final InvestmentRepository investmentRepository;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
@@ -46,7 +48,7 @@ public class InvestmentService {
      * Method createInvestment adds investment data to db
      * @return true if investment was created and false otherwise
      */
-    public Boolean createInvestment(String cardNumber, String bankName, String moneyCurrency, Double time, BigDecimal amount){
+    public Boolean createInvestment(String cardNumber, String bankName, String moneyCurrency, String time, BigDecimal amount){
         try {
             Bank bank = bankService.getBankByBankName(bankName);
             BigDecimal commission = bank.getCommission().divide(BigDecimal.valueOf(100), MathContext.DECIMAL32);
@@ -54,7 +56,7 @@ public class InvestmentService {
             Investment investment = new Investment();
             investment.setBankId(bank.getId());
             Card card = cardService.getCardByCardNumber(cardNumber);
-            log.info(cardService.withdraw(cardNumber, amount, moneyCurrency));
+            log.info(transactionService.withdraw(cardNumber, amount, moneyCurrency));
             investment.setCardId(card.getId());
             investment.setInvestedAmount(amount);
             investment.setTime(time);
@@ -67,7 +69,11 @@ public class InvestmentService {
             investment.setMoneyCurrency(moneyCurrency);
             LocalDateTime created = LocalDateTime.now();
             investment.setCreated(Timestamp.valueOf(created));
-            if (time == 0.5) {
+
+            amount = amount.add(amount.multiply(InvestmentTime.valueOf(time).getCOEFFICIENT().subtract(commission)));
+            investment.setExpired(Timestamp.valueOf(created.plusMonths(InvestmentTime.valueOf(time).getMONTHS_AMOUNT())));
+            investment.setExpectedAmount(amount);
+            /*if (time == 0.5) {
                 amount = amount.add(amount.multiply(BigDecimal.valueOf(0.04).subtract(commission)));
                 investment.setExpired(Timestamp.valueOf(created.plusMonths(6)));
                 investment.setExpectedAmount(amount);
@@ -79,7 +85,7 @@ public class InvestmentService {
                 amount = amount.add(amount.multiply(BigDecimal.valueOf(0.23).subtract(commission)));
                 investment.setExpired(Timestamp.valueOf(created.plusYears(2)));
                 investment.setExpectedAmount(amount);
-            }
+            }*/
             investmentRepository.save(investment);
         } catch (Exception e){
             log.info(String.format("investment for card with number %s has not been created. Exception: %s", cardNumber, e));
@@ -105,7 +111,7 @@ public class InvestmentService {
         }
         Card card = cardService.getCardById(investment.getCardId());
         log.info(String.format("investment accrual with id: %s was successful", investmentId));
-        log.info(cardService.deposit(card.getCardNumber(), investment.getExpectedAmount(), investment.getMoneyCurrency()));
+        log.info(transactionService.deposit(card.getCardNumber(), investment.getExpectedAmount(), investment.getMoneyCurrency()));
     }
 
     @PostConstruct

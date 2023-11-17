@@ -39,5 +39,5 @@ public class Investment {
     @Column(name = "expected_amount")
     private BigDecimal expectedAmount;
     @Column(name = "time")
-    private Double time;
+    private String time;
 }

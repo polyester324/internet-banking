@@ -3,6 +3,7 @@ package com.tms.controller;
 import com.tms.dtos.CardTransactionDepositAndWithdrawDTO;
 import com.tms.dtos.CardTransactionTransferDTO;
 import com.tms.service.CardService;
+import com.tms.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
@@ -24,6 +25,7 @@ import java.nio.file.Paths;
 @RequestMapping("/transaction")
 public class TransactionController {
     public final CardService cardService;
+    public final TransactionService transactionService;
     private final Path ROOT_FILE_PATH = Paths.get("");
 
     /**
@@ -33,7 +35,7 @@ public class TransactionController {
     @PutMapping("/transfer")
     public ResponseEntity<Resource> transferMoneyBetweenTwoClients(@RequestBody CardTransactionTransferDTO dto){
         try {
-            return printCheck(cardService.transfer(dto.getCardSender(), dto.getCardReceiver(), dto.getAmount()));
+            return printCheck(transactionService.transfer(dto.getCardSender(), dto.getCardReceiver(), dto.getAmount()));
         } catch (Exception e){
             log.info("transfer operation failed");
         }
@@ -47,7 +49,7 @@ public class TransactionController {
     @PutMapping("/deposit")
     public ResponseEntity<Resource> putMoneyIntoTheAccount(@RequestBody CardTransactionDepositAndWithdrawDTO dto){
         try {
-            return printCheck(cardService.deposit(dto.getCard(), dto.getAmount(), dto.getMoneyCurrency()));
+            return printCheck(transactionService.deposit(dto.getCard(), dto.getAmount(), dto.getMoneyCurrency()));
         } catch (Exception e){
             log.info("deposit operation failed");
         }
@@ -61,7 +63,7 @@ public class TransactionController {
     @PutMapping("/withdraw")
     public ResponseEntity<Resource> withdrawMoneyFromTheAccount(@RequestBody CardTransactionDepositAndWithdrawDTO dto){
         try {
-            return printCheck(cardService.withdraw(dto.getCard(), dto.getAmount(), dto.getMoneyCurrency()));
+            return printCheck(transactionService.withdraw(dto.getCard(), dto.getAmount(), dto.getMoneyCurrency()));
         } catch (Exception e){
             log.info("withdraw operation failed");
         }
