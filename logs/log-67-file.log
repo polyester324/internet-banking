@@ -586,3 +586,541 @@ Relying upon circular references is discouraged and they are prohibited by defau
 17-11-2023 22:12:32.510 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.destroy - Closing JPA EntityManagerFactory for persistence unit 'default'
 17-11-2023 22:12:32.513 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown initiated...
 17-11-2023 22:12:32.514 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown completed.
+17-11-2023 22:18:27.265 [main] INFO  com.tms.InternetBankingApplication.logStarting - Starting InternetBankingApplication using Java 17.0.7 with PID 17124 (C:\Users\Polina\IdeaProjects\internet-banking\target\classes started by Polina in C:\Users\Polina\IdeaProjects\internet-banking)
+17-11-2023 22:18:27.267 [main] INFO  com.tms.InternetBankingApplication.logStartupProfileInfo - No active profile set, falling back to 1 default profile: "default"
+17-11-2023 22:18:27.693 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+17-11-2023 22:18:27.731 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Finished Spring Data repository scanning in 33 ms. Found 4 JPA repository interfaces.
+17-11-2023 22:18:28.028 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8080 (http)
+17-11-2023 22:18:28.034 [main] INFO  o.a.catalina.core.StandardService.log - Starting service [Tomcat]
+17-11-2023 22:18:28.035 [main] INFO  o.a.catalina.core.StandardEngine.log - Starting Servlet engine: [Apache Tomcat/10.1.13]
+17-11-2023 22:18:28.148 [main] INFO  o.apache.jasper.servlet.TldScanner.log - At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+17-11-2023 22:18:28.151 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log - Initializing Spring embedded WebApplicationContext
+17-11-2023 22:18:28.152 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 855 ms
+17-11-2023 22:18:28.228 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Starting...
+17-11-2023 22:18:28.335 [main] INFO  com.zaxxer.hikari.pool.HikariPool.checkFailFast - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@402f8592
+17-11-2023 22:18:28.336 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Start completed.
+17-11-2023 22:18:28.362 [main] INFO  o.h.jpa.internal.util.LogHelper.logPersistenceUnitInformation - HHH000204: Processing PersistenceUnitInfo [name: default]
+17-11-2023 22:18:28.393 [main] INFO  org.hibernate.Version.logVersion - HHH000412: Hibernate ORM core version 6.2.1.Final
+17-11-2023 22:18:28.394 [main] INFO  org.hibernate.cfg.Environment.<clinit> - HHH000406: Using bytecode reflection optimizer
+17-11-2023 22:18:28.481 [main] INFO  o.h.b.i.BytecodeProviderInitiator.buildBytecodeProvider - HHH000021: Bytecode provider name : bytebuddy
+17-11-2023 22:18:28.571 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo.addTransformer - No LoadTimeWeaver setup: ignoring JPA class transformer
+17-11-2023 22:18:28.613 [main] INFO  SQL dialect.logSelectedDialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@37ffe4f3
+17-11-2023 22:18:28.735 [main] INFO  o.h.b.i.BytecodeProviderInitiator.buildBytecodeProvider - HHH000021: Bytecode provider name : bytebuddy
+17-11-2023 22:18:29.173 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator.initiateService - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+17-11-2023 22:18:29.175 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory - Initialized JPA EntityManagerFactory for persistence unit 'default'
+17-11-2023 22:18:29.361 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory.<clinit> - Hibernate is in classpath; If applicable, HQL parser will be used.
+17-11-2023 22:18:29.575 [main] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext.refresh - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'investmentController' defined in file [C:\Users\Polina\IdeaProjects\internet-banking\target\classes\com\tms\controller\InvestmentController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'investmentService' defined in file [C:\Users\Polina\IdeaProjects\internet-banking\target\classes\com\tms\service\InvestmentService.class]: Unsatisfied dependency expressed through constructor parameter 2: Error creating bean with name 'transactionService' defined in file [C:\Users\Polina\IdeaProjects\internet-banking\target\classes\com\tms\service\TransactionService.class]: Unsatisfied dependency expressed through constructor parameter 3: No qualifying bean of type 'com.tms.repository.TransactionRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+17-11-2023 22:18:29.576 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.destroy - Closing JPA EntityManagerFactory for persistence unit 'default'
+17-11-2023 22:18:29.577 [main] INFO  com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown initiated...
+17-11-2023 22:18:29.578 [main] INFO  com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown completed.
+17-11-2023 22:18:29.580 [main] INFO  o.a.catalina.core.StandardService.log - Stopping service [Tomcat]
+17-11-2023 22:18:29.587 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger.logMessage - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+17-11-2023 22:18:29.604 [main] ERROR o.s.b.d.LoggingFailureAnalysisReporter.report - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 3 of constructor in com.tms.service.TransactionService required a bean of type 'com.tms.repository.TransactionRepository' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'com.tms.repository.TransactionRepository' in your configuration.
+
+17-11-2023 22:20:04.223 [main] INFO  com.tms.InternetBankingApplication.logStarting - Starting InternetBankingApplication using Java 17.0.7 with PID 10580 (C:\Users\Polina\IdeaProjects\internet-banking\target\classes started by Polina in C:\Users\Polina\IdeaProjects\internet-banking)
+17-11-2023 22:20:04.225 [main] INFO  com.tms.InternetBankingApplication.logStartupProfileInfo - No active profile set, falling back to 1 default profile: "default"
+17-11-2023 22:20:04.630 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+17-11-2023 22:20:04.674 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Finished Spring Data repository scanning in 38 ms. Found 4 JPA repository interfaces.
+17-11-2023 22:20:04.971 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8080 (http)
+17-11-2023 22:20:04.977 [main] INFO  o.a.catalina.core.StandardService.log - Starting service [Tomcat]
+17-11-2023 22:20:04.978 [main] INFO  o.a.catalina.core.StandardEngine.log - Starting Servlet engine: [Apache Tomcat/10.1.13]
+17-11-2023 22:20:05.088 [main] INFO  o.apache.jasper.servlet.TldScanner.log - At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+17-11-2023 22:20:05.094 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log - Initializing Spring embedded WebApplicationContext
+17-11-2023 22:20:05.094 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 840 ms
+17-11-2023 22:20:05.160 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Starting...
+17-11-2023 22:20:05.263 [main] INFO  com.zaxxer.hikari.pool.HikariPool.checkFailFast - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@402f8592
+17-11-2023 22:20:05.265 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Start completed.
+17-11-2023 22:20:05.289 [main] INFO  o.h.jpa.internal.util.LogHelper.logPersistenceUnitInformation - HHH000204: Processing PersistenceUnitInfo [name: default]
+17-11-2023 22:20:05.319 [main] INFO  org.hibernate.Version.logVersion - HHH000412: Hibernate ORM core version 6.2.1.Final
+17-11-2023 22:20:05.320 [main] INFO  org.hibernate.cfg.Environment.<clinit> - HHH000406: Using bytecode reflection optimizer
+17-11-2023 22:20:05.406 [main] INFO  o.h.b.i.BytecodeProviderInitiator.buildBytecodeProvider - HHH000021: Bytecode provider name : bytebuddy
+17-11-2023 22:20:05.491 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo.addTransformer - No LoadTimeWeaver setup: ignoring JPA class transformer
+17-11-2023 22:20:05.535 [main] INFO  SQL dialect.logSelectedDialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@37ffe4f3
+17-11-2023 22:20:05.654 [main] INFO  o.h.b.i.BytecodeProviderInitiator.buildBytecodeProvider - HHH000021: Bytecode provider name : bytebuddy
+17-11-2023 22:20:06.097 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator.initiateService - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+17-11-2023 22:20:06.099 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory - Initialized JPA EntityManagerFactory for persistence unit 'default'
+17-11-2023 22:20:06.282 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory.<clinit> - Hibernate is in classpath; If applicable, HQL parser will be used.
+17-11-2023 22:20:06.491 [main] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext.refresh - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'investmentController' defined in file [C:\Users\Polina\IdeaProjects\internet-banking\target\classes\com\tms\controller\InvestmentController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'investmentService' defined in file [C:\Users\Polina\IdeaProjects\internet-banking\target\classes\com\tms\service\InvestmentService.class]: Unsatisfied dependency expressed through constructor parameter 2: Error creating bean with name 'transactionService' defined in file [C:\Users\Polina\IdeaProjects\internet-banking\target\classes\com\tms\service\TransactionService.class]: Unsatisfied dependency expressed through constructor parameter 3: No qualifying bean of type 'com.tms.repository.TransactionRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+17-11-2023 22:20:06.492 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.destroy - Closing JPA EntityManagerFactory for persistence unit 'default'
+17-11-2023 22:20:06.493 [main] INFO  com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown initiated...
+17-11-2023 22:20:06.494 [main] INFO  com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown completed.
+17-11-2023 22:20:06.496 [main] INFO  o.a.catalina.core.StandardService.log - Stopping service [Tomcat]
+17-11-2023 22:20:06.504 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger.logMessage - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+17-11-2023 22:20:06.522 [main] ERROR o.s.b.d.LoggingFailureAnalysisReporter.report - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 3 of constructor in com.tms.service.TransactionService required a bean of type 'com.tms.repository.TransactionRepository' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'com.tms.repository.TransactionRepository' in your configuration.
+
+17-11-2023 22:23:06.819 [main] INFO  com.tms.InternetBankingApplication.logStarting - Starting InternetBankingApplication using Java 17.0.7 with PID 8540 (C:\Users\Polina\IdeaProjects\internet-banking\target\classes started by Polina in C:\Users\Polina\IdeaProjects\internet-banking)
+17-11-2023 22:23:06.821 [main] INFO  com.tms.InternetBankingApplication.logStartupProfileInfo - No active profile set, falling back to 1 default profile: "default"
+17-11-2023 22:23:07.223 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+17-11-2023 22:23:07.269 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Finished Spring Data repository scanning in 40 ms. Found 4 JPA repository interfaces.
+17-11-2023 22:23:07.561 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8080 (http)
+17-11-2023 22:23:07.566 [main] INFO  o.a.catalina.core.StandardService.log - Starting service [Tomcat]
+17-11-2023 22:23:07.567 [main] INFO  o.a.catalina.core.StandardEngine.log - Starting Servlet engine: [Apache Tomcat/10.1.13]
+17-11-2023 22:23:07.681 [main] INFO  o.apache.jasper.servlet.TldScanner.log - At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+17-11-2023 22:23:07.684 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log - Initializing Spring embedded WebApplicationContext
+17-11-2023 22:23:07.684 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 834 ms
+17-11-2023 22:23:07.756 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Starting...
+17-11-2023 22:23:07.865 [main] INFO  com.zaxxer.hikari.pool.HikariPool.checkFailFast - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@790d8fdd
+17-11-2023 22:23:07.866 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Start completed.
+17-11-2023 22:23:07.890 [main] INFO  o.h.jpa.internal.util.LogHelper.logPersistenceUnitInformation - HHH000204: Processing PersistenceUnitInfo [name: default]
+17-11-2023 22:23:07.921 [main] INFO  org.hibernate.Version.logVersion - HHH000412: Hibernate ORM core version 6.2.1.Final
+17-11-2023 22:23:07.923 [main] INFO  org.hibernate.cfg.Environment.<clinit> - HHH000406: Using bytecode reflection optimizer
+17-11-2023 22:23:08.013 [main] INFO  o.h.b.i.BytecodeProviderInitiator.buildBytecodeProvider - HHH000021: Bytecode provider name : bytebuddy
+17-11-2023 22:23:08.100 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo.addTransformer - No LoadTimeWeaver setup: ignoring JPA class transformer
+17-11-2023 22:23:08.141 [main] INFO  SQL dialect.logSelectedDialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@4ccdacf5
+17-11-2023 22:23:08.265 [main] INFO  o.h.b.i.BytecodeProviderInitiator.buildBytecodeProvider - HHH000021: Bytecode provider name : bytebuddy
+17-11-2023 22:23:08.705 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator.initiateService - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+17-11-2023 22:23:08.707 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory - Initialized JPA EntityManagerFactory for persistence unit 'default'
+17-11-2023 22:23:08.893 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory.<clinit> - Hibernate is in classpath; If applicable, HQL parser will be used.
+17-11-2023 22:23:09.118 [main] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext.refresh - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'investmentController' defined in file [C:\Users\Polina\IdeaProjects\internet-banking\target\classes\com\tms\controller\InvestmentController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'investmentService' defined in file [C:\Users\Polina\IdeaProjects\internet-banking\target\classes\com\tms\service\InvestmentService.class]: Unsatisfied dependency expressed through constructor parameter 2: Error creating bean with name 'transactionService' defined in file [C:\Users\Polina\IdeaProjects\internet-banking\target\classes\com\tms\service\TransactionService.class]: Unsatisfied dependency expressed through constructor parameter 2: No qualifying bean of type 'com.tms.repository.TransactionRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+17-11-2023 22:23:09.119 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.destroy - Closing JPA EntityManagerFactory for persistence unit 'default'
+17-11-2023 22:23:09.120 [main] INFO  com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown initiated...
+17-11-2023 22:23:09.122 [main] INFO  com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown completed.
+17-11-2023 22:23:09.124 [main] INFO  o.a.catalina.core.StandardService.log - Stopping service [Tomcat]
+17-11-2023 22:23:09.133 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger.logMessage - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+17-11-2023 22:23:09.152 [main] ERROR o.s.b.d.LoggingFailureAnalysisReporter.report - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 2 of constructor in com.tms.service.TransactionService required a bean of type 'com.tms.repository.TransactionRepository' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'com.tms.repository.TransactionRepository' in your configuration.
+
+17-11-2023 22:24:27.862 [main] INFO  com.tms.InternetBankingApplication.logStarting - Starting InternetBankingApplication using Java 17.0.7 with PID 9164 (C:\Users\Polina\IdeaProjects\internet-banking\target\classes started by Polina in C:\Users\Polina\IdeaProjects\internet-banking)
+17-11-2023 22:24:27.864 [main] INFO  com.tms.InternetBankingApplication.logStartupProfileInfo - No active profile set, falling back to 1 default profile: "default"
+17-11-2023 22:24:28.268 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+17-11-2023 22:24:28.312 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Finished Spring Data repository scanning in 39 ms. Found 5 JPA repository interfaces.
+17-11-2023 22:24:28.602 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8080 (http)
+17-11-2023 22:24:28.609 [main] INFO  o.a.catalina.core.StandardService.log - Starting service [Tomcat]
+17-11-2023 22:24:28.610 [main] INFO  o.a.catalina.core.StandardEngine.log - Starting Servlet engine: [Apache Tomcat/10.1.13]
+17-11-2023 22:24:28.722 [main] INFO  o.apache.jasper.servlet.TldScanner.log - At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+17-11-2023 22:24:28.728 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log - Initializing Spring embedded WebApplicationContext
+17-11-2023 22:24:28.728 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 835 ms
+17-11-2023 22:24:28.796 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Starting...
+17-11-2023 22:24:28.903 [main] INFO  com.zaxxer.hikari.pool.HikariPool.checkFailFast - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@89caf47
+17-11-2023 22:24:28.904 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Start completed.
+17-11-2023 22:24:28.929 [main] INFO  o.h.jpa.internal.util.LogHelper.logPersistenceUnitInformation - HHH000204: Processing PersistenceUnitInfo [name: default]
+17-11-2023 22:24:28.960 [main] INFO  org.hibernate.Version.logVersion - HHH000412: Hibernate ORM core version 6.2.1.Final
+17-11-2023 22:24:28.961 [main] INFO  org.hibernate.cfg.Environment.<clinit> - HHH000406: Using bytecode reflection optimizer
+17-11-2023 22:24:29.045 [main] INFO  o.h.b.i.BytecodeProviderInitiator.buildBytecodeProvider - HHH000021: Bytecode provider name : bytebuddy
+17-11-2023 22:24:29.125 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo.addTransformer - No LoadTimeWeaver setup: ignoring JPA class transformer
+17-11-2023 22:24:29.165 [main] INFO  SQL dialect.logSelectedDialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@4e6cbdf1
+17-11-2023 22:24:29.285 [main] INFO  o.h.b.i.BytecodeProviderInitiator.buildBytecodeProvider - HHH000021: Bytecode provider name : bytebuddy
+17-11-2023 22:24:29.721 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator.initiateService - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+17-11-2023 22:24:29.723 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory - Initialized JPA EntityManagerFactory for persistence unit 'default'
+17-11-2023 22:24:29.905 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory.<clinit> - Hibernate is in classpath; If applicable, HQL parser will be used.
+17-11-2023 22:24:30.233 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+17-11-2023 22:24:30.457 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8080 (http) with context path ''
+17-11-2023 22:24:30.462 [main] INFO  com.tms.InternetBankingApplication.logStarted - Started InternetBankingApplication in 2.858 seconds (process running for 3.16)
+17-11-2023 22:24:44.913 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.destroy - Closing JPA EntityManagerFactory for persistence unit 'default'
+17-11-2023 22:24:44.915 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown initiated...
+17-11-2023 22:24:44.917 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown completed.
+17-11-2023 22:24:48.004 [main] INFO  com.tms.InternetBankingApplication.logStarting - Starting InternetBankingApplication using Java 17.0.7 with PID 9368 (C:\Users\Polina\IdeaProjects\internet-banking\target\classes started by Polina in C:\Users\Polina\IdeaProjects\internet-banking)
+17-11-2023 22:24:48.006 [main] INFO  com.tms.InternetBankingApplication.logStartupProfileInfo - No active profile set, falling back to 1 default profile: "default"
+17-11-2023 22:24:48.436 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+17-11-2023 22:24:48.500 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Finished Spring Data repository scanning in 57 ms. Found 5 JPA repository interfaces.
+17-11-2023 22:24:48.812 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8080 (http)
+17-11-2023 22:24:48.818 [main] INFO  o.a.catalina.core.StandardService.log - Starting service [Tomcat]
+17-11-2023 22:24:48.818 [main] INFO  o.a.catalina.core.StandardEngine.log - Starting Servlet engine: [Apache Tomcat/10.1.13]
+17-11-2023 22:24:48.932 [main] INFO  o.apache.jasper.servlet.TldScanner.log - At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+17-11-2023 22:24:48.938 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log - Initializing Spring embedded WebApplicationContext
+17-11-2023 22:24:48.938 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 903 ms
+17-11-2023 22:24:49.021 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Starting...
+17-11-2023 22:24:49.243 [main] INFO  com.zaxxer.hikari.pool.HikariPool.checkFailFast - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6403a4a5
+17-11-2023 22:24:49.245 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Start completed.
+17-11-2023 22:24:49.271 [main] INFO  o.h.jpa.internal.util.LogHelper.logPersistenceUnitInformation - HHH000204: Processing PersistenceUnitInfo [name: default]
+17-11-2023 22:24:49.304 [main] INFO  org.hibernate.Version.logVersion - HHH000412: Hibernate ORM core version 6.2.1.Final
+17-11-2023 22:24:49.305 [main] INFO  org.hibernate.cfg.Environment.<clinit> - HHH000406: Using bytecode reflection optimizer
+17-11-2023 22:24:49.398 [main] INFO  o.h.b.i.BytecodeProviderInitiator.buildBytecodeProvider - HHH000021: Bytecode provider name : bytebuddy
+17-11-2023 22:24:49.487 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo.addTransformer - No LoadTimeWeaver setup: ignoring JPA class transformer
+17-11-2023 22:24:49.530 [main] INFO  SQL dialect.logSelectedDialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@5aa6da2
+17-11-2023 22:24:49.661 [main] INFO  o.h.b.i.BytecodeProviderInitiator.buildBytecodeProvider - HHH000021: Bytecode provider name : bytebuddy
+17-11-2023 22:24:50.132 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator.initiateService - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+17-11-2023 22:24:50.134 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory - Initialized JPA EntityManagerFactory for persistence unit 'default'
+17-11-2023 22:24:50.346 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory.<clinit> - Hibernate is in classpath; If applicable, HQL parser will be used.
+17-11-2023 22:24:50.678 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+17-11-2023 22:24:50.906 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8080 (http) with context path ''
+17-11-2023 22:24:50.911 [main] INFO  com.tms.InternetBankingApplication.logStarted - Started InternetBankingApplication in 3.168 seconds (process running for 3.474)
+17-11-2023 22:24:58.471 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log - Initializing Spring DispatcherServlet 'dispatcherServlet'
+17-11-2023 22:24:58.472 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet.initServletBean - Initializing Servlet 'dispatcherServlet'
+17-11-2023 22:24:58.473 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet.initServletBean - Completed initialization in 1 ms
+17-11-2023 22:24:58.553 [http-nio-8080-exec-1] INFO  com.tms.service.TransactionService.deposit - Money was deposited to 5891-4678-1121-5476
+17-11-2023 22:25:01.010 [http-nio-8080-exec-4] INFO  com.tms.service.TransactionService.withdraw - Money was withdraw from 7305-7049-5093-3491
+17-11-2023 22:25:05.180 [http-nio-8080-exec-6] INFO  com.tms.service.TransactionService.transfer - Money was transferred from 5891-4678-1121-5476 to 7305-7049-5093-3491
+17-11-2023 22:26:07.568 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.destroy - Closing JPA EntityManagerFactory for persistence unit 'default'
+17-11-2023 22:26:07.569 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown initiated...
+17-11-2023 22:26:07.571 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown completed.
+17-11-2023 22:26:58.948 [main] INFO  com.tms.InternetBankingApplication.logStarting - Starting InternetBankingApplication using Java 17.0.7 with PID 7596 (C:\Users\Polina\IdeaProjects\internet-banking\target\classes started by Polina in C:\Users\Polina\IdeaProjects\internet-banking)
+17-11-2023 22:26:58.950 [main] INFO  com.tms.InternetBankingApplication.logStartupProfileInfo - No active profile set, falling back to 1 default profile: "default"
+17-11-2023 22:26:59.352 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+17-11-2023 22:26:59.398 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Finished Spring Data repository scanning in 41 ms. Found 5 JPA repository interfaces.
+17-11-2023 22:26:59.680 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8080 (http)
+17-11-2023 22:26:59.685 [main] INFO  o.a.catalina.core.StandardService.log - Starting service [Tomcat]
+17-11-2023 22:26:59.686 [main] INFO  o.a.catalina.core.StandardEngine.log - Starting Servlet engine: [Apache Tomcat/10.1.13]
+17-11-2023 22:26:59.801 [main] INFO  o.apache.jasper.servlet.TldScanner.log - At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+17-11-2023 22:26:59.804 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log - Initializing Spring embedded WebApplicationContext
+17-11-2023 22:26:59.804 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 826 ms
+17-11-2023 22:26:59.871 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Starting...
+17-11-2023 22:26:59.975 [main] INFO  com.zaxxer.hikari.pool.HikariPool.checkFailFast - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@18709cb2
+17-11-2023 22:26:59.976 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Start completed.
+17-11-2023 22:27:00.003 [main] INFO  o.h.jpa.internal.util.LogHelper.logPersistenceUnitInformation - HHH000204: Processing PersistenceUnitInfo [name: default]
+17-11-2023 22:27:00.039 [main] INFO  org.hibernate.Version.logVersion - HHH000412: Hibernate ORM core version 6.2.1.Final
+17-11-2023 22:27:00.040 [main] INFO  org.hibernate.cfg.Environment.<clinit> - HHH000406: Using bytecode reflection optimizer
+17-11-2023 22:27:00.130 [main] INFO  o.h.b.i.BytecodeProviderInitiator.buildBytecodeProvider - HHH000021: Bytecode provider name : bytebuddy
+17-11-2023 22:27:00.222 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo.addTransformer - No LoadTimeWeaver setup: ignoring JPA class transformer
+17-11-2023 22:27:00.262 [main] INFO  SQL dialect.logSelectedDialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@631bc9f4
+17-11-2023 22:27:00.381 [main] INFO  o.h.b.i.BytecodeProviderInitiator.buildBytecodeProvider - HHH000021: Bytecode provider name : bytebuddy
+17-11-2023 22:27:00.813 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator.initiateService - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+17-11-2023 22:27:00.815 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory - Initialized JPA EntityManagerFactory for persistence unit 'default'
+17-11-2023 22:27:00.998 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory.<clinit> - Hibernate is in classpath; If applicable, HQL parser will be used.
+17-11-2023 22:27:01.330 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+17-11-2023 22:27:01.556 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8080 (http) with context path ''
+17-11-2023 22:27:01.562 [main] INFO  com.tms.InternetBankingApplication.logStarted - Started InternetBankingApplication in 2.878 seconds (process running for 3.191)
+17-11-2023 22:27:04.359 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log - Initializing Spring DispatcherServlet 'dispatcherServlet'
+17-11-2023 22:27:04.359 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet.initServletBean - Initializing Servlet 'dispatcherServlet'
+17-11-2023 22:27:04.360 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet.initServletBean - Completed initialization in 0 ms
+17-11-2023 22:27:04.441 [http-nio-8080-exec-1] INFO  com.tms.service.TransactionService.deposit - Money was deposited to 5891-4678-1121-5476
+17-11-2023 22:28:22.043 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.destroy - Closing JPA EntityManagerFactory for persistence unit 'default'
+17-11-2023 22:28:22.044 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown initiated...
+17-11-2023 22:28:22.046 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown completed.
+17-11-2023 22:28:24.913 [main] INFO  com.tms.InternetBankingApplication.logStarting - Starting InternetBankingApplication using Java 17.0.7 with PID 12752 (C:\Users\Polina\IdeaProjects\internet-banking\target\classes started by Polina in C:\Users\Polina\IdeaProjects\internet-banking)
+17-11-2023 22:28:24.915 [main] INFO  com.tms.InternetBankingApplication.logStartupProfileInfo - No active profile set, falling back to 1 default profile: "default"
+17-11-2023 22:28:25.384 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+17-11-2023 22:28:25.426 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Finished Spring Data repository scanning in 36 ms. Found 5 JPA repository interfaces.
+17-11-2023 22:28:25.743 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8080 (http)
+17-11-2023 22:28:25.750 [main] INFO  o.a.catalina.core.StandardService.log - Starting service [Tomcat]
+17-11-2023 22:28:25.750 [main] INFO  o.a.catalina.core.StandardEngine.log - Starting Servlet engine: [Apache Tomcat/10.1.13]
+17-11-2023 22:28:25.874 [main] INFO  o.apache.jasper.servlet.TldScanner.log - At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+17-11-2023 22:28:25.876 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log - Initializing Spring embedded WebApplicationContext
+17-11-2023 22:28:25.877 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 936 ms
+17-11-2023 22:28:25.954 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Starting...
+17-11-2023 22:28:26.068 [main] INFO  com.zaxxer.hikari.pool.HikariPool.checkFailFast - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@fbe70d8
+17-11-2023 22:28:26.069 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Start completed.
+17-11-2023 22:28:26.096 [main] INFO  o.h.jpa.internal.util.LogHelper.logPersistenceUnitInformation - HHH000204: Processing PersistenceUnitInfo [name: default]
+17-11-2023 22:28:26.131 [main] INFO  org.hibernate.Version.logVersion - HHH000412: Hibernate ORM core version 6.2.1.Final
+17-11-2023 22:28:26.132 [main] INFO  org.hibernate.cfg.Environment.<clinit> - HHH000406: Using bytecode reflection optimizer
+17-11-2023 22:28:26.238 [main] INFO  o.h.b.i.BytecodeProviderInitiator.buildBytecodeProvider - HHH000021: Bytecode provider name : bytebuddy
+17-11-2023 22:28:26.337 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo.addTransformer - No LoadTimeWeaver setup: ignoring JPA class transformer
+17-11-2023 22:28:26.378 [main] INFO  SQL dialect.logSelectedDialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@1d637673
+17-11-2023 22:28:26.519 [main] INFO  o.h.b.i.BytecodeProviderInitiator.buildBytecodeProvider - HHH000021: Bytecode provider name : bytebuddy
+17-11-2023 22:28:26.991 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator.initiateService - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+17-11-2023 22:28:26.993 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory - Initialized JPA EntityManagerFactory for persistence unit 'default'
+17-11-2023 22:28:27.224 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory.<clinit> - Hibernate is in classpath; If applicable, HQL parser will be used.
+17-11-2023 22:28:27.852 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+17-11-2023 22:28:28.215 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8080 (http) with context path ''
+17-11-2023 22:28:28.223 [main] INFO  com.tms.InternetBankingApplication.logStarted - Started InternetBankingApplication in 3.578 seconds (process running for 4.309)
+17-11-2023 22:28:34.009 [http-nio-8080-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log - Initializing Spring DispatcherServlet 'dispatcherServlet'
+17-11-2023 22:28:34.010 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet.initServletBean - Initializing Servlet 'dispatcherServlet'
+17-11-2023 22:28:34.011 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet.initServletBean - Completed initialization in 1 ms
+17-11-2023 22:28:50.229 [http-nio-8080-exec-2] INFO  com.tms.service.TransactionService.deposit - Money was deposited to 5891-4678-1121-5476
+17-11-2023 22:30:25.751 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.destroy - Closing JPA EntityManagerFactory for persistence unit 'default'
+17-11-2023 22:30:25.752 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown initiated...
+17-11-2023 22:30:25.754 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown completed.
+17-11-2023 22:31:17.978 [main] INFO  com.tms.InternetBankingApplication.logStarting - Starting InternetBankingApplication using Java 17.0.7 with PID 3232 (C:\Users\Polina\IdeaProjects\internet-banking\target\classes started by Polina in C:\Users\Polina\IdeaProjects\internet-banking)
+17-11-2023 22:31:17.980 [main] INFO  com.tms.InternetBankingApplication.logStartupProfileInfo - No active profile set, falling back to 1 default profile: "default"
+17-11-2023 22:31:18.389 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+17-11-2023 22:31:18.436 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Finished Spring Data repository scanning in 41 ms. Found 5 JPA repository interfaces.
+17-11-2023 22:31:18.724 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8080 (http)
+17-11-2023 22:31:18.730 [main] INFO  o.a.catalina.core.StandardService.log - Starting service [Tomcat]
+17-11-2023 22:31:18.731 [main] INFO  o.a.catalina.core.StandardEngine.log - Starting Servlet engine: [Apache Tomcat/10.1.13]
+17-11-2023 22:31:18.850 [main] INFO  o.apache.jasper.servlet.TldScanner.log - At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+17-11-2023 22:31:18.853 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log - Initializing Spring embedded WebApplicationContext
+17-11-2023 22:31:18.853 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 842 ms
+17-11-2023 22:31:18.920 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Starting...
+17-11-2023 22:31:19.025 [main] INFO  com.zaxxer.hikari.pool.HikariPool.checkFailFast - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@89caf47
+17-11-2023 22:31:19.026 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Start completed.
+17-11-2023 22:31:19.053 [main] INFO  o.h.jpa.internal.util.LogHelper.logPersistenceUnitInformation - HHH000204: Processing PersistenceUnitInfo [name: default]
+17-11-2023 22:31:19.083 [main] INFO  org.hibernate.Version.logVersion - HHH000412: Hibernate ORM core version 6.2.1.Final
+17-11-2023 22:31:19.085 [main] INFO  org.hibernate.cfg.Environment.<clinit> - HHH000406: Using bytecode reflection optimizer
+17-11-2023 22:31:19.170 [main] INFO  o.h.b.i.BytecodeProviderInitiator.buildBytecodeProvider - HHH000021: Bytecode provider name : bytebuddy
+17-11-2023 22:31:19.255 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo.addTransformer - No LoadTimeWeaver setup: ignoring JPA class transformer
+17-11-2023 22:31:19.297 [main] INFO  SQL dialect.logSelectedDialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@4e6cbdf1
+17-11-2023 22:31:19.416 [main] INFO  o.h.b.i.BytecodeProviderInitiator.buildBytecodeProvider - HHH000021: Bytecode provider name : bytebuddy
+17-11-2023 22:31:19.840 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator.initiateService - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+17-11-2023 22:31:19.842 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory - Initialized JPA EntityManagerFactory for persistence unit 'default'
+17-11-2023 22:31:20.031 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory.<clinit> - Hibernate is in classpath; If applicable, HQL parser will be used.
+17-11-2023 22:31:20.373 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+17-11-2023 22:31:20.600 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8080 (http) with context path ''
+17-11-2023 22:31:20.605 [main] INFO  com.tms.InternetBankingApplication.logStarted - Started InternetBankingApplication in 2.881 seconds (process running for 3.186)
+17-11-2023 22:31:26.066 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log - Initializing Spring DispatcherServlet 'dispatcherServlet'
+17-11-2023 22:31:26.066 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet.initServletBean - Initializing Servlet 'dispatcherServlet'
+17-11-2023 22:31:26.067 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet.initServletBean - Completed initialization in 1 ms
+17-11-2023 22:31:26.489 [http-nio-8080-exec-9] INFO  o.s.api.AbstractOpenApiResource.getOpenApi - Init duration for springdoc-openapi is: 175 ms
+17-11-2023 22:32:08.454 [http-nio-8080-exec-10] INFO  com.tms.service.TransactionService.deposit - Money was deposited to 5891-4678-1121-5476
+17-11-2023 22:33:24.648 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.destroy - Closing JPA EntityManagerFactory for persistence unit 'default'
+17-11-2023 22:33:24.649 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown initiated...
+17-11-2023 22:33:24.651 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown completed.
+17-11-2023 22:33:28.063 [main] INFO  com.tms.InternetBankingApplication.logStarting - Starting InternetBankingApplication using Java 17.0.7 with PID 1584 (C:\Users\Polina\IdeaProjects\internet-banking\target\classes started by Polina in C:\Users\Polina\IdeaProjects\internet-banking)
+17-11-2023 22:33:28.066 [main] INFO  com.tms.InternetBankingApplication.logStartupProfileInfo - No active profile set, falling back to 1 default profile: "default"
+17-11-2023 22:33:28.468 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+17-11-2023 22:33:28.516 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Finished Spring Data repository scanning in 41 ms. Found 5 JPA repository interfaces.
+17-11-2023 22:33:28.804 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8080 (http)
+17-11-2023 22:33:28.810 [main] INFO  o.a.catalina.core.StandardService.log - Starting service [Tomcat]
+17-11-2023 22:33:28.810 [main] INFO  o.a.catalina.core.StandardEngine.log - Starting Servlet engine: [Apache Tomcat/10.1.13]
+17-11-2023 22:33:28.922 [main] INFO  o.apache.jasper.servlet.TldScanner.log - At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+17-11-2023 22:33:28.925 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log - Initializing Spring embedded WebApplicationContext
+17-11-2023 22:33:28.925 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 831 ms
+17-11-2023 22:33:28.997 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Starting...
+17-11-2023 22:33:29.101 [main] INFO  com.zaxxer.hikari.pool.HikariPool.checkFailFast - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5a090f62
+17-11-2023 22:33:29.102 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Start completed.
+17-11-2023 22:33:29.127 [main] INFO  o.h.jpa.internal.util.LogHelper.logPersistenceUnitInformation - HHH000204: Processing PersistenceUnitInfo [name: default]
+17-11-2023 22:33:29.157 [main] INFO  org.hibernate.Version.logVersion - HHH000412: Hibernate ORM core version 6.2.1.Final
+17-11-2023 22:33:29.158 [main] INFO  org.hibernate.cfg.Environment.<clinit> - HHH000406: Using bytecode reflection optimizer
+17-11-2023 22:33:29.246 [main] INFO  o.h.b.i.BytecodeProviderInitiator.buildBytecodeProvider - HHH000021: Bytecode provider name : bytebuddy
+17-11-2023 22:33:29.331 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo.addTransformer - No LoadTimeWeaver setup: ignoring JPA class transformer
+17-11-2023 22:33:29.373 [main] INFO  SQL dialect.logSelectedDialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@74ce7fdf
+17-11-2023 22:33:29.496 [main] INFO  o.h.b.i.BytecodeProviderInitiator.buildBytecodeProvider - HHH000021: Bytecode provider name : bytebuddy
+17-11-2023 22:33:29.928 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator.initiateService - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+17-11-2023 22:33:29.930 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory - Initialized JPA EntityManagerFactory for persistence unit 'default'
+17-11-2023 22:33:30.112 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory.<clinit> - Hibernate is in classpath; If applicable, HQL parser will be used.
+17-11-2023 22:33:30.445 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+17-11-2023 22:33:30.711 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8080 (http) with context path ''
+17-11-2023 22:33:30.718 [main] INFO  com.tms.InternetBankingApplication.logStarted - Started InternetBankingApplication in 2.912 seconds (process running for 3.221)
+17-11-2023 22:33:36.110 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log - Initializing Spring DispatcherServlet 'dispatcherServlet'
+17-11-2023 22:33:36.111 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet.initServletBean - Initializing Servlet 'dispatcherServlet'
+17-11-2023 22:33:36.112 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet.initServletBean - Completed initialization in 1 ms
+17-11-2023 22:33:36.201 [http-nio-8080-exec-1] INFO  com.tms.service.TransactionService.deposit - Money was deposited to 5891-4678-1121-5476
+17-11-2023 22:33:36.218 [http-nio-8080-exec-1] INFO  com.tms.service.TransactionService.makeUniqueFile - created new directory
+17-11-2023 22:34:12.709 [http-nio-8080-exec-3] INFO  com.tms.service.TransactionService.deposit - Money was deposited to 5891-4678-1121-5476
+17-11-2023 22:34:17.065 [http-nio-8080-exec-4] INFO  com.tms.service.TransactionService.deposit - Money was deposited to 5891-4678-1121-5476
+17-11-2023 22:38:46.713 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.destroy - Closing JPA EntityManagerFactory for persistence unit 'default'
+17-11-2023 22:38:46.714 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown initiated...
+17-11-2023 22:38:46.715 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown completed.
+17-11-2023 22:57:21.380 [main] INFO  com.tms.InternetBankingApplication.logStarting - Starting InternetBankingApplication using Java 17.0.7 with PID 17348 (C:\Users\Polina\IdeaProjects\internet-banking\target\classes started by Polina in C:\Users\Polina\IdeaProjects\internet-banking)
+17-11-2023 22:57:21.382 [main] INFO  com.tms.InternetBankingApplication.logStartupProfileInfo - No active profile set, falling back to 1 default profile: "default"
+17-11-2023 22:57:21.789 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+17-11-2023 22:57:21.837 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Finished Spring Data repository scanning in 40 ms. Found 5 JPA repository interfaces.
+17-11-2023 22:57:22.130 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8080 (http)
+17-11-2023 22:57:22.136 [main] INFO  o.a.catalina.core.StandardService.log - Starting service [Tomcat]
+17-11-2023 22:57:22.137 [main] INFO  o.a.catalina.core.StandardEngine.log - Starting Servlet engine: [Apache Tomcat/10.1.13]
+17-11-2023 22:57:22.254 [main] INFO  o.apache.jasper.servlet.TldScanner.log - At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+17-11-2023 22:57:22.257 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log - Initializing Spring embedded WebApplicationContext
+17-11-2023 22:57:22.257 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 848 ms
+17-11-2023 22:57:22.329 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Starting...
+17-11-2023 22:57:22.432 [main] INFO  com.zaxxer.hikari.pool.HikariPool.checkFailFast - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@370ef50b
+17-11-2023 22:57:22.433 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Start completed.
+17-11-2023 22:57:22.457 [main] INFO  o.h.jpa.internal.util.LogHelper.logPersistenceUnitInformation - HHH000204: Processing PersistenceUnitInfo [name: default]
+17-11-2023 22:57:22.487 [main] INFO  org.hibernate.Version.logVersion - HHH000412: Hibernate ORM core version 6.2.1.Final
+17-11-2023 22:57:22.488 [main] INFO  org.hibernate.cfg.Environment.<clinit> - HHH000406: Using bytecode reflection optimizer
+17-11-2023 22:57:22.575 [main] INFO  o.h.b.i.BytecodeProviderInitiator.buildBytecodeProvider - HHH000021: Bytecode provider name : bytebuddy
+17-11-2023 22:57:22.660 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo.addTransformer - No LoadTimeWeaver setup: ignoring JPA class transformer
+17-11-2023 22:57:22.699 [main] INFO  SQL dialect.logSelectedDialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@67fac095
+17-11-2023 22:57:22.838 [main] INFO  o.h.b.i.BytecodeProviderInitiator.buildBytecodeProvider - HHH000021: Bytecode provider name : bytebuddy
+17-11-2023 22:57:23.332 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator.initiateService - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+17-11-2023 22:57:23.334 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory - Initialized JPA EntityManagerFactory for persistence unit 'default'
+17-11-2023 22:57:23.550 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory.<clinit> - Hibernate is in classpath; If applicable, HQL parser will be used.
+17-11-2023 22:57:23.905 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+17-11-2023 22:57:24.137 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8080 (http) with context path ''
+17-11-2023 22:57:24.143 [main] INFO  com.tms.InternetBankingApplication.logStarted - Started InternetBankingApplication in 3.043 seconds (process running for 3.362)
+17-11-2023 22:57:37.163 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log - Initializing Spring DispatcherServlet 'dispatcherServlet'
+17-11-2023 22:57:37.163 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet.initServletBean - Initializing Servlet 'dispatcherServlet'
+17-11-2023 22:57:37.164 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet.initServletBean - Completed initialization in 1 ms
+17-11-2023 22:57:37.249 [http-nio-8080-exec-1] INFO  com.tms.service.TransactionService.withdraw - Money was withdraw from 7305-7049-5093-3491
+17-11-2023 22:57:37.272 [http-nio-8080-exec-1] INFO  com.tms.service.TransactionService.makeUniqueFile - created new directory
+17-11-2023 22:57:40.305 [http-nio-8080-exec-3] INFO  com.tms.service.TransactionService.deposit - Money was deposited to 5891-4678-1121-5476
+17-11-2023 22:57:51.871 [http-nio-8080-exec-4] INFO  com.tms.service.TransactionService.deposit - Money was deposited to 5891-4678-1121-5476
+17-11-2023 23:00:06.260 [http-nio-8080-exec-7] INFO  com.tms.service.TransactionService.deposit - Money was deposited to 5891-4678-1121-5476
+17-11-2023 23:00:11.255 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.destroy - Closing JPA EntityManagerFactory for persistence unit 'default'
+17-11-2023 23:00:11.257 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown initiated...
+17-11-2023 23:00:11.258 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown completed.
+17-11-2023 23:00:13.773 [main] INFO  com.tms.InternetBankingApplication.logStarting - Starting InternetBankingApplication using Java 17.0.7 with PID 17256 (C:\Users\Polina\IdeaProjects\internet-banking\target\classes started by Polina in C:\Users\Polina\IdeaProjects\internet-banking)
+17-11-2023 23:00:13.775 [main] INFO  com.tms.InternetBankingApplication.logStartupProfileInfo - No active profile set, falling back to 1 default profile: "default"
+17-11-2023 23:00:14.214 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+17-11-2023 23:00:14.255 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Finished Spring Data repository scanning in 35 ms. Found 5 JPA repository interfaces.
+17-11-2023 23:00:14.564 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8080 (http)
+17-11-2023 23:00:14.570 [main] INFO  o.a.catalina.core.StandardService.log - Starting service [Tomcat]
+17-11-2023 23:00:14.571 [main] INFO  o.a.catalina.core.StandardEngine.log - Starting Servlet engine: [Apache Tomcat/10.1.13]
+17-11-2023 23:00:14.691 [main] INFO  o.apache.jasper.servlet.TldScanner.log - At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+17-11-2023 23:00:14.695 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log - Initializing Spring embedded WebApplicationContext
+17-11-2023 23:00:14.695 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 891 ms
+17-11-2023 23:00:14.769 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Starting...
+17-11-2023 23:00:14.880 [main] INFO  com.zaxxer.hikari.pool.HikariPool.checkFailFast - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@78c262ba
+17-11-2023 23:00:14.881 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Start completed.
+17-11-2023 23:00:14.908 [main] INFO  o.h.jpa.internal.util.LogHelper.logPersistenceUnitInformation - HHH000204: Processing PersistenceUnitInfo [name: default]
+17-11-2023 23:00:14.941 [main] INFO  org.hibernate.Version.logVersion - HHH000412: Hibernate ORM core version 6.2.1.Final
+17-11-2023 23:00:14.942 [main] INFO  org.hibernate.cfg.Environment.<clinit> - HHH000406: Using bytecode reflection optimizer
+17-11-2023 23:00:15.041 [main] INFO  o.h.b.i.BytecodeProviderInitiator.buildBytecodeProvider - HHH000021: Bytecode provider name : bytebuddy
+17-11-2023 23:00:15.133 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo.addTransformer - No LoadTimeWeaver setup: ignoring JPA class transformer
+17-11-2023 23:00:15.172 [main] INFO  SQL dialect.logSelectedDialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@7198ab9a
+17-11-2023 23:00:15.304 [main] INFO  o.h.b.i.BytecodeProviderInitiator.buildBytecodeProvider - HHH000021: Bytecode provider name : bytebuddy
+17-11-2023 23:00:15.775 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator.initiateService - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+17-11-2023 23:00:15.777 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory - Initialized JPA EntityManagerFactory for persistence unit 'default'
+17-11-2023 23:00:15.981 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory.<clinit> - Hibernate is in classpath; If applicable, HQL parser will be used.
+17-11-2023 23:00:16.464 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+17-11-2023 23:00:16.828 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8080 (http) with context path ''
+17-11-2023 23:00:16.836 [main] INFO  com.tms.InternetBankingApplication.logStarted - Started InternetBankingApplication in 3.347 seconds (process running for 3.726)
+17-11-2023 23:00:29.144 [http-nio-8080-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log - Initializing Spring DispatcherServlet 'dispatcherServlet'
+17-11-2023 23:00:29.144 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet.initServletBean - Initializing Servlet 'dispatcherServlet'
+17-11-2023 23:00:29.145 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet.initServletBean - Completed initialization in 1 ms
+17-11-2023 23:00:45.834 [http-nio-8080-exec-2] INFO  com.tms.service.TransactionService.deposit - Money was deposited to 5891-4678-1121-5476
+17-11-2023 23:01:49.716 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool.run - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m4s128ms225µs).
+17-11-2023 23:05:12.035 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool.run - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=3m22s319ms870µs600ns).
+17-11-2023 23:06:38.798 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.destroy - Closing JPA EntityManagerFactory for persistence unit 'default'
+17-11-2023 23:06:38.800 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown initiated...
+17-11-2023 23:06:38.802 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown completed.
+17-11-2023 23:06:41.156 [main] INFO  com.tms.InternetBankingApplication.logStarting - Starting InternetBankingApplication using Java 17.0.7 with PID 4808 (C:\Users\Polina\IdeaProjects\internet-banking\target\classes started by Polina in C:\Users\Polina\IdeaProjects\internet-banking)
+17-11-2023 23:06:41.158 [main] INFO  com.tms.InternetBankingApplication.logStartupProfileInfo - No active profile set, falling back to 1 default profile: "default"
+17-11-2023 23:06:41.584 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+17-11-2023 23:06:41.632 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Finished Spring Data repository scanning in 43 ms. Found 5 JPA repository interfaces.
+17-11-2023 23:06:41.919 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8080 (http)
+17-11-2023 23:06:41.925 [main] INFO  o.a.catalina.core.StandardService.log - Starting service [Tomcat]
+17-11-2023 23:06:41.925 [main] INFO  o.a.catalina.core.StandardEngine.log - Starting Servlet engine: [Apache Tomcat/10.1.13]
+17-11-2023 23:06:42.035 [main] INFO  o.apache.jasper.servlet.TldScanner.log - At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+17-11-2023 23:06:42.038 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log - Initializing Spring embedded WebApplicationContext
+17-11-2023 23:06:42.039 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 853 ms
+17-11-2023 23:06:42.110 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Starting...
+17-11-2023 23:06:42.216 [main] INFO  com.zaxxer.hikari.pool.HikariPool.checkFailFast - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5f8a02cf
+17-11-2023 23:06:42.217 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Start completed.
+17-11-2023 23:06:42.241 [main] INFO  o.h.jpa.internal.util.LogHelper.logPersistenceUnitInformation - HHH000204: Processing PersistenceUnitInfo [name: default]
+17-11-2023 23:06:42.272 [main] INFO  org.hibernate.Version.logVersion - HHH000412: Hibernate ORM core version 6.2.1.Final
+17-11-2023 23:06:42.273 [main] INFO  org.hibernate.cfg.Environment.<clinit> - HHH000406: Using bytecode reflection optimizer
+17-11-2023 23:06:42.361 [main] INFO  o.h.b.i.BytecodeProviderInitiator.buildBytecodeProvider - HHH000021: Bytecode provider name : bytebuddy
+17-11-2023 23:06:42.444 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo.addTransformer - No LoadTimeWeaver setup: ignoring JPA class transformer
+17-11-2023 23:06:42.483 [main] INFO  SQL dialect.logSelectedDialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@329b331f
+17-11-2023 23:06:42.605 [main] INFO  o.h.b.i.BytecodeProviderInitiator.buildBytecodeProvider - HHH000021: Bytecode provider name : bytebuddy
+17-11-2023 23:06:43.042 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator.initiateService - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+17-11-2023 23:06:43.044 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory - Initialized JPA EntityManagerFactory for persistence unit 'default'
+17-11-2023 23:06:43.240 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory.<clinit> - Hibernate is in classpath; If applicable, HQL parser will be used.
+17-11-2023 23:06:43.569 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+17-11-2023 23:06:43.787 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8080 (http) with context path ''
+17-11-2023 23:06:43.793 [main] INFO  com.tms.InternetBankingApplication.logStarted - Started InternetBankingApplication in 2.893 seconds (process running for 3.2)
+17-11-2023 23:09:11.920 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.destroy - Closing JPA EntityManagerFactory for persistence unit 'default'
+17-11-2023 23:09:11.922 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown initiated...
+17-11-2023 23:09:11.924 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown completed.
+17-11-2023 23:09:14.583 [main] INFO  com.tms.InternetBankingApplication.logStarting - Starting InternetBankingApplication using Java 17.0.7 with PID 1204 (C:\Users\Polina\IdeaProjects\internet-banking\target\classes started by Polina in C:\Users\Polina\IdeaProjects\internet-banking)
+17-11-2023 23:09:14.585 [main] INFO  com.tms.InternetBankingApplication.logStartupProfileInfo - No active profile set, falling back to 1 default profile: "default"
+17-11-2023 23:09:14.989 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+17-11-2023 23:09:15.034 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Finished Spring Data repository scanning in 39 ms. Found 5 JPA repository interfaces.
+17-11-2023 23:09:15.325 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8080 (http)
+17-11-2023 23:09:15.331 [main] INFO  o.a.catalina.core.StandardService.log - Starting service [Tomcat]
+17-11-2023 23:09:15.331 [main] INFO  o.a.catalina.core.StandardEngine.log - Starting Servlet engine: [Apache Tomcat/10.1.13]
+17-11-2023 23:09:15.449 [main] INFO  o.apache.jasper.servlet.TldScanner.log - At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+17-11-2023 23:09:15.452 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log - Initializing Spring embedded WebApplicationContext
+17-11-2023 23:09:15.452 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 839 ms
+17-11-2023 23:09:15.524 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Starting...
+17-11-2023 23:09:15.744 [main] INFO  com.zaxxer.hikari.pool.HikariPool.checkFailFast - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@586495f1
+17-11-2023 23:09:15.745 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Start completed.
+17-11-2023 23:09:15.768 [main] INFO  o.h.jpa.internal.util.LogHelper.logPersistenceUnitInformation - HHH000204: Processing PersistenceUnitInfo [name: default]
+17-11-2023 23:09:15.798 [main] INFO  org.hibernate.Version.logVersion - HHH000412: Hibernate ORM core version 6.2.1.Final
+17-11-2023 23:09:15.800 [main] INFO  org.hibernate.cfg.Environment.<clinit> - HHH000406: Using bytecode reflection optimizer
+17-11-2023 23:09:15.886 [main] INFO  o.h.b.i.BytecodeProviderInitiator.buildBytecodeProvider - HHH000021: Bytecode provider name : bytebuddy
+17-11-2023 23:09:15.972 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo.addTransformer - No LoadTimeWeaver setup: ignoring JPA class transformer
+17-11-2023 23:09:16.011 [main] INFO  SQL dialect.logSelectedDialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@586728e8
+17-11-2023 23:09:16.132 [main] INFO  o.h.b.i.BytecodeProviderInitiator.buildBytecodeProvider - HHH000021: Bytecode provider name : bytebuddy
+17-11-2023 23:09:16.580 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator.initiateService - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+17-11-2023 23:09:16.582 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory - Initialized JPA EntityManagerFactory for persistence unit 'default'
+17-11-2023 23:09:16.801 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory.<clinit> - Hibernate is in classpath; If applicable, HQL parser will be used.
+17-11-2023 23:09:17.142 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+17-11-2023 23:09:17.373 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8080 (http) with context path ''
+17-11-2023 23:09:17.379 [main] INFO  com.tms.InternetBankingApplication.logStarted - Started InternetBankingApplication in 3.051 seconds (process running for 3.372)
+17-11-2023 23:09:20.035 [http-nio-8080-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log - Initializing Spring DispatcherServlet 'dispatcherServlet'
+17-11-2023 23:09:20.035 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet.initServletBean - Initializing Servlet 'dispatcherServlet'
+17-11-2023 23:09:20.036 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet.initServletBean - Completed initialization in 1 ms
+17-11-2023 23:09:20.115 [http-nio-8080-exec-2] INFO  com.tms.service.TransactionService.deposit - Money was deposited to 5891-4678-1121-5476
+17-11-2023 23:11:05.257 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.destroy - Closing JPA EntityManagerFactory for persistence unit 'default'
+17-11-2023 23:11:05.259 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown initiated...
+17-11-2023 23:11:05.261 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown completed.
+17-11-2023 23:11:08.767 [main] INFO  com.tms.InternetBankingApplication.logStarting - Starting InternetBankingApplication using Java 17.0.7 with PID 2756 (C:\Users\Polina\IdeaProjects\internet-banking\target\classes started by Polina in C:\Users\Polina\IdeaProjects\internet-banking)
+17-11-2023 23:11:08.769 [main] INFO  com.tms.InternetBankingApplication.logStartupProfileInfo - No active profile set, falling back to 1 default profile: "default"
+17-11-2023 23:11:09.178 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+17-11-2023 23:11:09.225 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Finished Spring Data repository scanning in 41 ms. Found 5 JPA repository interfaces.
+17-11-2023 23:11:09.506 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8080 (http)
+17-11-2023 23:11:09.512 [main] INFO  o.a.catalina.core.StandardService.log - Starting service [Tomcat]
+17-11-2023 23:11:09.512 [main] INFO  o.a.catalina.core.StandardEngine.log - Starting Servlet engine: [Apache Tomcat/10.1.13]
+17-11-2023 23:11:09.630 [main] INFO  o.apache.jasper.servlet.TldScanner.log - At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+17-11-2023 23:11:09.633 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log - Initializing Spring embedded WebApplicationContext
+17-11-2023 23:11:09.633 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 836 ms
+17-11-2023 23:11:09.702 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Starting...
+17-11-2023 23:11:09.806 [main] INFO  com.zaxxer.hikari.pool.HikariPool.checkFailFast - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@113f9078
+17-11-2023 23:11:09.807 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Start completed.
+17-11-2023 23:11:09.832 [main] INFO  o.h.jpa.internal.util.LogHelper.logPersistenceUnitInformation - HHH000204: Processing PersistenceUnitInfo [name: default]
+17-11-2023 23:11:09.863 [main] INFO  org.hibernate.Version.logVersion - HHH000412: Hibernate ORM core version 6.2.1.Final
+17-11-2023 23:11:09.865 [main] INFO  org.hibernate.cfg.Environment.<clinit> - HHH000406: Using bytecode reflection optimizer
+17-11-2023 23:11:09.953 [main] INFO  o.h.b.i.BytecodeProviderInitiator.buildBytecodeProvider - HHH000021: Bytecode provider name : bytebuddy
+17-11-2023 23:11:10.035 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo.addTransformer - No LoadTimeWeaver setup: ignoring JPA class transformer
+17-11-2023 23:11:10.075 [main] INFO  SQL dialect.logSelectedDialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@678586f0
+17-11-2023 23:11:10.200 [main] INFO  o.h.b.i.BytecodeProviderInitiator.buildBytecodeProvider - HHH000021: Bytecode provider name : bytebuddy
+17-11-2023 23:11:10.626 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator.initiateService - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+17-11-2023 23:11:10.628 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory - Initialized JPA EntityManagerFactory for persistence unit 'default'
+17-11-2023 23:11:10.804 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory.<clinit> - Hibernate is in classpath; If applicable, HQL parser will be used.
+17-11-2023 23:11:11.136 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+17-11-2023 23:11:11.358 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8080 (http) with context path ''
+17-11-2023 23:11:11.364 [main] INFO  com.tms.InternetBankingApplication.logStarted - Started InternetBankingApplication in 2.867 seconds (process running for 3.202)
+17-11-2023 23:11:12.555 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log - Initializing Spring DispatcherServlet 'dispatcherServlet'
+17-11-2023 23:11:12.556 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet.initServletBean - Initializing Servlet 'dispatcherServlet'
+17-11-2023 23:11:12.556 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet.initServletBean - Completed initialization in 0 ms
+17-11-2023 23:11:12.637 [http-nio-8080-exec-1] INFO  com.tms.service.TransactionService.deposit - Money was deposited to 5891-4678-1121-5476
+17-11-2023 23:12:05.380 [http-nio-8080-exec-4] INFO  com.tms.service.TransactionService.deposit - Money was deposited to 7305-7049-5093-3491
+17-11-2023 23:13:06.991 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.destroy - Closing JPA EntityManagerFactory for persistence unit 'default'
+17-11-2023 23:13:06.992 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown initiated...
+17-11-2023 23:13:06.994 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown completed.
+17-11-2023 23:13:09.500 [main] INFO  com.tms.InternetBankingApplication.logStarting - Starting InternetBankingApplication using Java 17.0.7 with PID 2788 (C:\Users\Polina\IdeaProjects\internet-banking\target\classes started by Polina in C:\Users\Polina\IdeaProjects\internet-banking)
+17-11-2023 23:13:09.502 [main] INFO  com.tms.InternetBankingApplication.logStartupProfileInfo - No active profile set, falling back to 1 default profile: "default"
+17-11-2023 23:13:09.941 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+17-11-2023 23:13:09.982 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Finished Spring Data repository scanning in 36 ms. Found 5 JPA repository interfaces.
+17-11-2023 23:13:10.292 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8080 (http)
+17-11-2023 23:13:10.298 [main] INFO  o.a.catalina.core.StandardService.log - Starting service [Tomcat]
+17-11-2023 23:13:10.299 [main] INFO  o.a.catalina.core.StandardEngine.log - Starting Servlet engine: [Apache Tomcat/10.1.13]
+17-11-2023 23:13:10.442 [main] INFO  o.apache.jasper.servlet.TldScanner.log - At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+17-11-2023 23:13:10.445 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log - Initializing Spring embedded WebApplicationContext
+17-11-2023 23:13:10.446 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 914 ms
+17-11-2023 23:13:10.524 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Starting...
+17-11-2023 23:13:10.640 [main] INFO  com.zaxxer.hikari.pool.HikariPool.checkFailFast - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4702e7a5
+17-11-2023 23:13:10.641 [main] INFO  com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Start completed.
+17-11-2023 23:13:10.667 [main] INFO  o.h.jpa.internal.util.LogHelper.logPersistenceUnitInformation - HHH000204: Processing PersistenceUnitInfo [name: default]
+17-11-2023 23:13:10.701 [main] INFO  org.hibernate.Version.logVersion - HHH000412: Hibernate ORM core version 6.2.1.Final
+17-11-2023 23:13:10.703 [main] INFO  org.hibernate.cfg.Environment.<clinit> - HHH000406: Using bytecode reflection optimizer
+17-11-2023 23:13:10.802 [main] INFO  o.h.b.i.BytecodeProviderInitiator.buildBytecodeProvider - HHH000021: Bytecode provider name : bytebuddy
+17-11-2023 23:13:10.893 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo.addTransformer - No LoadTimeWeaver setup: ignoring JPA class transformer
+17-11-2023 23:13:10.934 [main] INFO  SQL dialect.logSelectedDialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect, version: org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$DialectResolutionInfoImpl@37d6dddc
+17-11-2023 23:13:11.065 [main] INFO  o.h.b.i.BytecodeProviderInitiator.buildBytecodeProvider - HHH000021: Bytecode provider name : bytebuddy
+17-11-2023 23:13:11.539 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator.initiateService - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+17-11-2023 23:13:11.542 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory - Initialized JPA EntityManagerFactory for persistence unit 'default'
+17-11-2023 23:13:11.753 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory.<clinit> - Hibernate is in classpath; If applicable, HQL parser will be used.
+17-11-2023 23:13:12.341 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration.openEntityManagerInViewInterceptor - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+17-11-2023 23:13:12.693 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8080 (http) with context path ''
+17-11-2023 23:13:12.702 [main] INFO  com.tms.InternetBankingApplication.logStarted - Started InternetBankingApplication in 3.483 seconds (process running for 3.872)
+17-11-2023 23:13:16.543 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/].log - Initializing Spring DispatcherServlet 'dispatcherServlet'
+17-11-2023 23:13:16.543 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet.initServletBean - Initializing Servlet 'dispatcherServlet'
+17-11-2023 23:13:16.544 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet.initServletBean - Completed initialization in 1 ms
+17-11-2023 23:20:51.186 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean.destroy - Closing JPA EntityManagerFactory for persistence unit 'default'
+17-11-2023 23:20:51.187 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown initiated...
+17-11-2023 23:20:51.189 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown completed.

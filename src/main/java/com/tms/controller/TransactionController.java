@@ -2,7 +2,6 @@ package com.tms.controller;
 
 import com.tms.dtos.CardTransactionDepositAndWithdrawDTO;
 import com.tms.dtos.CardTransactionTransferDTO;
-import com.tms.service.CardService;
 import com.tms.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +23,6 @@ import java.nio.file.Paths;
 @RequiredArgsConstructor
 @RequestMapping("/transaction")
 public class TransactionController {
-    public final CardService cardService;
     public final TransactionService transactionService;
     private final Path ROOT_FILE_PATH = Paths.get("");
 

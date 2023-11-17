@@ -5,6 +5,7 @@ import com.tms.domain.MoneyCurrency;
 import com.tms.exceptions.CheckException;
 import com.tms.exceptions.FileCreationException;
 import com.tms.repository.CardRepository;
+import com.tms.repository.TransactionRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +30,8 @@ import java.util.UUID;
 public class TransactionService {
     private final ClientService clientService;
     private final CardRepository cardRepository;
-    private final CardService cardService;
+    private final TransactionRepository transactionRepository;
+
     /**
      * Method deposit replenishes the balance using the card number, specified amount and money currency
      * @return String if operation was successful and throws Exception otherwise
@@ -40,7 +42,7 @@ public class TransactionService {
         String bank = cardRepository.findCardTypeByCardNumber(cardNumber);
         BigDecimal newAmount = amount.multiply(BigDecimal.valueOf(equalizationCoefficientToOneExchangeRate(moneyCurrency,
                 cardReceiverMoneyCurrency))).setScale(2, RoundingMode.HALF_UP);
-        cardRepository.deposit(cardNumber, newAmount);
+        transactionRepository.deposit(cardNumber, newAmount);
         log.info(String.format("Money was deposited to %s", cardNumber));
         return makeCheckForDepositAndWithdraw(cardNumber, amount.setScale(2, RoundingMode.HALF_UP), moneyCurrency, bank, "deposit");
     }
@@ -55,7 +57,7 @@ public class TransactionService {
         String bank = cardRepository.findCardTypeByCardNumber(cardNumber);
         BigDecimal newAmount = amount.multiply(BigDecimal.valueOf(equalizationCoefficientToOneExchangeRate(moneyCurrency,
                 cardReceiverMoneyCurrency))).setScale(2, RoundingMode.HALF_UP);
-        cardRepository.withdraw(cardNumber, newAmount);
+        transactionRepository.withdraw(cardNumber, newAmount);
         log.info(String.format("Money was withdraw from %s", cardNumber));
         return makeCheckForDepositAndWithdraw(cardNumber, amount.setScale(2, RoundingMode.HALF_UP), moneyCurrency, bank, "withdraw");
     }
@@ -70,10 +72,10 @@ public class TransactionService {
         String cardReceiverMoneyCurrency = cardRepository.findCardMoneyCurrencyByCardNumber(cardReceiverNumber);
         String bankSender = cardRepository.findCardTypeByCardNumber(cardSenderNumber);
         String bankReceiver = cardRepository.findCardTypeByCardNumber(cardReceiverNumber);
-        cardRepository.withdraw(cardSenderNumber, amount);
+        transactionRepository.withdraw(cardSenderNumber, amount);
         BigDecimal newAmount = amount.multiply(BigDecimal.valueOf(equalizationCoefficientToOneExchangeRate(cardSenderMoneyCurrency,
                 cardReceiverMoneyCurrency))).setScale(2, RoundingMode.HALF_UP);
-        cardRepository.deposit(cardReceiverNumber, newAmount);
+        transactionRepository.deposit(cardReceiverNumber, newAmount);
         log.info(String.format("Money was transferred from %s to %s", cardSenderNumber, cardReceiverNumber));
         return makeCheckForTransfer(cardSenderNumber, cardReceiverNumber, amount.setScale(2, RoundingMode.HALF_UP), cardSenderMoneyCurrency, bankSender, bankReceiver, "transfer");
     }
@@ -122,8 +124,8 @@ public class TransactionService {
     public File makeUniqueFile(String cardNumber, Integer checkNumber) {
         try {
             Client client = new Client();
-            if (clientService.getClientById(cardService.getCardByCardNumber(cardNumber).getClientId()).isPresent()){
-                client = clientService.getClientById(cardService.getCardByCardNumber(cardNumber).getClientId()).get();
+            if (clientService.getClientById(cardRepository.findCardByCardNumber(cardNumber).getClientId()).isPresent()){
+                client = clientService.getClientById(cardRepository.findCardByCardNumber(cardNumber).getClientId()).get();
             }
             Long id = client.getId();
             String firstName = client.getFirstName();
