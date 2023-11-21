@@ -38,4 +38,16 @@ public class ExceptionResolver {
         log.warn(String.valueOf(e));
         return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(ClientFromDatabaseNotFound.class)
+    public ResponseEntity<HttpStatus> clientFromDatabaseNotFoundException(Exception e) {
+        log.info(String.valueOf(e));
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(SameClientInDatabaseException.class)
+    public ResponseEntity<HttpStatus> sameClientInDatabaseException(Exception e) {
+        log.info(String.valueOf(e));
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
+    }
 }

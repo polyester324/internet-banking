@@ -101,21 +101,6 @@ public class ClientService {
     }
 
     /**
-     * Method updatePhoneNumber updates client's phone number from url path to db
-     * @return true if client's phone number was updated and false otherwise
-     */
-    @Transactional(rollbackFor = Exception.class)
-    public Boolean updatePhoneNumber(String phoneNumber, long id){
-        try {
-            clientRepository.updatePhoneNumberById(phoneNumber, id);
-            log.info(String.format("client's phone number with id %s was updated", id));
-        } catch (Exception e){
-            log.info(String.format("client's phone number with id %s was not updated", id));
-            return false;
-        }
-        return true;    }
-
-    /**
      * Method deleteClientById deletes client from db by id
      * @return true if client was deleted and false otherwise
      */

@@ -25,8 +25,6 @@ public class Client {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-    @Column(name = "phone_number")
-    private String phoneNumber;
     @Column(name = "created")
     private Timestamp created;
 }

@@ -81,12 +81,20 @@ public class TransactionService {
     }
 
     /**
+     * Method makeRandomCheckNumber makes random number fromm 10_000 to 99_999
+     * @return Integer
+     */
+    public Integer makeRandomCheckNumber(){
+        return new Random().nextInt((90_000) + 10_000);
+    }
+
+    /**
      * Method makeCheckForDepositAndWithdraw prints check for deposit and withdraw
      * throws CheckException if check was not printed
      */
     public String makeCheckForDepositAndWithdraw(String card, BigDecimal amount, String moneyCurrency, String bank, String type) {
         try {
-            Integer checkNumber = new Random().nextInt(90000) + 10000;
+            Integer checkNumber = makeRandomCheckNumber();
             File file = makeUniqueFile(card, checkNumber);
             FileWriter fileWriter = new FileWriter(file);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -104,7 +112,7 @@ public class TransactionService {
      */
     public String makeCheckForTransfer(String cardSender, String cardReceiver, BigDecimal amount, String moneyCurrency, String bankSender, String bankReceiver, String type) {
         try {
-            Integer checkNumber = new Random().nextInt(90000) + 10000;
+            Integer checkNumber = makeRandomCheckNumber();
             File file = makeUniqueFile(cardSender, checkNumber);
             FileWriter fileWriter = new FileWriter(file);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -147,10 +155,10 @@ public class TransactionService {
                 if (uniqueFile.createNewFile()) {
                     return uniqueFile;
                 } else {
-                    System.out.println("Failed to create unique file");
+                    log.info("Failed to create unique file");
                 }
             } catch (IOException e) {
-                System.out.println("Failed to create unique file");
+                log.info("Failed to create unique file");
             }
 
             return uniqueFile;

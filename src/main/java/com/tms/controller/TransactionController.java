@@ -79,11 +79,11 @@ public class TransactionController {
             if (resource.exists() || resource.isReadable()) {
                 HttpHeaders headers = new HttpHeaders();
                 headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
-                return new ResponseEntity<>(resource, headers, HttpStatus.NO_CONTENT);
+                return new ResponseEntity<>(resource, headers, HttpStatus.OK);
             }
         } catch (MalformedURLException e) {
             log.info(String.format("failed to return check, exception: %s", e));
         }
-        return new ResponseEntity<>(HttpStatus.CONFLICT);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

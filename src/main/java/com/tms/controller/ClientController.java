@@ -78,15 +78,6 @@ public class ClientController {
     }
 
     /**
-     * updateClientPhoneNumber is a PUT method that updates client's phone number by url path
-     * @return 204 no content if client's phone number was updated and 409 conflict otherwise
-     */
-    @PutMapping("/{id}/{phone-number}")
-    public ResponseEntity<HttpStatus> updateClientPhoneNumber(@PathVariable("id") Long id, @PathVariable("phone-number") String phoneNumber){
-        return new ResponseEntity<>(clientService.updatePhoneNumber(phoneNumber, id) ?  HttpStatus.NO_CONTENT : HttpStatus.CONFLICT);
-    }
-
-    /**
      * deleteClient is a DELETE method that deletes the client by requested id in url path
      * @return 204 no content if client was deleted and 409 conflict otherwise
      */
