@@ -40,4 +40,6 @@ public class Investment {
     private BigDecimal expectedAmount;
     @Column(name = "time")
     private String time;
+    @Column(name = "client_id")
+    private Long clientId;
 }

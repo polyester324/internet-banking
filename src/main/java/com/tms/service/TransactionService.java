@@ -3,12 +3,17 @@ package com.tms.service;
 import com.tms.domain.Client;
 import com.tms.domain.MoneyCurrency;
 import com.tms.exceptions.CheckException;
+import com.tms.exceptions.ClientFromDatabaseNotFound;
 import com.tms.exceptions.FileCreationException;
+import com.tms.exceptions.NoAccessByIdException;
 import com.tms.repository.CardRepository;
+import com.tms.repository.ClientRepository;
 import com.tms.repository.TransactionRepository;
+import com.tms.security.service.SecurityService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.io.BufferedWriter;
@@ -29,7 +34,9 @@ import java.util.UUID;
 @Data
 public class TransactionService {
     private final ClientService clientService;
+    private final SecurityService securityService;
     private final CardRepository cardRepository;
+    private final ClientRepository clientRepository;
     private final TransactionRepository transactionRepository;
 
     /**
@@ -67,17 +74,19 @@ public class TransactionService {
      * @return String if operation was successful and throws Exception otherwise
      */
     @Transactional(rollbackFor = Exception.class)
-    public String transfer(String cardSenderNumber, String cardReceiverNumber, BigDecimal amount) {
-        String cardSenderMoneyCurrency = cardRepository.findCardMoneyCurrencyByCardNumber(cardSenderNumber);
-        String cardReceiverMoneyCurrency = cardRepository.findCardMoneyCurrencyByCardNumber(cardReceiverNumber);
-        String bankSender = cardRepository.findCardTypeByCardNumber(cardSenderNumber);
-        String bankReceiver = cardRepository.findCardTypeByCardNumber(cardReceiverNumber);
-        transactionRepository.withdraw(cardSenderNumber, amount);
-        BigDecimal newAmount = amount.multiply(BigDecimal.valueOf(equalizationCoefficientToOneExchangeRate(cardSenderMoneyCurrency,
-                cardReceiverMoneyCurrency))).setScale(2, RoundingMode.HALF_UP);
-        transactionRepository.deposit(cardReceiverNumber, newAmount);
-        log.info(String.format("Money was transferred from %s to %s", cardSenderNumber, cardReceiverNumber));
-        return makeCheckForTransfer(cardSenderNumber, cardReceiverNumber, amount.setScale(2, RoundingMode.HALF_UP), cardSenderMoneyCurrency, bankSender, bankReceiver, "transfer");
+    public String transfer(String cardSenderNumber, String cardReceiverNumber, BigDecimal amount, String MoneyCurrency) {
+        if (securityService.checkAccessById(cardRepository.findCardByCardNumber(cardSenderNumber).getClientId())) {
+            String cardSenderMoneyCurrency = cardRepository.findCardMoneyCurrencyByCardNumber(cardSenderNumber);
+            String bankSender = cardRepository.findCardTypeByCardNumber(cardSenderNumber);
+            String bankReceiver = cardRepository.findCardTypeByCardNumber(cardReceiverNumber);
+            BigDecimal newAmountForSender = amount.multiply(BigDecimal.valueOf(equalizationCoefficientToOneExchangeRate(MoneyCurrency,
+                    cardSenderMoneyCurrency))).setScale(2, RoundingMode.HALF_UP);
+            transactionRepository.withdraw(cardSenderNumber, newAmountForSender);
+            deposit(cardReceiverNumber, amount, MoneyCurrency);
+            log.info(String.format("Money was transferred from %s to %s", cardSenderNumber, cardReceiverNumber));
+            return makeCheckForTransfer(cardSenderNumber, cardReceiverNumber, amount.setScale(2, RoundingMode.HALF_UP), MoneyCurrency, bankSender, bankReceiver, "transfer");
+        }
+        throw new NoAccessByIdException(cardRepository.findCardByCardNumber(cardSenderNumber).getClientId(), SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
     /**
@@ -131,10 +140,8 @@ public class TransactionService {
      */
     public File makeUniqueFile(String cardNumber, Integer checkNumber) {
         try {
-            Client client = new Client();
-            if (clientService.getClientById(cardRepository.findCardByCardNumber(cardNumber).getClientId()).isPresent()){
-                client = clientService.getClientById(cardRepository.findCardByCardNumber(cardNumber).getClientId()).get();
-            }
+            Client client = clientRepository.findById(cardRepository.findCardByCardNumber(cardNumber).getClientId()).orElseThrow(ClientFromDatabaseNotFound::new);
+
             Long id = client.getId();
             String firstName = client.getFirstName();
             String lastName = client.getLastName();

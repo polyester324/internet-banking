@@ -11,5 +11,4 @@ import org.springframework.stereotype.Component;
 public class CardCreationDTO {
     private String bankName;
     private String moneyCurrency;
-    private Long clientId;
 }

@@ -1,5 +1,7 @@
 package com.tms.service;
 
+import com.tms.domain.Client;
+import com.tms.domain.Investment;
 import com.tms.domain.bank.BankFactory;
 import com.tms.domain.card.Card;
 import com.tms.exceptions.CardNotFoundException;
@@ -12,6 +14,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * CardService is a class, that has a connection to <i>CardRepository
@@ -25,18 +28,18 @@ public class CardService {
     private final BankRepository bankRepository;
 
     /**
-     * Method createCard adds card data to db
-     * @return true if card was created and false otherwise
+     * Method getCardById gets Card by requested id
+     * @return Optional<Card>
      */
-    public Boolean createCard(Card card){
-        try {
-            cardRepository.save(card);
-            log.info(String.format("card with card number %s was created", card.getCardNumber()));
-        } catch (Exception e){
-            log.warn(String.format("have problem creating card with card number %s have error %s", card.getCardNumber(), e));
-            return false;
+    public Card getCardById(Long id) {
+        if (cardRepository.findById(id).isPresent()) {
+            return cardRepository.findById(id).get();
         }
-        return true;
+        throw new CardNotFoundException();
+    }
+
+    public List<Card> getAll() {
+        return cardRepository.findAll();
     }
 
     /**
@@ -53,7 +56,7 @@ public class CardService {
             card.setMoneyCurrency(moneyCurrency);
             card.setCardType(bankName);
             card.setCreated(Timestamp.valueOf(LocalDateTime.now()));
-            createCard(card);
+            cardRepository.save(card);
             log.info(String.format("card with card number %s was registered", card.getCardNumber()));
         } catch (Exception e){
             log.warn(String.format("have problem registering card with card number %s have error %s", card.getCardNumber(), e));
@@ -63,31 +66,26 @@ public class CardService {
     }
 
     /**
-     * Method getAllCardNumbers gets all card's numbers
-     * @return List<String>
-     */
-    public List<String> getAllCardNumbers() {
-        return cardRepository.findAllCardNumbers();
-    }
-
-    /**
-     * Method getCardById gets Card by requested id
-     *
-     * @return Optional<Card>
-     */
-    public Card getCardById(Long id) {
-        if (cardRepository.findById(id).isPresent()) {
-            return cardRepository.findById(id).get();
-        }
-        throw new CardNotFoundException();
-    }
-
-    /**
      * Method getCardByNumber gets Card by requested card number
-     * @return Optional<Card>
+     * @return Card
      */
     public Card getCardByCardNumber(String cardNumber) {
         return cardRepository.findCardByCardNumber(cardNumber);
+    }
+
+    /**
+     * Method updateCard updates card from json data to db
+     * @return true if card was updated and false otherwise
+     */
+    public Boolean updateCard(Card card) {
+        try {
+            cardRepository.saveAndFlush(card);
+            log.info(String.format("card with id %s was updated", card.getId()));
+        } catch (Exception e){
+            log.warn(String.format("have problem updating card with id %s have error %s", card.getId(), e));
+            return false;
+        }
+        return true;
     }
 
     /**

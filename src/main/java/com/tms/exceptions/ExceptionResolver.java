@@ -50,4 +50,10 @@ public class ExceptionResolver {
         log.info(String.valueOf(e));
         return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(NoAccessByIdException.class)
+    public ResponseEntity<HttpStatus> noAccessByIdException(Exception e) {
+        log.info(String.valueOf(e));
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
 }

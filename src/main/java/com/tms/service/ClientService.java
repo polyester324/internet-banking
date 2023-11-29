@@ -1,9 +1,12 @@
 package com.tms.service;
 
 import com.tms.domain.Client;
+import com.tms.exceptions.NoAccessByIdException;
 import com.tms.repository.ClientRepository;
+import com.tms.security.service.SecurityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.sql.Timestamp;
@@ -20,6 +23,7 @@ import java.util.Optional;
 @Service
 public class ClientService {
     private final ClientRepository clientRepository;
+    private final SecurityService securityService;
 
     /**
      * Method getAll shows json data of all clients in the db
@@ -34,7 +38,10 @@ public class ClientService {
      * @return Optional<Client>
      */
     public Optional<Client> getClientById(Long id){
-        return clientRepository.findById(id);
+        if (securityService.checkAccessById(id)) {
+            return clientRepository.findById(id);
+        }
+        throw new NoAccessByIdException(id, SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
     /**
@@ -74,14 +81,17 @@ public class ClientService {
      */
     @Transactional(rollbackFor = Exception.class)
     public Boolean updateFirstName(String name, long id){
-        try {
-            clientRepository.updateFirstNameById(name, id);
-            log.info(String.format("client's first name with id %s was updated", id));
-        } catch (Exception e){
-            log.info(String.format("client's first name with id %s was not updated", id));
-            return false;
+        if (securityService.checkAccessById(id)) {
+            try {
+                clientRepository.updateFirstNameById(name, id);
+                log.info(String.format("client's first name with id %s was updated", id));
+            } catch (Exception e){
+                log.info(String.format("client's first name with id %s was not updated", id));
+                return false;
+            }
+            return true;
         }
-        return true;
+        throw new NoAccessByIdException(id, SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
     /**
@@ -90,14 +100,36 @@ public class ClientService {
      */
     @Transactional(rollbackFor = Exception.class)
     public Boolean updateLastName(String name, long id){
-        try {
-            clientRepository.updateLastNameById(name, id);
-            log.info(String.format("client's last name with id %s was updated", id));
-        } catch (Exception e){
-            log.info(String.format("client's last name with id %s was not updated", id));
-            return false;
+        if (securityService.checkAccessById(id)) {
+            try {
+                clientRepository.updateLastNameById(name, id);
+                log.info(String.format("client's last name with id %s was updated", id));
+            } catch (Exception e){
+                log.info(String.format("client's last name with id %s was not updated", id));
+                return false;
+            }
+            return true;
         }
-        return true;
+        throw new NoAccessByIdException(id, SecurityContextHolder.getContext().getAuthentication().getName());
+    }
+
+    /**
+     * Method updateEmail updates client's email from url path to db
+     * @return true if client's email was updated and false otherwise
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean updateEmail(String email, long id){
+        if (securityService.checkAccessById(id)) {
+            try {
+                clientRepository.updateEmailById(email, id);
+                log.info(String.format("client's email with id %s was updated", id));
+            } catch (Exception e){
+                log.info(String.format("client's email with id %s was not updated", id));
+                return false;
+            }
+            return true;
+        }
+        throw new NoAccessByIdException(id, SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
     /**

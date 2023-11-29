@@ -51,9 +51,9 @@ public class BankController {
      * createCard is a POST method that creates the card
      * @return 201 created if card was created and 409 conflict otherwise
      */
-    @PostMapping("/create-card")
-    public ResponseEntity<HttpStatus> createCard(@RequestBody CardCreationDTO card){
-        return new ResponseEntity<>(bankService.createCard(card.getBankName(), card.getMoneyCurrency(),card.getClientId()) ? HttpStatus.CREATED : HttpStatus.CONFLICT);
+    @PostMapping("/create-card/{id}")
+    public ResponseEntity<HttpStatus> createCard(@PathVariable ("id") Long id, @RequestBody CardCreationDTO card){
+        return new ResponseEntity<>(bankService.createCard(card.getBankName(), card.getMoneyCurrency(), id) ? HttpStatus.CREATED : HttpStatus.CONFLICT);
     }
 
     /**

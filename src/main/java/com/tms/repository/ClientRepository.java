@@ -27,4 +27,10 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     @Query("update clients c set c.lastName = :lastName where c.id = :id")
     void updateLastNameById(String lastName, Long id);
 
+    /**
+     * updateEmailById is a method, that updates client's email
+     */
+    @Modifying
+    @Query("update security s set s.email = :email where s.client_id = :id")
+    void updateEmailById(String email, Long id);
 }

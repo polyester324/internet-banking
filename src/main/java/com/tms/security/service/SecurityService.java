@@ -64,7 +64,7 @@ public class SecurityService {
                 .getAuthorities()
                 .stream()
                 .findFirst()
-                .get());
+                .orElse(null));
         Long userId = securityCredentialsRepository.findUserIdByLogin(userLogin);
         return (userId.equals(id) || userRole.equals("ROLE_ADMIN"));
     }

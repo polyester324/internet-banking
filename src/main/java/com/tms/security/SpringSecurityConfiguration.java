@@ -44,14 +44,45 @@ public class SpringSecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
                         auth
-                                .requestMatchers(new AntPathRequestMatcher("/client", "GET")).hasRole("ADMIN")
-                                .requestMatchers(new AntPathRequestMatcher("/client")).hasRole("ADMIN")
                                 .requestMatchers(new AntPathRequestMatcher("/security/registration", "POST")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/security", "POST")).permitAll()
+
+                                .requestMatchers(new AntPathRequestMatcher("/client", "GET")).hasAnyRole("ADMIN", "MODERATOR")
+                                .requestMatchers(new AntPathRequestMatcher("/client", "POST")).hasAnyRole("ADMIN", "MODERATOR")
+                                .requestMatchers(new AntPathRequestMatcher("/client", "PUT")).hasAnyRole("ADMIN", "MODERATOR")
+                                .requestMatchers(new AntPathRequestMatcher("/client/first-name/{id}", "PUT")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/client/last-name/{id}", "PUT")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/client/email/{id}", "PUT")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/client/{id}", "GET")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/client", "DELETE")).permitAll()
+
+                                .requestMatchers(new AntPathRequestMatcher("/bank", "GET")).hasAnyRole("ADMIN", "MODERATOR")
+                                .requestMatchers(new AntPathRequestMatcher("/bank/{id}", "GET")).hasAnyRole("ADMIN", "MODERATOR")
+                                .requestMatchers(new AntPathRequestMatcher("/bank", "POST")).hasAnyRole("ADMIN", "MODERATOR")
+                                .requestMatchers(new AntPathRequestMatcher("/bank", "PUT")).hasAnyRole("ADMIN", "MODERATOR")
+                                .requestMatchers(new AntPathRequestMatcher("/bank/{id}", "DELETE")).hasAnyRole("ADMIN", "MODERATOR")
+                                .requestMatchers(new AntPathRequestMatcher("/bank/create-card", "GET")).permitAll()
+
+                                .requestMatchers(new AntPathRequestMatcher("/investment", "GET")).hasRole("ADMIN")
+                                .requestMatchers(new AntPathRequestMatcher("/investment/{id}", "GET")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/investment/{id}", "POST")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/investment", "PUT")).hasRole("ADMIN")
+                                .requestMatchers(new AntPathRequestMatcher("/investment/{id}", "DELETE")).hasRole("ADMIN")
+
+                                .requestMatchers(new AntPathRequestMatcher("/card", "GET")).hasRole("ADMIN")
+                                .requestMatchers(new AntPathRequestMatcher("/card/{id}", "GET")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/card", "POST")).hasRole("ADMIN")
+                                .requestMatchers(new AntPathRequestMatcher("/card", "PUT")).hasRole("ADMIN")
+                                .requestMatchers(new AntPathRequestMatcher("/card", "DELETE")).hasRole("ADMIN")
+
+                                .requestMatchers(new AntPathRequestMatcher("/transaction/transfer", "PUT")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/transaction/deposit", "PUT")).hasRole("ADMIN")
+                                .requestMatchers(new AntPathRequestMatcher("/transaction/withdraw", "PUT")).hasRole("ADMIN")
+
                                 .anyRequest().authenticated()
                 )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))//отключить сессии
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)//фильтр на JWT
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

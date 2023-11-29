@@ -13,4 +13,5 @@ public class CardTransactionTransferDTO {
     private String cardSender;
     private String cardReceiver;
     private BigDecimal amount;
+    private String moneyCurrency;
 }

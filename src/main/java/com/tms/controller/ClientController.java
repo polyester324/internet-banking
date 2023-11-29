@@ -1,6 +1,9 @@
 package com.tms.controller;
 
 import com.tms.domain.Client;
+import com.tms.dtos.ClientEmailDTO;
+import com.tms.dtos.ClientFirstNameDTO;
+import com.tms.dtos.ClientLastNameDTO;
 import com.tms.service.ClientService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -63,18 +66,27 @@ public class ClientController {
      * updateClientFirstName is a PUT method that updates client's first name by url path
      * @return 204 no content if client's first name was updated and 409 conflict otherwise
      */
-    @PutMapping("/{id}/{first-name}")
-    public ResponseEntity<HttpStatus> updateClientFirstName(@PathVariable("id") Long id, @PathVariable("first-name") String name){
-        return new ResponseEntity<>(clientService.updateFirstName(name, id) ?  HttpStatus.NO_CONTENT : HttpStatus.CONFLICT);
+    @PutMapping("/first-name/{id}")
+    public ResponseEntity<HttpStatus> updateClientFirstName(@PathVariable("id") Long id, @RequestBody ClientFirstNameDTO dto){
+        return new ResponseEntity<>(clientService.updateFirstName(dto.getFirstName(), id) ?  HttpStatus.NO_CONTENT : HttpStatus.CONFLICT);
     }
 
     /**
      * updateClientLastName is a PUT method that updates client's last name by url path
      * @return 204 no content if client's last name was updated and 409 conflict otherwise
      */
-    @PutMapping("/{id}/{last-name}")
-    public ResponseEntity<HttpStatus> updateClientLastName(@PathVariable("id") Long id, @PathVariable("last-name") String name){
-        return new ResponseEntity<>(clientService.updateLastName(name, id) ?  HttpStatus.NO_CONTENT : HttpStatus.CONFLICT);
+    @PutMapping("/last-name/{id}")
+    public ResponseEntity<HttpStatus> updateClientLastName(@PathVariable("id") Long id, @RequestBody ClientLastNameDTO dto){
+        return new ResponseEntity<>(clientService.updateLastName(dto.getLastName(), id) ?  HttpStatus.NO_CONTENT : HttpStatus.CONFLICT);
+    }
+
+    /**
+     * updateClientEmail is a PUT method that updates client's email by url path
+     * @return 204 no content if client's email was updated and 409 conflict otherwise
+     */
+    @PutMapping("/email/{id}")
+    public ResponseEntity<HttpStatus> updateClientEmail(@PathVariable("id") Long id, @RequestBody ClientEmailDTO dto){
+        return new ResponseEntity<>(clientService.updateEmail(dto.getEmail(), id) ?  HttpStatus.NO_CONTENT : HttpStatus.CONFLICT);
     }
 
     /**

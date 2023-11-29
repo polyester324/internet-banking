@@ -33,11 +33,11 @@ public class TransactionController {
     @PutMapping("/transfer")
     public ResponseEntity<Resource> transferMoneyBetweenTwoClients(@RequestBody CardTransactionTransferDTO dto){
         try {
-            return printCheck(transactionService.transfer(dto.getCardSender(), dto.getCardReceiver(), dto.getAmount()));
+            return printCheck(transactionService.transfer(dto.getCardSender(), dto.getCardReceiver(), dto.getAmount(), dto.getMoneyCurrency()));
         } catch (Exception e){
             log.info("transfer operation failed");
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
     /**
@@ -51,7 +51,7 @@ public class TransactionController {
         } catch (Exception e){
             log.info("deposit operation failed");
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
     /**
@@ -65,7 +65,7 @@ public class TransactionController {
         } catch (Exception e){
             log.info("withdraw operation failed");
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
     /**
