@@ -20,17 +20,11 @@ public class SecurityCredentials {
     @SequenceGenerator(name = "security_generator", sequenceName = "security_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "security_generator")
     private Long id;
-
-    @Column(name = "email")
     private String email;
-
-    @Column(name = "password")
     private String password;
-
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
-
     @Column(name = "client_id")
     private Long client_id;
 }

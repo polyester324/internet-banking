@@ -133,6 +133,25 @@ public class ClientService {
     }
 
     /**
+     * Method updatePassword updates client's password from url path to db
+     * @return true if client's password was updated and false otherwise
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean updatePassword(String password, long id){
+        if (securityService.checkAccessById(id)) {
+            try {
+                clientRepository.updatePasswordById(password, id);
+                log.info(String.format("client's password with id %s was updated", id));
+            } catch (Exception e){
+                log.info(String.format("client's password with id %s was not updated", id));
+                return false;
+            }
+            return true;
+        }
+        throw new NoAccessByIdException(id, SecurityContextHolder.getContext().getAuthentication().getName());
+    }
+
+    /**
      * Method deleteClientById deletes client from db by id
      * @return true if client was deleted and false otherwise
      */

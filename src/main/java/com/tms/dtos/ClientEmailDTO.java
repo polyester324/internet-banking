@@ -1,5 +1,7 @@
 package com.tms.dtos;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
@@ -9,5 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Data
 public class ClientEmailDTO {
+    @NotBlank
+    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "Please provide a valid email address")
     private String email;
 }

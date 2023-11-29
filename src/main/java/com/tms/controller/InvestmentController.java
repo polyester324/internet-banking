@@ -3,6 +3,7 @@ package com.tms.controller;
 import com.tms.domain.Investment;
 import com.tms.dtos.InvestmentCreationDTO;
 import com.tms.service.InvestmentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -48,7 +49,7 @@ public class InvestmentController {
      * @return 201 created if investment was created and 409 conflict otherwise
      */
     @PostMapping("/{id}")
-    public ResponseEntity<HttpStatus> createInvestment(@PathVariable("id") Long id, @RequestBody InvestmentCreationDTO dto){
+    public ResponseEntity<HttpStatus> createInvestment(@PathVariable("id") Long id, @Valid @RequestBody InvestmentCreationDTO dto){
         return new ResponseEntity<>(investmentService.createInvestment(dto.getCardNumber(), dto.getBankName(), dto.getMoneyCurrency(), dto.getTime(), dto.getAmount(), id) ? HttpStatus.CREATED : HttpStatus.CONFLICT);
     }
 

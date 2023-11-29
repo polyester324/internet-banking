@@ -3,6 +3,7 @@ package com.tms.controller;
 import com.tms.dtos.CardTransactionDepositAndWithdrawDTO;
 import com.tms.dtos.CardTransactionTransferDTO;
 import com.tms.service.TransactionService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
@@ -31,7 +32,7 @@ public class TransactionController {
      * @return 204 no content if operation was successful and 409 conflict otherwise
      */
     @PutMapping("/transfer")
-    public ResponseEntity<Resource> transferMoneyBetweenTwoClients(@RequestBody CardTransactionTransferDTO dto){
+    public ResponseEntity<Resource> transferMoneyBetweenTwoClients(@Valid @RequestBody CardTransactionTransferDTO dto){
         try {
             return printCheck(transactionService.transfer(dto.getCardSender(), dto.getCardReceiver(), dto.getAmount(), dto.getMoneyCurrency()));
         } catch (Exception e){
@@ -45,7 +46,7 @@ public class TransactionController {
      * @return 204 no content if operation was successful and 409 conflict otherwise
      */
     @PutMapping("/deposit")
-    public ResponseEntity<Resource> putMoneyIntoTheAccount(@RequestBody CardTransactionDepositAndWithdrawDTO dto){
+    public ResponseEntity<Resource> putMoneyIntoTheAccount(@Valid @RequestBody CardTransactionDepositAndWithdrawDTO dto){
         try {
             return printCheck(transactionService.deposit(dto.getCard(), dto.getAmount(), dto.getMoneyCurrency()));
         } catch (Exception e){
@@ -59,7 +60,7 @@ public class TransactionController {
      * @return 204 no content if operation was successful and 409 conflict otherwise
      */
     @PutMapping("/withdraw")
-    public ResponseEntity<Resource> withdrawMoneyFromTheAccount(@RequestBody CardTransactionDepositAndWithdrawDTO dto){
+    public ResponseEntity<Resource> withdrawMoneyFromTheAccount(@Valid @RequestBody CardTransactionDepositAndWithdrawDTO dto){
         try {
             return printCheck(transactionService.withdraw(dto.getCard(), dto.getAmount(), dto.getMoneyCurrency()));
         } catch (Exception e){

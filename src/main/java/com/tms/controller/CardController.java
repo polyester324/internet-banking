@@ -3,6 +3,7 @@ package com.tms.controller;
 import com.tms.domain.card.Card;
 import com.tms.dtos.CardRegistrationDTO;
 import com.tms.service.CardService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -52,7 +53,7 @@ public class CardController {
      * @return 201 created if card was registered and 409 conflict otherwise
      */
     @PostMapping
-    public ResponseEntity<HttpStatus> registerCard(@RequestBody CardRegistrationDTO dto){
+    public ResponseEntity<HttpStatus> registerCard(@Valid @RequestBody CardRegistrationDTO dto){
         return new ResponseEntity<>(cardService.registerCard(dto.getCardNumber(), dto.getClientId(), dto.getBalance(), dto.getCardType(), dto.getMoneyCurrency()) ? HttpStatus.CREATED : HttpStatus.CONFLICT);
     }
 

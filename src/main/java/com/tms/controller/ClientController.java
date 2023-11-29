@@ -4,7 +4,10 @@ import com.tms.domain.Client;
 import com.tms.dtos.ClientEmailDTO;
 import com.tms.dtos.ClientFirstNameDTO;
 import com.tms.dtos.ClientLastNameDTO;
+import com.tms.dtos.ClientPasswordDTO;
 import com.tms.service.ClientService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -27,6 +30,7 @@ public class ClientController {
      * getAll is a GET method that shows all clients from db
      * @return 200 ok
      */
+    @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping()
     public ResponseEntity<List<Client>> getAll(){
         log.info("getAll method working!");
@@ -67,7 +71,7 @@ public class ClientController {
      * @return 204 no content if client's first name was updated and 409 conflict otherwise
      */
     @PutMapping("/first-name/{id}")
-    public ResponseEntity<HttpStatus> updateClientFirstName(@PathVariable("id") Long id, @RequestBody ClientFirstNameDTO dto){
+    public ResponseEntity<HttpStatus> updateClientFirstName(@PathVariable("id") Long id, @Valid @RequestBody ClientFirstNameDTO dto){
         return new ResponseEntity<>(clientService.updateFirstName(dto.getFirstName(), id) ?  HttpStatus.NO_CONTENT : HttpStatus.CONFLICT);
     }
 
@@ -76,7 +80,7 @@ public class ClientController {
      * @return 204 no content if client's last name was updated and 409 conflict otherwise
      */
     @PutMapping("/last-name/{id}")
-    public ResponseEntity<HttpStatus> updateClientLastName(@PathVariable("id") Long id, @RequestBody ClientLastNameDTO dto){
+    public ResponseEntity<HttpStatus> updateClientLastName(@PathVariable("id") Long id, @Valid @RequestBody ClientLastNameDTO dto){
         return new ResponseEntity<>(clientService.updateLastName(dto.getLastName(), id) ?  HttpStatus.NO_CONTENT : HttpStatus.CONFLICT);
     }
 
@@ -85,8 +89,17 @@ public class ClientController {
      * @return 204 no content if client's email was updated and 409 conflict otherwise
      */
     @PutMapping("/email/{id}")
-    public ResponseEntity<HttpStatus> updateClientEmail(@PathVariable("id") Long id, @RequestBody ClientEmailDTO dto){
+    public ResponseEntity<HttpStatus> updateClientEmail(@PathVariable("id") Long id, @Valid  @RequestBody ClientEmailDTO dto){
         return new ResponseEntity<>(clientService.updateEmail(dto.getEmail(), id) ?  HttpStatus.NO_CONTENT : HttpStatus.CONFLICT);
+    }
+
+    /**
+     * updateClientPassword is a PUT method that updates client's password by url path
+     * @return 204 no content if client's password was updated and 409 conflict otherwise
+     */
+    @PutMapping("/password/{id}")
+    public ResponseEntity<HttpStatus> updateClientPassword(@PathVariable("id") Long id, @Valid  @RequestBody ClientPasswordDTO dto){
+        return new ResponseEntity<>(clientService.updatePassword(dto.getPassword(), id) ?  HttpStatus.NO_CONTENT : HttpStatus.CONFLICT);
     }
 
     /**

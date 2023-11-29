@@ -1,7 +1,5 @@
 package com.tms.service;
 
-import com.tms.domain.Client;
-import com.tms.domain.Investment;
 import com.tms.domain.bank.BankFactory;
 import com.tms.domain.card.Card;
 import com.tms.exceptions.CardNotFoundException;
@@ -14,7 +12,6 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * CardService is a class, that has a connection to <i>CardRepository
