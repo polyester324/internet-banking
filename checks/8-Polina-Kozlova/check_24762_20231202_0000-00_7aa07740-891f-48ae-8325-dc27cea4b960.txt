@@ -1,0 +1,12 @@
+|----------------------------------------------------------------|
+|                           Bank check                           |
+| Check:                                                   24762 |
+| 02-12-2023                                            23:27:19 |
+| Transaction type:                                     transfer |
+| Bank sender:                                      Project bank |
+| Bank receiver:                                    Project bank |
+| Account sender:                            1111-1111-1111-1111 |
+| Account receiver:                          5891-4678-1121-5476 |
+| Amount:                                               5.00 USD |
+| Commission:                                           0.00 USD |
+|----------------------------------------------------------------|

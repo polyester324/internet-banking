@@ -6,6 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+/**
+ * ExceptionResolver is class handling RuntimeExceptions
+ */
 @Slf4j
 @ControllerAdvice
 public class ExceptionResolver {

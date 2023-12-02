@@ -8,6 +8,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.stereotype.Component;
 
+/**
+ * BelarusBank is a class, that inherits Bank
+ */
 @Component
 @EqualsAndHashCode(callSuper = true)
 @DiscriminatorValue("Belarus bank")

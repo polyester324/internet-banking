@@ -1,18 +1,20 @@
 package com.tms.dtos;
 
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
+/**
+ * CardRegistrationDTO is a DTO class for card registration
+ */
 @Component
 @Data
 public class CardRegistrationDTO {
-    @Pattern(regexp = "\\b\\d{4}-\\d{4}-\\d{4}-\\d{4}\\b")
+    private Long id;
     private String cardNumber;
     private Long clientId;
-    @PositiveOrZero
+    private Timestamp created;
     private BigDecimal balance;
     private String moneyCurrency;
     private String cardType;

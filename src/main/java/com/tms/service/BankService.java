@@ -26,43 +26,30 @@ public class BankService {
     private final CardRepository cardRepository;
     private final SecurityService securityService;
 
-    public Bank getBankByBankName(String bankName) {
-        return bankRepository.findBankByBankName(bankName);
+    public Bank getBankById(Long id){
+        return bankRepository.findById(id).orElseThrow(BankNotFound::new);
     }
 
-    public Bank getBankById(Long id){
-        if (bankRepository.findById(id).isPresent()) {
-            return bankRepository.findById(id).get();
-        }
-        throw new BankNotFound();
+    public Bank getBankByBankName(String bankName){
+        return bankRepository.findBankByBankName(bankName);
     }
 
     public List<Bank> getAll() {
         return bankRepository.findAll();
     }
 
-    /**
-     * Method createBank adds bank data to db
-     * @return true bank card was created and false otherwise
-     */
-    public Boolean createBank(Bank bank) {
+    public Boolean updateBank(Long id, String bankName, BigDecimal commission, Timestamp created) {
         try {
-            bank.setCreated(Timestamp.valueOf(LocalDateTime.now()));
-            bankRepository.save(bank);
-            log.info(String.format("bank with name %s was created", bank.getBankName()));
-        } catch (Exception e){
-            log.warn(String.format("have problem creating bank with name %s have error %s", bank.getBankName(), e));
-            return false;
-        }
-        return true;
-    }
-
-    public Boolean updateBank(Bank bank) {
-        try {
+            Bank bank = bankRepository.findBankByBankName(bankName);
+            bank.setId(id);
+            bank.setBankName(bankName);
+            bank.setCommission(commission);
+            bank.setCreated(created);
+            bank.setId(id);
             bankRepository.saveAndFlush(bank);
             log.info(String.format("bank with id %s was updated", bank.getId()));
         } catch (Exception e){
-            log.warn(String.format("have problem updating bank with id %s have error %s", bank.getId(), e));
+            log.warn(String.format("have problem updating bank with id %s have error %s", id, e));
             return false;
         }
         return true;
@@ -82,7 +69,7 @@ public class BankService {
     public Boolean createCard(String bankName, String moneyCurrency, Long clientId){
         if (securityService.checkAccessById(clientId)) {
             try {
-                BankFactory bank = (BankFactory) getBankByBankName(bankName);
+                BankFactory bank = (BankFactory) bankRepository.findBankByBankName(bankName);
                 Card card = bank.createCard();
                 List<String> cardNumbers = cardRepository.findAllCardNumbers();
                 String cardNumber;

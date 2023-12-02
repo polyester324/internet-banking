@@ -3,7 +3,7 @@ package com.tms.controller;
 import com.tms.domain.card.Card;
 import com.tms.dtos.CardRegistrationDTO;
 import com.tms.service.CardService;
-import jakarta.validation.Valid;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -24,6 +24,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
+@SecurityRequirement(name = "Bearer Authentication")
 @RequestMapping("/card")
 public class CardController {
     public final CardService cardService;
@@ -32,7 +33,7 @@ public class CardController {
      * getAll is a GET method that shows all clients from db
      * @return 200 ok
      */
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<Card>> getAll(){
         log.info("Card getAll method working!");
         List<Card> resultList = cardService.getAll();
@@ -49,12 +50,12 @@ public class CardController {
     }
 
     /**
-     * registerCard is a POST method that creates the card by given json data
-     * @return 201 created if card was registered and 409 conflict otherwise
+     * createCard is a POST method that creates the card by given json data
+     * @return 201 if card was created and 409 conflict otherwise
      */
     @PostMapping
-    public ResponseEntity<HttpStatus> registerCard(@Valid @RequestBody CardRegistrationDTO dto){
-        return new ResponseEntity<>(cardService.registerCard(dto.getCardNumber(), dto.getClientId(), dto.getBalance(), dto.getCardType(), dto.getMoneyCurrency()) ? HttpStatus.CREATED : HttpStatus.CONFLICT);
+    public ResponseEntity<HttpStatus> createCard(@RequestBody CardRegistrationDTO dto){
+        return new ResponseEntity<>(cardService.createCard(dto.getCardNumber(), dto.getClientId(), dto.getBalance(), dto.getMoneyCurrency(), dto.getCardType()) ? HttpStatus.CREATED : HttpStatus.CONFLICT);
     }
 
     /**
@@ -62,8 +63,8 @@ public class CardController {
      * @return 204 no content if card was updated and 409 conflict otherwise
      */
     @PutMapping
-    public ResponseEntity<HttpStatus> updateCard(@RequestBody Card card){
-        return new ResponseEntity<>(cardService.updateCard(card) ?  HttpStatus.NO_CONTENT : HttpStatus.CONFLICT);
+    public ResponseEntity<HttpStatus> updateCard(@RequestBody CardRegistrationDTO dto){
+        return new ResponseEntity<>(cardService.updateCard(dto.getId(), dto.getCardNumber(), dto.getClientId(), dto.getBalance(), dto.getMoneyCurrency(), dto.getCardType()) ?  HttpStatus.NO_CONTENT : HttpStatus.CONFLICT);
     }
 
     /**

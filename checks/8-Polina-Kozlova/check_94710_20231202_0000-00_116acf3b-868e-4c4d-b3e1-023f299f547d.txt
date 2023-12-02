@@ -1,0 +1,12 @@
+|----------------------------------------------------------------|
+|                           Bank check                           |
+| Check:                                                   94710 |
+| 02-12-2023                                            23:24:24 |
+| Transaction type:                                     transfer |
+| Bank sender:                                      Project bank |
+| Bank receiver:                                    Belarus bank |
+| Account sender:                            1111-1111-1111-1111 |
+| Account receiver:                          2971-4538-6625-5300 |
+| Amount:                                               5.00 USD |
+| Commission:                                         0.1644 USD |
+|----------------------------------------------------------------|

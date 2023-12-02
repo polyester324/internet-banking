@@ -1,18 +1,28 @@
 package com.tms.controller;
 
 import com.tms.domain.bank.Bank;
+import com.tms.dtos.BankUpdateDTO;
 import com.tms.dtos.CardCreationDTO;
 import com.tms.service.BankService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
 @RestController
+@SecurityRequirement(name = "Bearer Authentication")
 @RequestMapping("/bank")
 public class BankController {
 
@@ -31,7 +41,7 @@ public class BankController {
      * getAll is a GET method that shows all banks from db
      * @return 200 ok
      */
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<Bank>> getAll(){
         log.info("getAll Bank method working!");
         List<Bank> resultList = bankService.getAll();
@@ -39,21 +49,12 @@ public class BankController {
     }
 
     /**
-     * createBank is a POST method that creates the bank by given json data
-     * @return 201 created if bank was created and 409 conflict otherwise
-     */
-    @PostMapping
-    public ResponseEntity<HttpStatus> createBank(@RequestBody Bank bank){
-        return new ResponseEntity<>(bankService.createBank(bank) ? HttpStatus.CREATED : HttpStatus.CONFLICT);
-    }
-
-    /**
      * createCard is a POST method that creates the card
      * @return 201 created if card was created and 409 conflict otherwise
      */
     @PostMapping("/create-card/{id}")
-    public ResponseEntity<HttpStatus> createCard(@PathVariable ("id") Long id, @RequestBody CardCreationDTO card){
-        return new ResponseEntity<>(bankService.createCard(card.getBankName(), card.getMoneyCurrency(), id) ? HttpStatus.CREATED : HttpStatus.CONFLICT);
+    public ResponseEntity<HttpStatus> createCard(@PathVariable ("id") Long id, @RequestBody CardCreationDTO dto){
+        return new ResponseEntity<>(bankService.createCard(dto.getBankName(), dto.getMoneyCurrency(), id) ? HttpStatus.CREATED : HttpStatus.CONFLICT);
     }
 
     /**
@@ -61,8 +62,8 @@ public class BankController {
      * @return 204 no content if bank was updated and 409 conflict otherwise
      */
     @PutMapping
-    public ResponseEntity<HttpStatus> updateBank(@RequestBody Bank bank){
-        return new ResponseEntity<>(bankService.updateBank(bank) ?  HttpStatus.NO_CONTENT : HttpStatus.CONFLICT);
+    public ResponseEntity<HttpStatus> updateBank(@RequestBody BankUpdateDTO dto){
+        return new ResponseEntity<>(bankService.updateBank(dto.getId(), dto.getBankName(), dto.getCommission(), dto.getCreated()) ?  HttpStatus.NO_CONTENT : HttpStatus.CONFLICT);
     }
 
     /**

@@ -14,14 +14,11 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -33,9 +30,8 @@ public class InvestmentService {
     private final TransactionService transactionService;
     private final InvestmentRepository investmentRepository;
     private final SecurityService securityService;
-    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-    private final Integer LOWEST_NUMBER_FOR_INVESTMENT = 100_000_000;
-    private final Integer HIGHEST_NUMBER_FOR_INVESTMENT = 900_000_000;
+    private final Integer LOWEST_NUMBER_FOR_INVESTMENT_TO_CREATE_RANDOM = 100_000_000;
+    private final Integer HIGHEST_NUMBER_FOR_INVESTMENT_TO_CREATE_RANDOM = 900_000_000;
 
     public List<String> getAllInvestmentNumbers() {
         return investmentRepository.findAllInvestmentNumbers();
@@ -53,26 +49,45 @@ public class InvestmentService {
     }
 
     /**
+     * Method createInvestment adds client investment json data to db
+     * @return true if investment was created and false otherwise
+     */
+    public Boolean createInvestment(Investment investment) {
+        try {
+            investment.setCreated(Timestamp.valueOf(LocalDateTime.now()));
+            investmentRepository.save(investment);
+            log.info(String.format("investment with investment number %s was created", investment.getInvestmentNumber()));
+        } catch (Exception e){
+            log.warn(String.format("have problem creating investment investment number name %s have error %s", investment.getInvestmentNumber(), e));
+            return false;
+        }
+        return true;
+    }
+    /**
      * Method createInvestment adds investment data to db
      * @return true if investment was created and false otherwise
      */
-    public Boolean createInvestment(String cardNumber, String bankName, String moneyCurrency, String time, BigDecimal amount, Long clientId){
-        try {
-            if (securityService.checkAccessById(clientId) && cardService.getCardByCardNumber(cardNumber).getClientId().equals(clientId)) {
+    public Boolean makeAnInvestment(String cardNumber, String bankName, String moneyCurrency, String time, BigDecimal amount, Long id){
+        if (securityService.checkAccessById(id)){
+            try {
+                if (!cardService.getCardByCardNumber(cardNumber).getClientId().equals(id)){
+                    throw new NoAccessByIdException(id, SecurityContextHolder.getContext().getAuthentication().getName());
+                }
                 Bank bank = bankService.getBankByBankName(bankName);
-                BigDecimal commission = bank.getCommission().divide(BigDecimal.valueOf(100), MathContext.DECIMAL32);
+                BigDecimal commission = bank.getCommission();
                 System.out.println(commission);
                 Investment investment = new Investment();
                 investment.setBankId(bank.getId());
                 Card card = cardService.getCardByCardNumber(cardNumber);
-                log.info(transactionService.withdraw(cardNumber, amount, moneyCurrency));
+                transactionService.withdraw(cardNumber, amount, moneyCurrency);
                 investment.setCardId(card.getId());
                 investment.setInvestedAmount(amount);
                 investment.setTime(time);
+                investment.setClientId(id);
                 List<String> investmentNumbers = getAllInvestmentNumbers();
                 String investmentNumber;
                 do {
-                    investmentNumber = String.valueOf(new Random().nextInt(HIGHEST_NUMBER_FOR_INVESTMENT) + LOWEST_NUMBER_FOR_INVESTMENT);
+                    investmentNumber = String.valueOf(new Random().nextInt(HIGHEST_NUMBER_FOR_INVESTMENT_TO_CREATE_RANDOM) + LOWEST_NUMBER_FOR_INVESTMENT_TO_CREATE_RANDOM);
                 } while (investmentNumbers.contains(investmentNumber));
                 investment.setInvestmentNumber(investmentNumber);
                 investment.setMoneyCurrency(moneyCurrency);
@@ -81,16 +96,16 @@ public class InvestmentService {
                 amount = amount.add(amount.multiply(InvestmentTime.valueOf(time).getCOEFFICIENT().subtract(commission)));
                 investment.setExpired(Timestamp.valueOf(created.plusMonths(InvestmentTime.valueOf(time).getMONTHS_AMOUNT())));
                 investment.setExpectedAmount(amount);
-                investment.setClientId(clientId);
+                investment.setClientId(id);
                 investmentRepository.save(investment);
                 log.info(String.format("investment for card with number %s has been created.", cardNumber));
                 return true;
+            } catch (Exception e){
+                log.info(String.format("investment for card with number %s has not been created. Exception: %s", cardNumber, e));
+                return false;
             }
-        } catch (Exception e){
-            log.info(String.format("investment for card with number %s has not been created. Exception: %s", cardNumber, e));
-            return false;
         }
-        throw new NoAccessByIdException(clientId, SecurityContextHolder.getContext().getAuthentication().getName());
+        throw new NoAccessByIdException(id, SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
     public Boolean updateInvestment(Investment investment) {
@@ -124,7 +139,7 @@ public class InvestmentService {
                 if (investment.getExpired().before(Timestamp.valueOf(LocalDateTime.now()))) {
                     Card card = cardService.getCardById(investment.getCardId());
                     log.info(String.format("investment accrual with id: %s was successful", investment.getId()));
-                    log.info(transactionService.deposit(card.getCardNumber(), investment.getExpectedAmount(), investment.getMoneyCurrency()));
+                    transactionService.deposit(card.getCardNumber(), investment.getExpectedAmount(), investment.getMoneyCurrency());
                     deleteInvestmentById(investment.getId());
                     log.info(String.format("investment with id %s was accrued and deleted", investment.getId()));
                 }

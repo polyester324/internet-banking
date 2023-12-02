@@ -6,8 +6,8 @@ import com.tms.exceptions.CheckException;
 import com.tms.exceptions.ClientFromDatabaseNotFound;
 import com.tms.exceptions.FileCreationException;
 import com.tms.exceptions.NoAccessByIdException;
+import com.tms.repository.BankRepository;
 import com.tms.repository.CardRepository;
-import com.tms.repository.ClientRepository;
 import com.tms.repository.TransactionRepository;
 import com.tms.security.service.SecurityService;
 import lombok.Data;
@@ -25,6 +25,8 @@ import java.math.RoundingMode;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -36,15 +38,15 @@ public class TransactionService {
     private final ClientService clientService;
     private final SecurityService securityService;
     private final CardRepository cardRepository;
-    private final ClientRepository clientRepository;
     private final TransactionRepository transactionRepository;
+    private final BankRepository bankRepository;
 
     /**
      * Method deposit replenishes the balance using the card number, specified amount and money currency
      * @return String if operation was successful and throws Exception otherwise
      */
     @Transactional(rollbackFor = Exception.class)
-    public String deposit(String cardNumber, BigDecimal amount, String moneyCurrency) {
+    public List<String> deposit(String cardNumber, BigDecimal amount, String moneyCurrency) {
         String cardReceiverMoneyCurrency = cardRepository.findCardMoneyCurrencyByCardNumber(cardNumber);
         String bank = cardRepository.findCardTypeByCardNumber(cardNumber);
         BigDecimal newAmount = amount.multiply(BigDecimal.valueOf(equalizationCoefficientToOneExchangeRate(moneyCurrency,
@@ -59,7 +61,7 @@ public class TransactionService {
      * @return String if operation was successful and throws Exception otherwise
      */
     @Transactional(rollbackFor = Exception.class)
-    public String withdraw(String cardNumber, BigDecimal amount, String moneyCurrency) {
+    public List<String> withdraw(String cardNumber, BigDecimal amount, String moneyCurrency) {
         String cardReceiverMoneyCurrency = cardRepository.findCardMoneyCurrencyByCardNumber(cardNumber);
         String bank = cardRepository.findCardTypeByCardNumber(cardNumber);
         BigDecimal newAmount = amount.multiply(BigDecimal.valueOf(equalizationCoefficientToOneExchangeRate(moneyCurrency,
@@ -74,17 +76,21 @@ public class TransactionService {
      * @return String if operation was successful and throws Exception otherwise
      */
     @Transactional(rollbackFor = Exception.class)
-    public String transfer(String cardSenderNumber, String cardReceiverNumber, BigDecimal amount, String MoneyCurrency) {
+    public List<String> transfer(String cardSenderNumber, String cardReceiverNumber, BigDecimal amount, String MoneyCurrency) {
         if (securityService.checkAccessById(cardRepository.findCardByCardNumber(cardSenderNumber).getClientId())) {
             String cardSenderMoneyCurrency = cardRepository.findCardMoneyCurrencyByCardNumber(cardSenderNumber);
             String bankSender = cardRepository.findCardTypeByCardNumber(cardSenderNumber);
             String bankReceiver = cardRepository.findCardTypeByCardNumber(cardReceiverNumber);
+
+            BigDecimal commission = bankRepository.findBankCommissionByBankName(bankReceiver);
+
             BigDecimal newAmountForSender = amount.multiply(BigDecimal.valueOf(equalizationCoefficientToOneExchangeRate(MoneyCurrency,
                     cardSenderMoneyCurrency))).setScale(2, RoundingMode.HALF_UP);
-            transactionRepository.withdraw(cardSenderNumber, newAmountForSender);
+            BigDecimal newAmountForSenderWithCommission = newAmountForSender.add(newAmountForSender.multiply(commission));
+            transactionRepository.withdraw(cardSenderNumber, newAmountForSenderWithCommission);
             deposit(cardReceiverNumber, amount, MoneyCurrency);
             log.info(String.format("Money was transferred from %s to %s", cardSenderNumber, cardReceiverNumber));
-            return makeCheckForTransfer(cardSenderNumber, cardReceiverNumber, amount.setScale(2, RoundingMode.HALF_UP), MoneyCurrency, bankSender, bankReceiver, "transfer");
+            return makeCheckForTransfer(cardSenderNumber, cardReceiverNumber, amount.setScale(2, RoundingMode.HALF_UP), MoneyCurrency, bankSender, bankReceiver, "transfer", newAmountForSender.multiply(commission).setScale(2, RoundingMode.HALF_UP));
         }
         throw new NoAccessByIdException(cardRepository.findCardByCardNumber(cardSenderNumber).getClientId(), SecurityContextHolder.getContext().getAuthentication().getName());
     }
@@ -101,14 +107,18 @@ public class TransactionService {
      * Method makeCheckForDepositAndWithdraw prints check for deposit and withdraw
      * throws CheckException if check was not printed
      */
-    public String makeCheckForDepositAndWithdraw(String card, BigDecimal amount, String moneyCurrency, String bank, String type) {
+    public List<String> makeCheckForDepositAndWithdraw(String card, BigDecimal amount, String moneyCurrency, String bank, String type) {
         try {
             Integer checkNumber = makeRandomCheckNumber();
             File file = makeUniqueFile(card, checkNumber);
             FileWriter fileWriter = new FileWriter(file);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            writeCheck(bufferedWriter, checkNumber, type, bank, bank, card, card, amount, moneyCurrency);
-            return "checks" + "\\" + file.getParentFile().getName() + "\\" + file.getName();
+            BigDecimal commissionForDepositAndWithdraw = BigDecimal.valueOf(0);
+            writeCheck(bufferedWriter, checkNumber, type, bank, bank, card, card, amount, moneyCurrency, commissionForDepositAndWithdraw);
+            ArrayList<String> list = new ArrayList<>();
+            list.add(file.getParentFile().getName());
+            list.add(file.getName());
+            return list;
         } catch (IOException | FileCreationException e){
             log.info("Check creation failed");
         }
@@ -119,15 +129,18 @@ public class TransactionService {
      * Method makeCheckForTransfer prints check for transfer
      * throws CheckException if check was not printed
      */
-    public String makeCheckForTransfer(String cardSender, String cardReceiver, BigDecimal amount, String moneyCurrency, String bankSender, String bankReceiver, String type) {
+    public List<String> makeCheckForTransfer(String cardSender, String cardReceiver, BigDecimal amount, String moneyCurrency, String bankSender, String bankReceiver, String type, BigDecimal commission) {
         try {
             Integer checkNumber = makeRandomCheckNumber();
             File file = makeUniqueFile(cardSender, checkNumber);
             FileWriter fileWriter = new FileWriter(file);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            writeCheck(bufferedWriter, checkNumber, type, bankSender, bankReceiver,  cardSender, cardReceiver, amount, moneyCurrency);
+            writeCheck(bufferedWriter, checkNumber, type, bankSender, bankReceiver,  cardSender, cardReceiver, amount, moneyCurrency, commission);
             fileWriter.close();
-            return "checks" + "\\" + file.getParentFile().getName() + "\\" + file.getName();
+            ArrayList<String> list = new ArrayList<>();
+            list.add(file.getParentFile().getName());
+            list.add(file.getName());
+            return list;
         } catch (IOException | FileCreationException e) {
             log.info("Check creation failed");
         }
@@ -140,7 +153,7 @@ public class TransactionService {
      */
     public File makeUniqueFile(String cardNumber, Integer checkNumber) {
         try {
-            Client client = clientRepository.findById(cardRepository.findCardByCardNumber(cardNumber).getClientId()).orElseThrow(ClientFromDatabaseNotFound::new);
+            Client client = clientService.getClientById(cardRepository.findCardByCardNumber(cardNumber).getClientId()).orElseThrow(ClientFromDatabaseNotFound::new);
 
             Long id = client.getId();
             String firstName = client.getFirstName();
@@ -178,7 +191,7 @@ public class TransactionService {
     /**
      * Method writeCheck is for check sample
      */
-    private void writeCheck(BufferedWriter bufferedWriter, Integer checkNumber, String type, String bankNameSender, String bankNameReceiver, String cardSender, String cardReceiver, BigDecimal amount, String moneyCurrency) throws IOException {
+    public void writeCheck(BufferedWriter bufferedWriter, Integer checkNumber, String type, String bankNameSender, String bankNameReceiver, String cardSender, String cardReceiver, BigDecimal amount, String moneyCurrency, BigDecimal commission) throws IOException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
         java.util.Date currentDate = new java.util.Date();
@@ -209,6 +222,8 @@ public class TransactionService {
             bufferedWriter.newLine();
         }
         bufferedWriter.write("| Amount:" + String.format("%" + (54 - amount.toString().length() - moneyCurrency.length()) + "s%s", "", amount + " " + moneyCurrency) + " |");
+        bufferedWriter.newLine();
+        bufferedWriter.write("| Commission:" + String.format("%" + (50 - commission.toString().length() - moneyCurrency.length()) + "s%s", "", commission + " " + moneyCurrency) + " |");
         bufferedWriter.newLine();
         bufferedWriter.write("|----------------------------------------------------------------|");
         bufferedWriter.close();

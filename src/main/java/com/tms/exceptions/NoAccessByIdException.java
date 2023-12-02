@@ -1,5 +1,8 @@
 package com.tms.exceptions;
 
+/**
+ * NoAccessByIdException is an Exception class for checking clients id for authorisation
+ */
 public class NoAccessByIdException extends RuntimeException{
     private final Long ID;
     private final String LOGIN;

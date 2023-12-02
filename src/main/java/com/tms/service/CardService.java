@@ -3,10 +3,12 @@ package com.tms.service;
 import com.tms.domain.bank.BankFactory;
 import com.tms.domain.card.Card;
 import com.tms.exceptions.CardNotFoundException;
-import com.tms.repository.BankRepository;
+import com.tms.exceptions.NoAccessByIdException;
 import com.tms.repository.CardRepository;
+import com.tms.security.service.SecurityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -22,17 +24,18 @@ import java.util.List;
 @Service
 public class CardService {
     private final CardRepository cardRepository;
-    private final BankRepository bankRepository;
+    private final BankService bankService;
+    private final SecurityService securityService;
 
     /**
      * Method getCardById gets Card by requested id
      * @return Optional<Card>
      */
     public Card getCardById(Long id) {
-        if (cardRepository.findById(id).isPresent()) {
-            return cardRepository.findById(id).get();
+        if (securityService.checkAccessById(id)) {
+            return cardRepository.findById(id).orElseThrow(CardNotFoundException::new);
         }
-        throw new CardNotFoundException();
+        throw new NoAccessByIdException(id, SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
     public List<Card> getAll() {
@@ -40,23 +43,23 @@ public class CardService {
     }
 
     /**
-     * Method registerCard adds already existing card data to db
-     * @return true if card was registered and false otherwise
+     * Method createCard adds card from json data to db
+     * @return true if card was created and false otherwise
      */
-    public Boolean registerCard(String cardNumber, Long ClientId, BigDecimal balance, String bankName, String moneyCurrency){
-        BankFactory bank = (BankFactory) bankRepository.findBankByBankName(bankName);
-        Card card = bank.createCard();
+    public Boolean createCard(String cardNumber, Long clientId, BigDecimal balance, String moneyCurrency, String cardType) {
         try {
+            BankFactory bank = (BankFactory) bankService.getBankByBankName(cardType);
+            Card card = bank.createCard();
+            card.setCreated(Timestamp.valueOf(LocalDateTime.now()));
             card.setCardNumber(cardNumber);
-            card.setClientId(ClientId);
+            card.setClientId(clientId);
             card.setBalance(balance);
             card.setMoneyCurrency(moneyCurrency);
-            card.setCardType(bankName);
-            card.setCreated(Timestamp.valueOf(LocalDateTime.now()));
+            card.setCardType(cardType);
             cardRepository.save(card);
-            log.info(String.format("card with card number %s was registered", card.getCardNumber()));
+            log.info(String.format("card with card number %s was created", cardNumber));
         } catch (Exception e){
-            log.warn(String.format("have problem registering card with card number %s have error %s", card.getCardNumber(), e));
+            log.warn(String.format("have problem creating card with card number %s have error %s", cardNumber, e));
             return false;
         }
         return true;
@@ -74,12 +77,21 @@ public class CardService {
      * Method updateCard updates card from json data to db
      * @return true if card was updated and false otherwise
      */
-    public Boolean updateCard(Card card) {
+    public Boolean updateCard(Long id, String cardNumber, Long clientId, BigDecimal balance, String moneyCurrency, String cardType) {
         try {
+            BankFactory bank = (BankFactory) bankService.getBankByBankName(cardType);
+            Card card = bank.createCard();
+            card.setId(id);
+            card.setCreated(Timestamp.valueOf(LocalDateTime.now()));
+            card.setCardNumber(cardNumber);
+            card.setClientId(clientId);
+            card.setBalance(balance);
+            card.setMoneyCurrency(moneyCurrency);
+            card.setCardType(cardType);
             cardRepository.saveAndFlush(card);
-            log.info(String.format("card with id %s was updated", card.getId()));
+            log.info(String.format("card with id %s was updated", id));
         } catch (Exception e){
-            log.warn(String.format("have problem updating card with id %s have error %s", card.getId(), e));
+            log.warn(String.format("have problem updating card with id %s have error %s", id, e));
             return false;
         }
         return true;
@@ -90,13 +102,16 @@ public class CardService {
      * @return true if card was deleted and false otherwise
      */
     public boolean deleteCardById(Long id){
-        try {
-            cardRepository.deleteById(id);
-            log.info(String.format("card with id %s was deleted", id));
-        } catch (Exception e){
-            log.warn(String.format("have problem deleting card with id %s have error %s", id, e));
-            return false;
+        if (securityService.checkAccessById(id)) {
+            try {
+                cardRepository.deleteById(id);
+                log.info(String.format("card with id %s was deleted", id));
+            } catch (Exception e){
+                log.warn(String.format("have problem deleting card with id %s have error %s", id, e));
+                return false;
+            }
+            return true;
         }
-        return true;
+        throw new NoAccessByIdException(id, SecurityContextHolder.getContext().getAuthentication().getName());
     }
 }

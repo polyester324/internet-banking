@@ -8,6 +8,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.stereotype.Component;
 
+/**
+ * AlphaBank is a class, that inherits Bank
+ */
 @Component
 @EqualsAndHashCode(callSuper = true)
 @DiscriminatorValue("Alpha bank")

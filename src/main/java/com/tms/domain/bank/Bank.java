@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+/**
+ * Bank is a class, that contains every column of <i>banks table
+ */
 @Component
 @Data
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)

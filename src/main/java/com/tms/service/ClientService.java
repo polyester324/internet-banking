@@ -46,7 +46,7 @@ public class ClientService {
 
     /**
      * Method createClient adds client from json data to db
-     * @return true if clients was created and false otherwise
+     * @return true if client was created and false otherwise
      */
     public Boolean createClient(Client client) {
         try {
